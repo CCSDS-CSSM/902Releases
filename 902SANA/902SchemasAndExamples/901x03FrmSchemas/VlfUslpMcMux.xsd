@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+This FR accepts variable-length USLP frames without FECF belonging to one Master
+ Channel.
+It provides all variable-length USLP frames for one physical channel which
+ optionally contain FECFs.
+
+Note: This version of the FR covers only the case of
+ the transfer of variable-length USLP frames over a CCSDS 231.0-B-3 coding and synchronization
+ sublayer. Therefore the following configuration items are fixed and are not parameters
+ of this FR version:
+Transfer Frame Type: 'Variable Length'
+TFVN: binary '1100'
+Frame
+ Error Control Length: '2' (if present)
+Generate OID Frame: 'False'
+Maximum Number
+ of Transfer Frames Given to the Coding and Synchronization Sublayer as a Single
+ Data
+Unit: '1'. Therefore one CLTU will always contain a single variable-length
+ USLP frame. 
+ 
+The presence of the Insert Zone is not supported. Therefore:
+Insert
+ Zone Length: '0'
+-->
+  <xsd:element name="VlfUslpMcMuxElement" substitutionGroup="functionalResourceInstance" type="VlfUslpMcMuxType"/>
+  <xsd:complexType name="VlfUslpMcMuxType">
+    <xsd:complexContent>
+      <xsd:extension base="FunctionalResourceInstance">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="vlfUslpMcMuxMaxFrameLength" type="VlfUslpMcMuxMaxFrameLengthNamed"/>
+          <xsd:element minOccurs="0" name="vlfUslpMcMuxContr" type="VlfUslpMcMuxContrNamed"/>
+          <xsd:element minOccurs="0" name="vlfUslpMcMuxPresenceOfFecf" type="VlfUslpMcMuxPresenceOfFecfNamed"/>
+        </xsd:all>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40300" name="frTypeOid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:element name="vlfUslpMcMuxMaxFrameLength" substitutionGroup="frmParameter" type="VlfUslpMcMuxMaxFrameLengthNamed"/>
+  <xsd:element name="vlfUslpMcMuxContr" substitutionGroup="frmParameter" type="VlfUslpMcMuxContrNamed"/>
+  <xsd:element name="vlfUslpMcMuxPresenceOfFecf" substitutionGroup="frmParameter" type="VlfUslpMcMuxPresenceOfFecfNamed"/>
+  
+  <!--
+This enumerated parameter reports the VlfUslpMcMux resource status and can take on
+ four values:
+- 'configured':  the associated equipment has been configured;
+-
+ 'operational':  the associated equipment is active;
+- 'interrupted':  a failure
+ has been detected;
+- 'halted':  the associated equipment has been taken out of
+ service.
+-->
+  <xsd:complexType name="VlfUslpMcMuxResourceStatNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the VlfUslpMcMux resource status and can take on four values:
+- 'configured':  the associated equipment has been configured;
+- 'operational':  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+- 'halted':  the associated equipment has been taken out of service.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="VlfUslpMcMuxResourceStat" use="required"/>
+        <xsd:attribute fixed="vlfUslpMcMuxResourceStat" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40300.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="VlfUslpMcMuxResourceStat">
+    <xsd:restriction base="ResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the maximum length in octets of a variable-length
+ USLP MC frame the FR accepts for further processing. The length refers to the frame
+ length after insertion of the Frame Error Control Field if applicable. 
+-->
+   
+  <!--
+ The engineering unit of this parameter is octet.
+ -->
+  <xsd:complexType name="VlfUslpMcMuxMaxFrameLengthNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the maximum length in octets of a variable-length USLP MC frame the FR accepts for further processing. The length refers to the frame length after insertion of the Frame Error Control Field if applicable. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="VlfUslpMcMuxMaxFrameLength" use="required"/>
+        <xsd:attribute fixed="vlfUslpMcMuxMaxFrameLength" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40300.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:simpleType name="VlfUslpMcMuxMaxFrameLength">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="6"/>
+      <xsd:maxInclusive value="65536"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports how the variable-length USLP Master Channels
+ are multiplexed onto the physical channel. 
+In case vlfUslpMcMuxContr = ‘fifo’,
+ no further specification applies. 
+If vlfUslpMcMuxContr = 'absolutePriority', then
+ the associated configuration value is a sequence of the SCIDs used on the forward
+ link where the first SCID in the sequence has the highest priority, the second has
+ the second-highest priority etc. Consequently the sequence has as many elements
+ as Spacecraft Identifiers are permitted on the given physical channel. 
+If vlfUslpMcMuxContr
+ = 'pollingVector', then the associated sequence consists of up to 196608 elements
+ where each element is a SCID. 
+-->
+   
+  <xsd:complexType name="VlfUslpMcMuxContrNamed">
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="VlfUslpMcMuxContr" type="VlfUslpMcMuxContr"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40300.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="vlfUslpMcMuxContr" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="VlfUslpMcMuxContr">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports how the variable-length USLP Master Channels are multiplexed onto the physical channel. 
+In case vlfUslpMcMuxContr = ‘fifo’, no further specification applies. 
+If vlfUslpMcMuxContr = 'absolutePriority', then the associated configuration value is a sequence of the SCIDs used on the forward link where the first SCID in the sequence has the highest priority, the second has the second-highest priority etc. Consequently the sequence has as many elements as Spacecraft Identifiers are permitted on the given physical channel. 
+If vlfUslpMcMuxContr = 'pollingVector', then the associated sequence consists of up to 196608 elements where each element is a SCID. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="fifo">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="NULL"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="absolutePriority">
+            
+        <xsd:complexType>
+          <xsd:sequence maxOccurs="65536" minOccurs="1">
+            <xsd:element name="absolutePriorityElement">
+                     
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:minInclusive value="0"/>
+                  <xsd:maxInclusive value="65535"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="pollingVector">
+            
+        <xsd:complexType>
+          <xsd:sequence maxOccurs="196608" minOccurs="1">
+            <xsd:element name="pollingVectorElement">
+                     
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:minInclusive value="0"/>
+                  <xsd:maxInclusive value="65535"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <!--
+This enumerated parameter configures and reports if the FR inserts the Frame Error
+ Control Field into each frame before passing it to the TcPlopSyncAndChnlEncode FR.
+ This parameter can take on two values:
+- 'present';
+- 'absent'.
+
+The details
+ regarding the FECF are specified in CCSDS 232.0-B-2. 
+-->
+   
+  <xsd:complexType name="VlfUslpMcMuxPresenceOfFecfNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports if the FR inserts the Frame Error Control Field into each frame before passing it to the TcPlopSyncAndChnlEncode FR. This parameter can take on two values:
+- 'present';
+- 'absent'.
+
+The details regarding the FECF are specified in CCSDS 232.0-B-2. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="VlfUslpMcMuxPresenceOfFecf" use="required"/>
+        <xsd:attribute fixed="vlfUslpMcMuxPresenceOfFecf" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40300.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="VlfUslpMcMuxPresenceOfFecf">
+      
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="Present"/>
+          
+      <xsd:enumeration value="Absent"/>
+          
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event notifies any change of the vlfUslpMcMuxResourceStat parameter value.
+-->
+  
+  <!--
+The event value reports the vlfUslpMcMuxResourceStat parameter value that applies
+ since the notified vlfUslpMcMuxResourceStatChange event has occurred.
+-->
+  <xsd:simpleType name="VlfUslpMcMuxResourceStatChangeEvtValue">
+    <xsd:restriction base="VlfUslpMcMuxResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the vlfUslpMcMuxOperatorNotify event are classified
+ in terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering and
+ searching for specific messages, a unique numerical identifier is assigned to each
+ message string. The messages are free text such that equipment specific issues can
+ be reported. 
+-->
+  <xsd:complexType name="VlfUslpMcMuxOperatorNotifyMessage">
+    <xsd:complexContent>
+      <xsd:extension base="OperatorNotifyMessage"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the VlfUslpMcMux
+ FR type.  
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the VlfUslpMcMux
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+
+-->
+  <xsd:complexType name="VlfUslpMcMuxContrParamIdsAndValuesDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="DirectiveQualifier"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+When receiving this directive, the FR discards all currently buffered data units
+ that have been received through the transfer service instance identified in the
+ directive qualifier. 
+-->
+  
+  <!--
+The qualifier of this directive specifies the service-instance-id of the CSTS instance
+ for which the data units are to discarded when the vlfUslpMcMuxDiscardDataUnits
+ directive is invoked. 
+-->
+  <xsd:complexType name="VlfUslpMcMuxDiscardDataUnitsDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="CstsSvcInstanceId"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+</xsd:schema>

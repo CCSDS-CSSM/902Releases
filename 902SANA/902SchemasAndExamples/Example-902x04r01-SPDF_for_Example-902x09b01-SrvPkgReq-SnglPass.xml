@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servicePkgEntity xmlns="urn:ccsds:schema:cssm"
+				  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				  xmlns:xmi="http://www.omg.org/XMI"
+   				  xsi:schemaLocation="urn:ccsds:schema:cssm 902x04r01-SPDF.xsd">
+ 			 
+	<servicePkgHeader originatingOrganization="ESOC"
+					  generationTime="2021-056T21:38:00.000Z"
+					  version="1"
+					  purpose="Example of a service package for a single pass..."
+					  description="Request description..."
+ 					  servicePkgUsage="INTERFACE-TEST"/>
+
+	<servicePkgBody spaceUserNode="XMM"
+					serviceReqRef="XMM-Service-Request-0001">
+					<servicePkg servicePackageID="XMM-Service-Request-0001-Service-Package-0001"
+								beginningOfTrack="2021-182T00:00:00Z"
+								endOfTrack="2021-183T16:00:00Z">
+    	                    	<apertureReference siteRef="New Norcia" apertureRef="NNO2"/>
+	                        	<onlineSrvPkgType1 sicfRef="XMM_SICF_for_New_Norcia"
+	                        				  	   trajectoryRef="XMM_Tracjectory"
+    	                    				  	   eventSequenceRef="XMM_Event_Sequence_for_New_Norcia">
+        	                				  	   <onlineSrvPkgType1Details configurationProfileRef="XMM_Config_Profile_for_New_Norcia">
+                    	    				  	   </onlineSrvPkgType1Details>
+	                        	</onlineSrvPkgType1>
+					</servicePkg>
+	</servicePkgBody>
+
+
+</servicePkgEntity>

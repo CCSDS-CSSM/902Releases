@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The MdCstsProvider FR has read-access to all parameters and is capable of being notified
+ of all events of all functional resource instances that are executing within the
+ same Service Package that contains the Monitored Data service instance. The MdCstsProvider
+ FR corresponds to the functions specified in the Monitored CSTS Recommended Standard.
+
+NOTE
+ - The Monitored Data service does not support the production-configuration-change
+ event because it is redundant with information that is already available through
+ the MD service.
+
+
+-->
+  <xsd:element name="MdCstsProviderElement" substitutionGroup="functionalResourceInstance" type="MdCstsProviderType"/>
+  <xsd:complexType name="MdCstsProviderType">
+    <xsd:complexContent>
+      <xsd:extension base="FunctionalResourceInstance">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="mdServiceInstanceId" type="MdServiceInstanceIdNamed"/>
+          <xsd:element minOccurs="0" name="mdInitiatorId" type="MdInitiatorIdNamed"/>
+          <xsd:element minOccurs="0" name="mdResponderId" type="MdResponderIdNamed"/>
+          <xsd:element minOccurs="0" name="mdResponderPortId" type="MdResponderPortIdNamed"/>
+          <xsd:element minOccurs="0" name="mdResponseTimeout" type="MdResponseTimeoutNamed"/>
+          <xsd:element minOccurs="0" name="mdMinAllowedDeliveryCycle" type="MdMinAllowedDeliveryCycleNamed"/>
+          <xsd:element minOccurs="0" name="mdNamedLabelLists" type="MdNamedLabelListsNamed"/>
+          <xsd:element minOccurs="0" name="mdNamedEventLists" type="MdNamedEventListsNamed"/>
+        </xsd:all>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100" name="frTypeOid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:element name="mdServiceInstanceId" substitutionGroup="frmParameter" type="MdServiceInstanceIdNamed"/>
+  <xsd:element name="mdInitiatorId" substitutionGroup="frmParameter" type="MdInitiatorIdNamed"/>
+  <xsd:element name="mdResponderId" substitutionGroup="frmParameter" type="MdResponderIdNamed"/>
+  <xsd:element name="mdResponderPortId" substitutionGroup="frmParameter" type="MdResponderPortIdNamed"/>
+  <xsd:element name="mdResponseTimeout" substitutionGroup="frmParameter" type="MdResponseTimeoutNamed"/>
+  <xsd:element name="mdMinAllowedDeliveryCycle" substitutionGroup="frmParameter" type="MdMinAllowedDeliveryCycleNamed"/>
+  <xsd:element name="mdNamedLabelLists" substitutionGroup="frmParameter" type="MdNamedLabelListsNamed"/>
+  <xsd:element name="mdNamedEventLists" substitutionGroup="frmParameter" type="MdNamedEventListsNamed"/>
+  
+  <!--
+This parameter reports the production status of the Monitored Data service instance.
+ This parameter can take on one of four values:
+ - 'configured': the MD service
+ is configured to access the monitored parameters and notifiable events of the monitorable
+ functional resources of the Service Package;
+ - ‘operational’: the MD service is
+ able to access the monitored parameters and notifiable events of at least one of
+ the monitorable functional resources of the Service Package;
+ - ‘interrupted’:
+ the ability of the MD service to access the monitored parameters and notifiable
+ events of all monitorable functional resources of the Service Package has been interrupted;
+
+ - ‘halted’: the ability of the MD service to access the monitored parameters and
+ notifiable events of all monitorable functional resources of the Service Package
+ has been stopped by management action.
+-->
+  <xsd:complexType name="MdProdStatNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the production status of the Monitored Data service instance. This parameter can take on one of four values:
+ - 'configured': the MD service is configured to access the monitored parameters and notifiable events of the monitorable functional resources of the Service Package;
+ - ‘operational’: the MD service is able to access the monitored parameters and notifiable events of at least one of the monitorable functional resources of the Service Package;
+ - ‘interrupted’: the ability of the MD service to access the monitored parameters and notifiable events of all monitorable functional resources of the Service Package has been interrupted;
+ - ‘halted’: the ability of the MD service to access the monitored parameters and notifiable events of all monitorable functional resources of the Service Package has been stopped by management action.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="MdProdStat" use="required"/>
+        <xsd:attribute fixed="mdProdStat" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MdProdStat">
+    <xsd:restriction base="ProdStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the identifier of the given service instance.
+ 
+-->
+  <xsd:complexType name="MdServiceInstanceIdNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the identifier of the given service instance. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="MdServiceInstanceId" type="MdServiceInstanceId"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="mdServiceInstanceId" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="MdServiceInstanceId">
+    <xsd:complexContent>
+      <xsd:extension base="CstsSvcInstanceId"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This enumerated parameter reports the status of the given instance of the Monitored
+ Data service. It can take on the following values:
+- 'unbound':  all resources
+ required to enable the provision of the service have been allocated, and all objects
+ required to provide the service have been instantiated. However, no association
+ yet exists between the user and the provider, i.e., the transfer service provider
+ port is not bound;
+- 'boundReady':  an association has been established between
+ the user and the provider, and they may interact by means of the service operations.
+ The user may invoke the GET invocation of the Information Query procedure and receive
+ the requested parameter values. The user may activate instances of the Notification
+ procedure and receive event notifications. The user may activate secondary instances
+ of the On-Change-Option Cyclic Report procedure and receive periodic reports of
+ the values of the parameters associated with those secondary procedure instances.
+ The user may activate the prime instance of the On-Change-Option Cyclic Report procedure,
+ which causes the provider to transition to the state 'active';
+- 'boundActive':
+  this state resembles state ‘boundReady’, except that in addition the user also
+ receives periodic reports of the values of the parameters associated with the prime
+ On-Change-Option Cyclic Report  procedure instance. The service instance remains
+ in the 'boundActive' state until the user either invokes (a) the STOP operation
+ of the prime On-Change-Option Cyclic Report procedure instance to cause the provider
+ to cease sending periodic reports of the values of the parameters associated with
+ the prime On-Change-Option Cyclic Report  procedure instance and transition back
+ to state 'boundReady' or (b) the PEER-ABORT invocation to cause the service to transition
+ back to the 'unbound' state.
+-->
+  <xsd:complexType name="MdSvcInstanceStateNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the status of the given instance of the Monitored Data service. It can take on the following values:
+- 'unbound':  all resources required to enable the provision of the service have been allocated, and all objects required to provide the service have been instantiated. However, no association yet exists between the user and the provider, i.e., the transfer service provider port is not bound;
+- 'boundReady':  an association has been established between the user and the provider, and they may interact by means of the service operations. The user may invoke the GET invocation of the Information Query procedure and receive the requested parameter values. The user may activate instances of the Notification procedure and receive event notifications. The user may activate secondary instances of the On-Change-Option Cyclic Report procedure and receive periodic reports of the values of the parameters associated with those secondary procedure instances. The user may activate the prime instance of the On-Change-Option Cyclic Report procedure, which causes the provider to transition to the state 'active';
+- 'boundActive':  this state resembles state ‘boundReady’, except that in addition the user also receives periodic reports of the values of the parameters associated with the prime On-Change-Option Cyclic Report  procedure instance. The service instance remains in the 'boundActive' state until the user either invokes (a) the STOP operation of the prime On-Change-Option Cyclic Report procedure instance to cause the provider to cease sending periodic reports of the values of the parameters associated with the prime On-Change-Option Cyclic Report  procedure instance and transition back to state 'boundReady' or (b) the PEER-ABORT invocation to cause the service to transition back to the 'unbound' state.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="MdSvcInstanceState" use="required"/>
+        <xsd:attribute fixed="mdSvcInstanceState" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MdSvcInstanceState">
+    <xsd:restriction base="StatefulCstsInstanceState"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the identifier of the peer application, i.e., the authority
+ on whose behalf the CSTS application entity is initiating an association with the
+ Monitored Data service provider. The provider performs access control based on this
+ parameter. It may also serve as key to further security relevant information such
+ as the authentication level and method and the related password.
+
+Given the security
+ relevance of this parameter, specific mechanisms for setting this parameter when
+ the FR instance is created and for the transfer of associated security relevant
+ data might be specified in a bilateral agreement between service user and service
+ provider. 
+-->
+  <xsd:complexType name="MdInitiatorIdNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the identifier of the peer application, i.e., the authority on whose behalf the CSTS application entity is initiating an association with the Monitored Data service provider. The provider performs access control based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="MdInitiatorId" use="required"/>
+        <xsd:attribute fixed="mdInitiatorId" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MdInitiatorId">
+    <xsd:restriction base="AuthorityIdentifier"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the identifier of the Monitored Data service application.
+ The user performs access conrol based on this parameter. It may also serve as key
+ to further security relevant information such as the authentication level and method
+ and the related password.
+
+Given the security relevance of this parameter, specific
+ mechanisms for setting this parameter when the FR instance is created and for the
+ transfer of associated security relevant data might be specified in a bilateral
+ agreement between service user and service provider. 
+-->
+  <xsd:complexType name="MdResponderIdNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the identifier of the Monitored Data service application. The user performs access conrol based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="MdResponderId" use="required"/>
+        <xsd:attribute fixed="mdResponderId" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.5.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MdResponderId">
+    <xsd:restriction base="AuthorityIdentifier"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the port identifier to be used by the user
+ to connect to the service provider. However, the parameter value is only a logical
+ name that needs to be translated into the technology-specific addressing information
+ required to establish a connection with the specific port of the responding CSTS
+ application entity. As such this parameter is irrelevant for the service provider,
+ but it may be needed for certain kind of gateways between service user and service
+ provider application.
+-->
+  <xsd:complexType name="MdResponderPortIdNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the port identifier to be used by the user to connect to the service provider. However, the parameter value is only a logical name that needs to be translated into the technology-specific addressing information required to establish a connection with the specific port of the responding CSTS application entity. As such this parameter is irrelevant for the service provider, but it may be needed for certain kind of gateways between service user and service provider application.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="MdResponderPortId" use="required"/>
+        <xsd:attribute fixed="mdResponderPortId" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.6.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MdResponderPortId">
+    <xsd:restriction base="ResponderPortId"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the setting of the maximum time period in seconds
+ permitted from when a confirmed MD-CSTS operation is invoked until the return is
+ received by the invoker.
+
+If a response is not received within that time period,
+ the invoker may invoke the PEER-ABORT operation.
+
+-->
+  <xsd:complexType name="MdResponseTimeoutNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the setting of the maximum time period in seconds permitted from when a confirmed MD-CSTS operation is invoked until the return is received by the invoker.
+
+If a response is not received within that time period, the invoker may invoke the PEER-ABORT operation.
+]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="MdResponseTimeout" use="required"/>
+        <xsd:attribute fixed="mdResponseTimeout" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.7.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MdResponseTimeout">
+    <xsd:restriction base="SvcResponseTimeout"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the minimum allowed delivery cycle of the On-Change-Option
+ Cyclic Report procedure instance.
+-->
+  <xsd:complexType name="MdMinAllowedDeliveryCycleNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the minimum allowed delivery cycle of the On-Change-Option Cyclic Report procedure instance.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="MdMinAllowedDeliveryCycle" use="required"/>
+        <xsd:attribute fixed="mdMinAllowedDeliveryCycle" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.8.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MdMinAllowedDeliveryCycle">
+    <xsd:restriction base="MinAllowedDeliveryCycle"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the set of named parameter label lists to be
+ used by the On-Change-Option Cyclic Report procedure instance(s) and the Information
+ Query procedure instance. 
+-->
+  <xsd:complexType name="MdNamedLabelListsNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="myLevel">
+        <![CDATA[1]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the set of named parameter label lists to be used by the On-Change-Option Cyclic Report procedure instance(s) and the Information Query procedure instance. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="MdNamedLabelLists" type="MdNamedLabelLists"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.9.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="mdNamedLabelLists" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="MdNamedLabelLists">
+    <xsd:complexContent>
+      <xsd:extension base="LabelListSet"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports the set of named event label lists to be used
+ by the Notification procedure.
+-->
+  <xsd:complexType name="MdNamedEventListsNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the set of named event label lists to be used by the Notification procedure.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="MdNamedEventLists" type="MdNamedEventLists"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.90100.1.10.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="mdNamedEventLists" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="MdNamedEventLists">
+    <xsd:complexContent>
+      <xsd:extension base="LabelListSet"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This event notifies any change of the mdProdStat parameter value. 
+-->
+  
+  <!--
+The event value reports the mdProdStat parameter value that applies since the notified
+ mdProdStatChange event has occurred.
+-->
+  <xsd:simpleType name="MdProdStatChangeEvtValue">
+    <xsd:restriction base="MdProdStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the mdOperatorNotify event are classified in terms
+ of severity as 'info', 'warning' or 'alarm'. To simplify filtering and searching
+ for specific messages, a unique numerical identifier is assigned to each message
+ string. The messages are free text such that equipment specific issues can be reported.
+ 
+-->
+  <xsd:complexType name="MdOperatorNotifyMessage">
+    <xsd:complexContent>
+      <xsd:extension base="OperatorNotifyMessage"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the MdCstsProvider
+ FR type. 
+
+NOTE - The  MonitoredDataCSTSProvider FR has no dynamically-modifiable
+ configuration parameters because the CSTS procedures that comprise the Monitored
+ Data service have no dynamically-modifiable configuration parameters.
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a set of parameter identifier and parameter value pairs. To be valid, the
+ parameter identifier must reference a controllable parameter of the MdCstsProvider
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+-->
+  <xsd:complexType name="MdContrParamIdsAndValuesDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="DirectiveQualifier"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+</xsd:schema>

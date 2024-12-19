@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srvMgtUtilReq xmlns="urn:ccsds:schema:cssm"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+   					 xsi:schemaLocation="urn:ccsds:schema:cssm 902x09b01-SMURF.xsd">
+ 			 
+	<srvMgtUtilReqHeader originatingOrganization="ESOC"
+						 generationTime="2020-165T10:05:00.000Z"
+						 version="1"
+						 startTime="2020-166T00:00:00.000Z"
+						 endTime="2020-167T00:00:00.000Z"
+						 purpose="Example of submiision of SICF File..."
+						 description="Request description..." 
+						 utilizationReqStatus="TEST">
+	</srvMgtUtilReqHeader>
+
+	<submissionReq requestID="Request-123456" >
+		<asciiSICFWrapper sicfFormat="ESA Format">
+			<sicfData><![CDATA[BEGIN_OBJECT = SLE-SI-CONFIGURATION;
+   DESCRIPTION = "SATX SLE SI Configuration File";
+    REQUESTER_NAME = "Satx";
+    CREATION_DATE = 2023-346T09:15;
+    VERSION = 1;
+
+    BEGIN_GROUP = F-CLTU-TS-P$1;
+        service-instance-id = "sagr=4711.spack=RF1A-PASS0000.fsl-fg=1.cltu=cltu1";
+        service-instance-start-time = void;
+        service-instance-stop-time = void;
+        initiator-id = "SATX_MCS";
+        responder-id = "RF1";
+        responder-port-id = "RF1A_TLC";
+        return-timeout-period = 120;
+        maximum-cltu-length = 306;
+        minimum-cltu-delay = 10000;
+        maximum-cltu-delay = 600000;
+        bit-lock-required = FALSE;
+        rf-available-required = FALSE;
+        protocol-abort-clear-enabled = TRUE;
+    END_GROUP = F-CLTU-TS-P$1;
+
+    BEGIN_GROUP = R-AF-TS-P$1;
+        service-instance-id = "sagr=4711.spack=RF1A-PASS0000.rsl-fg=1.raf=onlc8";
+        service-instance-start-time = void;
+        service-instance-stop-time = void;
+        initiator-id = "SATX_MCS";
+        responder-id = "RF1";
+        responder-port-id = "RF1A_TLM_ONLC";
+        return-timeout-period = 120;
+        delivery-mode = COMPLETE_ONLINE;
+        initiator = USER;
+        permitted-frame-quality = "goodFramesOnly.erredFramesOnly.allFrames";
+        latency-limit = 10;
+        transfer-buffer-size = 1;
+    END_GROUP = R-AF-TS-P$1;
+
+    BEGIN_GROUP = R-AF-TS-P$2;
+        service-instance-id = "sagr=4711.spack=RF1A-PASS0000.rsl-fg=1.raf=offl1";
+        service-instance-start-time = void;
+        service-instance-stop-time = void;
+        initiator-id = "SATX_MCS";
+        responder-id = "RF1";
+        responder-port-id = "RF1A_TLM_OFFL";
+        return-timeout-period = 120;
+        delivery-mode = OFFLINE;
+        initiator = USER;
+        permitted-frame-quality = "goodFramesOnly.erredFramesOnly.allFrames";
+        latency-limit = 5;
+        transfer-buffer-size = 10;
+    END_GROUP = R-AF-TS-P$2;
+    
+    BEGIN_GROUP = R-CF-TS-P$1;
+        service-instance-id = "sagr=4711.spack=RF1A-PASS0000.rsl-fg=1.rcf=onlc5";
+        service-instance-start-time = void;
+        service-instance-stop-time = void;
+        initiator-id = "SATX_MCS";
+        responder-id = "RF1";
+        responder-port-id = "RF1A_TLM_ONLC";
+        return-timeout-period = 120;
+        delivery-mode = COMPLETE_ONLINE;
+        initiator = USER;
+        permitted-vcids = "(222,0,0)";
+        latency-limit = 5;
+        transfer-buffer-size = 1;
+    END_GROUP = R-CF-TS-P$1;
+
+    BEGIN_GROUP = R-CF-TS-P$2;
+        service-instance-id = "sagr=4711.spack=RF1A-PASS0000.rsl-fg=1.rcf=onlc6";
+        service-instance-start-time = void;
+        service-instance-stop-time = void;
+        initiator-id = "SATX_MCS";
+        responder-id = "RF1";
+        responder-port-id = "RF1A_TLM_ONLC";
+        return-timeout-period = 120;
+        delivery-mode = COMPLETE_ONLINE;
+        initiator = USER;
+        permitted-vcids = "(222,0,1)";
+        latency-limit = 10;
+        transfer-buffer-size = 1;
+    END_GROUP = R-CF-TS-P$2;
+    
+    BEGIN_GROUP = R-CF-TS-P$3;
+        service-instance-id = "sagr=4711.spack=RF1A-PASS0000.rsl-fg=1.rcf=onlc7";
+        service-instance-start-time = void;
+        service-instance-stop-time = void;
+        initiator-id = "SATX_MCS";
+        responder-id = "RF1";
+        responder-port-id = "RF1A_TLM_ONLC";
+        return-timeout-period = 120;
+        delivery-mode = COMPLETE_ONLINE;
+        initiator = USER;
+        permitted-vcids = "(222,0,7)";
+        latency-limit = 10;
+        transfer-buffer-size = 1;
+    END_GROUP = R-CF-TS-P$3;
+
+    BEGIN_GROUP = R-CF-TS-P$4;
+        service-instance-id = "sagr=4711.spack=RF1A-PASS0000.rsl-fg=1.rcf=offl1";
+        service-instance-start-time = void;
+        service-instance-stop-time = void;
+        initiator-id = "SATX_MCS";
+        responder-id = "RF1";
+        responder-port-id = "RF1A_TLM_OFFL";
+        return-timeout-period = 120;
+        delivery-mode = OFFLINE;
+        initiator = USER;
+        permitted-vcids = "(222,0,0).(222,0,1).(222,0,7).(222,0,*)";
+        latency-limit = 20;
+        transfer-buffer-size = 50;
+    END_GROUP = R-CF-TS-P$4;
+
+END_OBJECT = SLE-SI-CONFIGURATION;]]></sicfData>
+	
+		</asciiSICFWrapper>
+	</submissionReq>
+</srvMgtUtilReq>

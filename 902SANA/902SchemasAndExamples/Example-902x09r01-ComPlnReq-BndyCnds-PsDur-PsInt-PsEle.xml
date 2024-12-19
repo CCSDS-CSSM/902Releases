@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srvMgtUtilReq xmlns="urn:ccsds:schema:cssm"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+   					 xsi:schemaLocation="urn:ccsds:schema:cssm 902x09r01-SMURF.xsd">
+ 			 
+	<srvMgtUtilReqHeader originatingOrganization="ESA"
+						 generationTime="2021-297T11:27:00.000Z"
+						 version="1"
+						 purpose="Example of a communication planning request using a boundary conditions and pass duration. Exactly 10 passes are requested, each of exactly 10 minutes during the period January 2024. A minimum interval of 2 days and a maximum interval of 3 days between passes is specified. Mimimum elevation agle during the pass is specified to be 10.0Degrees."
+						 description="Request description..."
+						 utilizationReqStatus="TEST"/>
+
+	<commsPlanningReq requestID="Request-123456"
+	                  serviceAgreementRef="Service_Agreement_for_XMM"
+	                  comment="Example single pass service pass request for XMM using multiple constraints"
+                      trajectoryRef="XMM_Tracjectory"
+                      spaceUserNode="XMM">
+                      <commsPlanningTypeList>
+					  	 <planningInfoType>COMMS</planningInfoType> 
+					  </commsPlanningTypeList>
+					  <apertureSelection>
+					     <apertureReference siteRef="Site-A" apertureRef="A-01"/>
+					  </apertureSelection>
+                      <boundaryConds startTime="2024-001T00:00:00Z"
+                      			     duration="2678400"
+                        			 minNumOfPasses="10"
+                        			 maxNumOfPasses="10"/>
+                      <passDuration minPassDuration="600"
+                                    maxPassDuration="600"/>
+                      <passInterval minIntBetweenPasses="172800"
+                      	 			maxIntBetweenPasses="259200"/>
+                      <passElevation minElevationDuringPass="10.0" />
+ 	</commsPlanningReq>
+	
+</srvMgtUtilReq>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The TmAosMcDemux FR accepts suceessfully decoded frames and passes on all frames
+ of the configured Master Channels. If so configured it also extracts and delivers
+ the CLCWs of the selected Master Channel. 
+-->
+  <xsd:element name="TmAosMcDemuxElement" substitutionGroup="functionalResourceInstance" type="TmAosMcDemuxType"/>
+  <xsd:complexType name="TmAosMcDemuxType">
+    <xsd:complexContent>
+      <xsd:extension base="FunctionalResourceInstance">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="tmAosMcDemuxMcIds" type="TmAosMcDemuxMcIdsNamed"/>
+          <xsd:element minOccurs="0" name="tmAosMcDemuxClcwExtraction" type="TmAosMcDemuxClcwExtractionNamed"/>
+        </xsd:all>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40500" name="frTypeOid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:element name="tmAosMcDemuxMcIds" substitutionGroup="frmParameter" type="TmAosMcDemuxMcIdsNamed"/>
+  <xsd:element name="tmAosMcDemuxClcwExtraction" substitutionGroup="frmParameter" type="TmAosMcDemuxClcwExtractionNamed"/>
+  
+  <!--
+This enumerated parameter reports the TmAosMcDemux FR resource status and can take
+ on four values:
+- 'configured':  the associated equipment has been configured;
+-
+ 'operational':  the associated equipment is active;
+- 'interrupted':  a failure
+ has been detected;
+- 'halted':  the associated equipment has been taken out of
+ service.
+-->
+  <xsd:complexType name="TmAosMcDemuxResourceStatNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the TmAosMcDemux FR resource status and can take on four values:
+- 'configured':  the associated equipment has been configured;
+- 'operational':  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+- 'halted':  the associated equipment has been taken out of service.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="TmAosMcDemuxResourceStat" use="required"/>
+        <xsd:attribute fixed="tmAosMcDemuxResourceStat" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40500.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="TmAosMcDemuxResourceStat">
+    <xsd:restriction base="ResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the Master Channel IDs the given FR instance
+ is configured to process.
+-->
+   
+  <!--
+ All frames on a Physical Channel must have the same TFVN.
+ -->
+  <xsd:complexType name="TmAosMcDemuxMcIdsNamed">
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="TmAosMcDemuxMcIds" type="TmAosMcDemuxMcIds"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40500.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="tmAosMcDemuxMcIds" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TmAosMcDemuxMcIds">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[All frames on a Physical Channel must have the same TFVN.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="tmFrames">
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="tfvn">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+         For Tm frames the Transfer Frame Version Number is 1, encoded as binary '00'.
+         -->
+                           
+                  <xsd:simpleType>
+                    <xsd:restriction base="BitString"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="scid">
+                    
+              <xsd:complexType>
+                <xsd:sequence maxOccurs="1024" minOccurs="1">
+                  <xsd:element name="scidElement">
+                             
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:integer">
+                        <xsd:minInclusive value="0"/>
+                        <xsd:maxInclusive value="1023"/>
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="aosFrames">
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="tfvn">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+         For AOS frames the Transfer Frame Version Number is 2, encoded as binary '01'.
+         -->
+                           
+                  <xsd:simpleType>
+                    <xsd:restriction base="BitString"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="scid">
+                    
+              <xsd:complexType>
+                <xsd:sequence maxOccurs="256" minOccurs="1">
+                  <xsd:element name="scidElement">
+                             
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:integer">
+                        <xsd:minInclusive value="0"/>
+                        <xsd:maxInclusive value="255"/>
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <!--
+This enumerated parameter configures and reports if the FR instance shall extract
+ MC-OCF CLCWs and if so from which MC. The extracted CLCWs are forwarded to the FR
+ types that consume them.
+
+The values are
+- 'noClcwExtraction': this value applies
+ when the Physical Channel carries either (a) AOS frames or (b) TM frames but none
+ of the MCs carry MC-OCF CLCWs .
+- 'clcwExtractionTmMcs': 	this value applies when
+ the Physical Channel carries TM frames and at least one MC carries MC_OCF CLCWs.
+
+NOTE
+ - A VC of the MC may carry VC_OCFs . The extractio of VC_OCF CLCWs is governed by
+ the tmAosVcDemuxClcwExtraction parameter of the TmAosVcDemux FR.
+
+-->
+   
+  <xsd:complexType name="TmAosMcDemuxClcwExtractionNamed">
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="TmAosMcDemuxClcwExtraction" type="TmAosMcDemuxClcwExtraction"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40500.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="tmAosMcDemuxClcwExtraction" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TmAosMcDemuxClcwExtraction">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports if the FR instance shall extract MC-OCF CLCWs and if so from which MC. The extracted CLCWs are forwarded to the FR types that consume them.
+
+The values are
+- 'noClcwExtraction': this value applies when the Physical Channel carries either (a) AOS frames or (b) TM frames but none of the MCs carry MC-OCF CLCWs .
+- 'clcwExtractionTmMcs': 	this value applies when the Physical Channel carries TM frames and at least one MC carries MC_OCF CLCWs.
+
+NOTE - A VC of the MC may carry VC_OCFs . The extractio of VC_OCF CLCWs is governed by the tmAosVcDemuxClcwExtraction parameter of the TmAosVcDemux FR.
+]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="noClcwExtraction">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="NULL"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="clcwExtractionTmMcs">
+            
+        <xsd:complexType>
+          <xsd:sequence maxOccurs="1024" minOccurs="1">
+            <xsd:element name="clcwExtractionTmMcsElement">
+              <xsd:complexType>
+                <xsd:annotation>
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                  <xsd:element name="tfvn">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" use="required">
+                        <!--
+            For Tm frames the Transfer Frame Version Number is 1 encoded as binary '00'.
+            -->
+                                    
+                        <xsd:simpleType>
+                          <xsd:restriction base="BitString"/>
+                        </xsd:simpleType>
+                      </xsd:attribute>
+                    </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element name="scid">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" use="required">
+                                    
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:integer">
+                            <xsd:minInclusive value="0"/>
+                            <xsd:maxInclusive value="1023"/>
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:attribute>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <!--
+This event notifies any change of the tmAosMcDemuxResourceStat parameter value.
+-->
+  
+  <!--
+The event value reports the tmAosMcDemuxResourceStat parameter value that applies
+ since the notified tmAosMcDemuxResourceStatChange event has occurred.
+-->
+  <xsd:simpleType name="TmAosMcDemuxResourceStatChangeEvtValue">
+    <xsd:restriction base="TmAosMcDemuxResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the tmAosMcDemuxOperatorNotify event are classified
+ in terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering and
+ searching for specific messages, a unique numerical identifier is assigned to each
+ message string. The messages are free text such that equipment specific issues can
+ be reported. 
+-->
+  <xsd:complexType name="TmAosMcDemuxOperatorNotifyMessage">
+    <xsd:complexContent>
+      <xsd:extension base="OperatorNotifyMessage"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the TmAosMcDemux
+ FR type. 
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the TmAosMcDemux
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+
+-->
+  <xsd:complexType name="TmAosMcDemuxContrParamIdsAndValuesDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="DirectiveQualifier"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+</xsd:schema>

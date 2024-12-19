@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:OtherTraj" 
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			targetNamespace="urn:OtherTraj" 
+			elementFormDefault="qualified" 
+			attributeFormDefault="unqualified" >
+	<!--********************************************************************************************************************** -->
+
+	<xsd:element name="trajData">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:whiteSpace value="preserve"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+		
+	<xsd:element name="otherTrajTextFmt" type="OtherTrajTextFmtType" />
+	<xsd:complexType name="OtherTrajTextFmtType">
+		<xsd:sequence>
+			<!-- allow one and only one trajData -->
+			<xsd:element ref="trajData" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

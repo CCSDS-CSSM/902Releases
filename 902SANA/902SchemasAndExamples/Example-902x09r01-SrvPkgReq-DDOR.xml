@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srvMgtUtilReq xmlns="urn:ccsds:schema:cssm"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+   					 xsi:schemaLocation="urn:ccsds:schema:cssm 902x09r01-SMURF.xsd">
+ 			 
+	<srvMgtUtilReqHeader originatingOrganization="ESOC"
+						 generationTime="2021-126T21:13:00.000Z"
+						 version="1"
+						 purpose="Example of a service package request for a DDOR..."
+						 description="Request description..."
+						 utilizationReqStatus="TEST"/>
+
+	<newOnlineSrvPkgReq requestID="Request-123456"
+	                    serviceAgreementRef="Service_Agreement_for_MEX"
+	                    comment="Example DDOR service package request for MEX"
+	                    serviceReqID="MEX-DDOR-Service-Request-0001" 
+                        spaceUserNode="MEX">
+                        <onlineSrvPkgType1 sicfRef="MEX_SICF_for_Cebreros"
+                        			  	   trajectoryRef="MEX_Tracjectory"
+                        			  	   eventSequenceRef="MEX_Event_Sequence_for_Cebreros">
+                    				  	   <onlineSrvPkgType1Details configurationProfileRef="MEX_Config_Profile_for_Cebreros">
+                    				                       			 <ddorScanPatternDetails ddorScanPatternRef="MEX_DDOR_Scan_Pattern_0001"/>
+                        			  	   </onlineSrvPkgType1Details>
+                        </onlineSrvPkgType1>
+                        <apertureSelection>
+                        	<apertureReference siteRef="Cebreros" apertureRef="CEB1"/>
+                        </apertureSelection>
+						<basicPass preferredStartTime="2021-182T00:00:00Z" preferredDuration="28800"/>
+ 	</newOnlineSrvPkgReq>
+	
+</srvMgtUtilReq>

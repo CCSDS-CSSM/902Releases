@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commsPlanningInfo xmlns="urn:ccsds:schema:cssm"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+					 xsi:schemaLocation="urn:ccsds:schema:cssm 902x02p01TC1-CPIF.xsd" >
+ 			 
+
+	<commsPlanningInfoHeader originatingOrganization="ESOC"
+						generationTime="2018-045T10:05:00.000Z"
+						version="1"
+						startTime="2018-050T00:00:00.000Z"
+						endTime="2018-055T00:00:00.000Z"
+						purpose="Purpose of the planning information..."
+						description="Schedule description..."
+						commsPlanningInfoStatus="TEST"
+						ancilliaryInfo="Ancilliary information can be specified here...">
+						<commsPlanningTypeList>
+						   <planningInfoType>COMMS</planningInfoType> 
+						</commsPlanningTypeList>
+	</commsPlanningInfoHeader>
+
+	<commsPlanningInfoData>
+		<commsPlanningInfoEventAssociation associationID="FutureMarsRover_ViewPeriod_000" 
+									  commsPlanningInfoAssnKind="ViewPeriod"
+									  comment="This is an example Event Association illustrating its use for View Periods...">
+			<eventIDRef>FutureMarsRover_ViewPeriod_000_Event_00</eventIDRef>
+			<eventIDRef>FutureMarsRover_ViewPeriod_000_Event_01</eventIDRef>
+			<eventIDRef>FutureMarsRover_ViewPeriod_000_Event_02</eventIDRef>
+			<eventIDRef>FutureMarsRover_ViewPeriod_000_Event_03</eventIDRef>
+			<eventIDRef>FutureMarsRover_ViewPeriod_000_Event_04</eventIDRef>
+			<eventIDRef>FutureMarsRover_ViewPeriod_000_Event_05</eventIDRef>
+		</commsPlanningInfoEventAssociation>
+
+		<commsPlanningInfoEventAssociation commsPlanningInfoAssnKind="ViewPeriod"
+									  associationID="NewNorcia_ViewPeriod_000" 
+									  comment="This is an example Event Association illustrating its use for View Periods...">
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_00</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_01</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_02</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_03</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_04</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_05</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_06</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_07</eventIDRef>
+			<eventIDRef>NewNorcia_ViewPeriod_000_Event_08</eventIDRef>
+		</commsPlanningInfoEventAssociation>
+
+		<commsPlanningInfoEventAssociation commsPlanningInfoAssnKind="ViewPeriod"
+									  associationID="Cebreros_ViewPeriod_000" 
+									  comment="This is an example Event Association illustrating its use for View Periods...">
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_00</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_01</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_02</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_03</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_04</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_05</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_06</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_07</eventIDRef>
+			<eventIDRef>Cebreros_ViewPeriod_000_Event_08</eventIDRef>
+		</commsPlanningInfoEventAssociation>		
+		<elevationAscendingEvent type="COMMS" 
+								 user="MEX"
+ 								 elevation="0.0" >
+			<srvMgtEventTime absoluteTime="2018-048T00:10:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</elevationAscendingEvent>
+
+		<retCommsStartEvent type="COMMS" 
+						   user="MEX" >
+			<srvMgtEventTime absoluteTime="2018-048T00:30:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</retCommsStartEvent>
+	
+		<fwdCommsStartEvent type="COMMS"
+						   user="MEX"  >
+			<srvMgtEventTime absoluteTime="2018-048T00:50:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</fwdCommsStartEvent>
+	
+		<maximumElevationEvent type="COMMS" 
+							   user="MEX" 
+							   elevation="65.4" >
+			<srvMgtEventTime absoluteTime="2018-048T03:00:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</maximumElevationEvent>
+		
+		<providerLimitationStartEvent type="COMMS" 
+		                     user="MEX"	
+		                     azimuth="234.5" 
+		                     elevation="60.0" 
+		                     rtlt="2400.0">
+			<srvMgtEventTime absoluteTime="2018-048T04:00:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</providerLimitationStartEvent>
+		
+		<providerLimitationEndEvent type="COMMS" 
+		                     user="MEX"	
+		                     azimuth="234.5" 
+		                     elevation="59.5" 
+		                     rtlt="2400.0">
+			<srvMgtEventTime absoluteTime="2018-048T04:02:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</providerLimitationEndEvent>
+
+		<fwdCommsEndEvent type="COMMS" 
+						 user="MEX" >
+			<srvMgtEventTime absoluteTime="2018-048T05:10:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</fwdCommsEndEvent>
+	
+		<retCommsEndEvent type="COMMS" 
+		                 user="MEX" >
+			<srvMgtEventTime absoluteTime="2018-048T05:30:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</retCommsEndEvent>
+ 	
+		<elevationDescendingEvent  type="COMMS" 
+		                           user="MEX" 
+		                           elevation="0.0" >
+			<srvMgtEventTime absoluteTime="2018-048T05:50:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Malargüe" apertureRef="Aperture_1"/>
+		</elevationDescendingEvent>
+		
+		<elevationAscendingEvent type="COMMS" 
+								 user="MEX"
+								 elevation="0.0"
+								 identifier="NewNorcia_ViewPeriod_000_Event_00">
+			<srvMgtEventTime absoluteTime="2018-050T00:10:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</elevationAscendingEvent>
+
+		<retCommsStartEvent type="COMMS" 
+						   user="MEX" 
+						   identifier="NewNorcia_ViewPeriod_000_Event_01">
+			<srvMgtEventTime absoluteTime="2018-050T00:30:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</retCommsStartEvent>
+		
+		<elevationAscendingEvent type="COMMS" 
+								 user="MEX"
+								 elevation="0.0"
+								 identifier="FutureMarsRover_ViewPeriod_000_Event_00">
+			<srvMgtEventTime absoluteTime="2018-050T00:45:00Z" epochTimeSystem="UTC" />
+			<apertureCelestialBodyPosition celestialBody="Mars" celestialBodyLat="33.0" celestialBodyLong="45.0" apertureName="FutureMarsRover_Apperture"/>
+		</elevationAscendingEvent>
+
+		<retCommsStartEvent type="COMMS" 
+						   user="MEX" 
+								 identifier="FutureMarsRover_ViewPeriod_000_Event_01">
+			<srvMgtEventTime absoluteTime="2018-050T00:46:00Z" epochTimeSystem="UTC" />
+			<apertureCelestialBodyPosition celestialBody="Mars" celestialBodyLat="33.0" celestialBodyLong="45.0" apertureName="FutureMarsRover_Apperture"/>
+		</retCommsStartEvent>
+	
+		<fwdCommsStartEvent type="COMMS"
+						   user="MEX" 
+								 identifier="FutureMarsRover_ViewPeriod_000_Event_02">
+			<srvMgtEventTime absoluteTime="2018-050T00:47:00Z" epochTimeSystem="UTC"/>
+			<apertureCelestialBodyPosition celestialBody="Mars" celestialBodyLat="33.0" celestialBodyLong="45.0" apertureName="FutureMarsRover_Apperture"/>
+		</fwdCommsStartEvent>	
+	
+		<fwdCommsStartEvent type="COMMS"
+						   user="MEX" 
+						   identifier="NewNorcia_ViewPeriod_000_Event_02">
+			<srvMgtEventTime absoluteTime="2018-050T00:50:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</fwdCommsStartEvent>
+
+		<fwdCommsEndEvent type="COMMS" 
+						 user="MEX" 
+						 identifier="FutureMarsRover_ViewPeriod_000_Event_03">
+			<srvMgtEventTime absoluteTime="2018-050T00:58:00Z" epochTimeSystem="UTC"/>
+			<apertureCelestialBodyPosition celestialBody="Mars" celestialBodyLat="33.00000001" celestialBodyLong="45.00000002" apertureName="FutureMarsRover_Apperture"/>
+		</fwdCommsEndEvent>
+	
+		<retCommsEndEvent type="COMMS" 
+		                 user="MEX" 
+						 identifier="FutureMarsRover_ViewPeriod_000_Event_04">
+			<srvMgtEventTime absoluteTime="2018-050T00:59:00Z" epochTimeSystem="UTC"/>
+			<apertureCelestialBodyPosition celestialBody="Mars" celestialBodyLat="33.00000001" celestialBodyLong="45.00000002" apertureName="FutureMarsRover_Apperture"/>
+		</retCommsEndEvent>
+ 	
+		<elevationDescendingEvent  type="COMMS" 
+		                           user="MEX" 
+		                           elevation="0.0"
+								   identifier="FutureMarsRover_ViewPeriod_000_Event_05">
+			<srvMgtEventTime absoluteTime="2018-050T01:00:00Z" epochTimeSystem="UTC"/>
+			<apertureCelestialBodyPosition celestialBody="Mars" celestialBodyLat="33.00000001" celestialBodyLong="45.00000002" apertureName="FutureMarsRover_Apperture"/>
+		</elevationDescendingEvent>
+	
+		<maximumElevationEvent type="COMMS" 
+							   user="MEX" 
+							   elevation="65.4" 
+							   identifier="NewNorcia_ViewPeriod_000_Event_03">
+			<srvMgtEventTime absoluteTime="2018-050T03:00:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</maximumElevationEvent>
+		
+		<providerLimitationStartEvent type="COMMS" 
+		                     user="MEX"	
+		                     azimuth="234.5" 
+		                     elevation="60.0" 
+		                     rtlt="2400.0"
+							 identifier="NewNorcia_ViewPeriod_000_Event_04">
+			<srvMgtEventTime absoluteTime="2018-050T04:00:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</providerLimitationStartEvent>
+		
+		<providerLimitationEndEvent type="COMMS" 
+		                     user="MEX"	
+		                     azimuth="234.5" 
+		                     elevation="59.5" 
+		                     rtlt="2400.0"
+							 identifier="NewNorcia_ViewPeriod_000_Event_05">
+			<srvMgtEventTime absoluteTime="2018-050T04:02:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</providerLimitationEndEvent>
+
+		<fwdCommsEndEvent type="COMMS" 
+						 user="MEX" 
+						 identifier="NewNorcia_ViewPeriod_000_Event_06">
+			<srvMgtEventTime absoluteTime="2018-050T05:10:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</fwdCommsEndEvent>
+	
+		<retCommsEndEvent type="COMMS" 
+		                 user="MEX" 
+						 identifier="NewNorcia_ViewPeriod_000_Event_07">
+			<srvMgtEventTime absoluteTime="2018-050T05:30:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</retCommsEndEvent>
+ 	
+		<elevationDescendingEvent  type="COMMS" 
+		                           user="MEX" 
+		                           elevation="0.0"
+								   identifier="NewNorcia_ViewPeriod_000_Event_08">
+			<srvMgtEventTime absoluteTime="2018-050T05:50:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</elevationDescendingEvent>
+
+		<elevationAscendingEvent type="COMMS" 
+								 user="MEX"
+								 elevation="0.0"
+								 identifier="Cebreros_ViewPeriod_000_Event_00">
+			<srvMgtEventTime absoluteTime="2018-052T00:10:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="New Norcia" apertureRef="Aperture_1"/>
+		</elevationAscendingEvent>
+
+		<retCommsStartEvent type="COMMS" 
+						   user="MEX" 
+						   identifier="Cebreros_ViewPeriod_000_Event_01">
+			<srvMgtEventTime absoluteTime="2018-052T00:30:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</retCommsStartEvent>
+	
+		<fwdCommsStartEvent type="COMMS"
+						   user="MEX" 
+						   identifier="Cebreros_ViewPeriod_000_Event_02">
+			<srvMgtEventTime absoluteTime="2018-052T00:50:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</fwdCommsStartEvent>
+	
+		<maximumElevationEvent type="COMMS" 
+							   user="MEX" 
+							   elevation="65.4" 
+							   identifier="Cebreros_ViewPeriod_000_Event_03">
+			<srvMgtEventTime absoluteTime="2018-052T03:00:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</maximumElevationEvent>
+		
+		<providerLimitationStartEvent type="COMMS" 
+		                     user="MEX"	
+		                     azimuth="234.5" 
+		                     elevation="60.0" 
+		                     rtlt="2400.0"
+							 identifier="Cebreros_ViewPeriod_000_Event_04">
+			<srvMgtEventTime absoluteTime="2018-052T04:00:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</providerLimitationStartEvent>
+		
+		<providerLimitationEndEvent type="COMMS" 
+		                     user="MEX"	
+		                     azimuth="234.5" 
+		                     elevation="59.5" 
+		                     rtlt="2400.0"
+							 identifier="Cebreros_ViewPeriod_000_Event_05">
+			<srvMgtEventTime absoluteTime="2018-052T04:02:00Z" epochTimeSystem="UTC" />
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</providerLimitationEndEvent>
+
+		<fwdCommsEndEvent type="COMMS" 
+						 user="MEX" 
+						 identifier="Cebreros_ViewPeriod_000_Event_06">
+			<srvMgtEventTime absoluteTime="2018-052T05:10:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</fwdCommsEndEvent>
+	
+		<retCommsEndEvent type="COMMS" 
+		                 user="MEX" 
+						 identifier="Cebreros_ViewPeriod_000_Event_07">
+			<srvMgtEventTime absoluteTime="2018-052T05:30:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</retCommsEndEvent>
+ 	
+		<elevationDescendingEvent  type="COMMS" 
+		                           user="MEX" 
+		                           elevation="0.0"
+								   identifier="Cebreros_ViewPeriod_000_Event_08">
+			<srvMgtEventTime absoluteTime="2018-052T05:50:00Z" epochTimeSystem="UTC"/>
+			<apertureReference siteRef="Cebreros" apertureRef="Aperture_1"/>
+		</elevationDescendingEvent>
+
+
+
+	</commsPlanningInfoData>
+	
+</commsPlanningInfo>

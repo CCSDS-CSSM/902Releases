@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+This FR accepts fixed-length frames (including, but not necessarily limited to, AOS
+ and USLP) to be radated via a specific physical channel. 
+
+This FR provides the
+ symbol stream to be used for modulating the forward carrier of the physical channel
+ associated with this FR. 
+-->
+  <xsd:element name="TmSyncAndChnlEncodeElement" substitutionGroup="functionalResourceInstance" type="TmSyncAndChnlEncodeType"/>
+  <xsd:complexType name="TmSyncAndChnlEncodeType">
+    <xsd:complexContent>
+      <xsd:extension base="FunctionalResourceInstance">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="tmSyncEncFrameLength" type="TmSyncEncFrameLengthNamed"/>
+          <xsd:element minOccurs="0" name="tmSyncEncCodingSelection" type="TmSyncEncCodingSelectionNamed"/>
+        </xsd:all>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30200" name="frTypeOid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:element name="tmSyncEncFrameLength" substitutionGroup="frmParameter" type="TmSyncEncFrameLengthNamed"/>
+  <xsd:element name="tmSyncEncCodingSelection" substitutionGroup="frmParameter" type="TmSyncEncCodingSelectionNamed"/>
+  
+  <!--
+This enumerated parameter reports the TmSyncAndChnlEncode FR resource status and
+ can take on four values:
+- 'configured':  the associated equipment has been configured;
+-
+ 'operational':  the associated equipment is active;
+- 'interrupted':  a failure
+ has been detected;
+- 'halted':  the associated equipment has been taken out of
+ service.
+
+-->
+  <xsd:complexType name="TmSyncEncResourceStatNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the TmSyncAndChnlEncode FR resource status and can take on four values:
+- 'configured':  the associated equipment has been configured;
+- 'operational':  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+- 'halted':  the associated equipment has been taken out of service.
+]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="TmSyncEncResourceStat" use="required"/>
+        <xsd:attribute fixed="tmSyncEncResourceStat" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30200.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="TmSyncEncResourceStat">
+    <xsd:restriction base="ResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the length in octets of the fixed-length transfer
+ frames that are input to the FR. 
+-->
+   
+  <xsd:complexType name="TmSyncEncFrameLengthNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the length in octets of the fixed-length transfer frames that are input to the FR. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="TmSyncEncFrameLength" use="required"/>
+        <xsd:attribute fixed="tmSyncEncFrameLength" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30200.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TmSyncEncFrameLength">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="6"/>
+      <xsd:maxInclusive value="4294967295"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the selected coding scheme and related configuration
+ parameter values. 
+-->
+   
+  <xsd:complexType name="TmSyncEncCodingSelectionNamed">
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="TmSyncEncCodingSelection" type="TmSyncEncCodingSelection"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30200.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="tmSyncEncCodingSelection" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TmSyncEncCodingSelection">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the selected coding scheme and related configuration parameter values. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="encodingBypass">
+        <!--
+    optional randomization, ASM attachment, optional convolutional encoding only
+    -->
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+            <xsd:appinfo source="SemanticDefinition">
+              <![CDATA[optional randomization, ASM attachment, optional convolutional encoding only]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="randomization">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="Randomization" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="convolutionalEncoding" type="ConvolutionalEncoding"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reedSolomon">
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="randomization">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="Randomization" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="convolutionalEncoding" type="ConvolutionalEncoding"/>
+            <xsd:element name="errorCorrectionCapability">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:token">
+                      <xsd:enumeration value="Eight"/>
+                                  
+                      <xsd:enumeration value="Sixteen"/>
+                                  
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="interleavingDepth">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="RsInterleavingDepth" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="turbo">
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="randomization">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="Randomization" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="nominalCodeRate">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:token">
+                      <xsd:enumeration value="Rate1Over2"/>
+                                  
+                      <xsd:enumeration value="Rate1Over3"/>
+                                  
+                      <xsd:enumeration value="Rate1Over4"/>
+                                  
+                      <xsd:enumeration value="Rate1Over6"/>
+                                  
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="informationBlockLength">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+         k, in bits
+         -->
+                           
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer">
+                      <xsd:pattern value="1784|3568|7136|8920"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ldpcFrame">
+        <!--
+    ASM is applied, convolutional encoding is disallowed for the LDPC Frame coding choice.
+    -->
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+            <xsd:appinfo source="SemanticDefinition">
+              <![CDATA[ASM is applied, convolutional encoding is disallowed for the LDPC Frame coding choice.]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="randomization">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="Randomization" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ldpcCodeRateAndInfoBlockLength" type="LdpcCodeRateAndInfoBlockLength"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ldpcSlice">
+        <!--
+    randomization is required and convolutional coding is disabled for LDPC slicing
+    -->
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+            <xsd:appinfo source="SemanticDefinition">
+              <![CDATA[randomization is required and convolutional coding is disabled for LDPC slicing]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="ldpcCodeRateAndInfoBlockLength" type="LdpcCodeRateAndInfoBlockLength"/>
+            <xsd:element name="ldpcCodeblockSize">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+         Codeblock size is the number of LDPC codewords
+         -->
+                           
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer">
+                      <xsd:minInclusive value="1"/>
+                      <xsd:maxInclusive value="8"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <!--
+This event notifies any change of the tmfSyncEncResourceStat parameter value.
+-->
+  
+  <!--
+The event value reports the tmSyncEncResourceStat parameter value that applies since
+ the notified flfSyncEncResourceStatChange event has occurred.
+-->
+  <xsd:simpleType name="TmSyncEncResourceStatChangeEvtValue">
+    <xsd:restriction base="TmSyncEncResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This event notifies the completion of processing of a frame. This event is emitted
+ only for frames that are transferred through an instance of a Cross Support Transfer
+ Service (CSTS) that uses the CSTS Specification Framework Data Processing procedure
+ or a procedure derived from it. Each frame received from such a CSTS is annotated
+ with the service-instance-id of the source CSTS instance and the data-unit-id of
+ the PROCESS-DATA invocation that carries that frame.
+-->
+  
+  <!--
+This parameter contains the data-unit-id of the data unit that has completed processing,
+ and the service-instance-identifier of the CSTS instance through which the data
+ unit was received.
+-->
+  <xsd:complexType name="TmSyncEncDataUnitProcessingCompletedEvtValue">
+    <xsd:complexContent>
+      <xsd:extension base="DataUnitProcessingCompletedEventValue"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the tmSyncEncOperatorNotify event are classified
+ in terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering and
+ searching for specific messages, a unique numerical identifier is assigned to each
+ message string. The messages are free text such that equipment specific issues can
+ be reported. 
+-->
+  <xsd:complexType name="TmSyncEncOperatorNotifyMessage">
+    <xsd:complexContent>
+      <xsd:extension base="OperatorNotifyMessage"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the TmSyncAndChnlEncode
+ FR type.  
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the TmSyncAndChnlEncode
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+
+-->
+  <xsd:complexType name="TmfSyncEncContrParamIdsAndValuesDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="DirectiveQualifier"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+Upon receipt of this directive, the TmSyncAndChnlEncode FR discards all frames that
+ are accompanied by the service-instance-id that is identified in the directive qualifier.
+
+The
+ qualifier of this directive event is the service-instance-id of the CSTS for which
+ the frames are to be discarded.
+
+This directive is applicable only for frames
+ that are annotated with the service-instance-id of the CSTS instance that provided
+ those data units.
+
+-->
+  
+  <!--
+The service-instance-id of the CSTS for which the data units are to discarded when
+ the tmfSyncEncDiscardDataUnits directive is invoked.
+-->
+  <xsd:complexType name="TmSyncEncDiscardDataUnitsSvcInstanceIdDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="CstsSvcInstanceId"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+</xsd:schema>

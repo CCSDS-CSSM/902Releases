@@ -1,0 +1,1442 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The CFDP entity represents a CFDP entity being able to communicate with remote entities
+ as per CCSDS 727.0.
+-->
+  <xsd:element name="CfdpEntityElement" substitutionGroup="functionalResourceInstance" type="CfdpEntityType"/>
+  <xsd:complexType name="CfdpEntityType">
+    <xsd:complexContent>
+      <xsd:extension base="FunctionalResourceInstance">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="cfdpLocalEntityId" type="CfdpLocalEntityIdNamed"/>
+          <xsd:element minOccurs="0" name="cfdpRemoteEntityConfiguration" type="CfdpRemoteEntityConfigurationNamed"/>
+          <xsd:element minOccurs="0" name="cfdpLocalEntityConfiguration" type="CfdpLocalEntityConfigurationNamed"/>
+        </xsd:all>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.50200" name="frTypeOid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:element name="cfdpLocalEntityId" substitutionGroup="frmParameter" type="CfdpLocalEntityIdNamed"/>
+  <xsd:element name="cfdpRemoteEntityConfiguration" substitutionGroup="frmParameter" type="CfdpRemoteEntityConfigurationNamed"/>
+  <xsd:element name="cfdpLocalEntityConfiguration" substitutionGroup="frmParameter" type="CfdpLocalEntityConfigurationNamed"/>
+  
+  <!--
+This enumerated parameter reports the overall status of the CFDP entity and can take
+ on four values: 
+- 'configured': The CFDP entity has been configured but has not
+ been enabled for operations; 
+ - 'operational': The CFDP entity is able to carry
+ out operations; 
+ - 'interrupted': a failure has been detected that prevents the
+ CFDP entity form functioning nominally; 
+ - 'halted': The operator has set the
+ entity to 'halted'. That implies that all on-going transactions are suspended. 
+-->
+  <xsd:complexType name="CfdpLocalEntityResourceStatNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the overall status of the CFDP entity and can take on four values: 
+- 'configured': The CFDP entity has been configured but has not been enabled for operations; 
+ - 'operational': The CFDP entity is able to carry out operations; 
+ - 'interrupted': a failure has been detected that prevents the CFDP entity form functioning nominally; 
+ - 'halted': The operator has set the entity to 'halted'. That implies that all on-going transactions are suspended. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="CfdpLocalEntityResourceStat" use="required"/>
+        <xsd:attribute fixed="cfdpLocalEntityResourceStat" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.50200.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CfdpLocalEntityResourceStat">
+    <xsd:restriction base="ResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the entity ID of the local CFDP entity.
+-->
+  <xsd:complexType name="CfdpLocalEntityIdNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the entity ID of the local CFDP entity.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="CfdpLocalEntityId" use="required"/>
+        <xsd:attribute fixed="cfdpLocalEntityId" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.50200.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CfdpLocalEntityId">
+    <xsd:restriction base="CfdpEntityId"/>
+  </xsd:simpleType>
+  
+  <!--
+The CFDP remote entity configuration parameter reports on the remote CFDP entities
+ known to this local CFDP entity.
+-->
+   
+  <xsd:complexType name="CfdpRemoteEntityConfigurationNamed">
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="CfdpRemoteEntityConfiguration" type="CfdpRemoteEntityConfiguration"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.50200.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="cfdpRemoteEntityConfiguration" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:complexType name="CfdpRemoteEntityConfiguration">
+    <xsd:sequence>
+      <xsd:element name="element">
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+            <xsd:appinfo source="SemanticDefinition">
+              <![CDATA[The CFDP remote entity configuration parameter reports on the remote CFDP entities known to this local CFDP entity.]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="cfdpRemoteEntityId">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="CfdpEntityId" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteEntityVersion">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          Protocl Version as indicated in the CFDP PDU header
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer">
+                      <xsd:minInclusive value="0"/>
+                      <xsd:maxInclusive value="7"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteUtAddress">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          UT Address to use when transmitting to this entity.
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpPositiveAckTimerInterval" type="CfdpOptionalTimer"/>
+            <xsd:element name="cfdpNakTimerInterval" type="CfdpOptionalTimer"/>
+            <xsd:element name="cfdpKeepAliveTimerInterval" type="CfdpOptionalTimer"/>
+            <xsd:element name="cfdpRemoteImmediateNakModeEnabled">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          True or false.
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:boolean"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteDefaultTransmissionMode">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="CfdpTransmissionModeType" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteTransactionClosureRequested">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          True or false
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:boolean"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteCheckLimit">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="CfdpTimer" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteDefaultChecksumType">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          Default type of checksum to calculate for all file transmission to this remote entity.
+          -->
+                  <xsd:simpleType>
+                               
+                    <xsd:restriction base="xsd:token">
+                      <xsd:enumeration value="ModularChecksum"/>
+                                   
+                      <xsd:enumeration value="ProximityOneCrc32"/>
+                                   
+                      <xsd:enumeration value="Crc32c"/>
+                                   
+                      <xsd:enumeration value="Crc32"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp1"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp2"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp3"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp4"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp5"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp6"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp7"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp8"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp9"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp10"/>
+                                   
+                      <xsd:enumeration value="ReservedCfdp11"/>
+                                   
+                      <xsd:enumeration value="NullChecksum"/>
+                                   
+                    </xsd:restriction>
+                              
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteDispositionOfIncompleteReceivedFile">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          Disposition of incomplete received file on transaction cancellation
+          -->
+                  <xsd:simpleType>
+                               
+                    <xsd:restriction base="xsd:token">
+                      <xsd:enumeration value="Discard"/>
+                                   
+                      <xsd:enumeration value="Retain"/>
+                                   
+                    </xsd:restriction>
+                              
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteCrcRequiredOnTransmission">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          This element reports if at the remote CFDP entity the CRC option is active.
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:boolean"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteMaximumFileSegmentLength">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          This element reports on the maximum file segment length (in octets) the remote CFDP entities are able to handle.
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteKeepAliveDiscrepancyLimit">
+              <!--
+       Expressed as a number of octets, or N/A.
+       -->
+              <xsd:complexType>
+                <xsd:annotation>
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[choice]]>
+                  </xsd:appinfo>
+                  <xsd:appinfo source="SemanticDefinition">
+                    <![CDATA[Expressed as a number of octets, or N/A.]]>
+                  </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:choice>
+                  <xsd:element name="keepAliveDiscrepancyLimit">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" use="required">
+                                    
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:integer">
+                            <xsd:minInclusive value="0"/>
+                            <xsd:maxInclusive value="4294967295"/>
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:attribute>
+                    </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element name="notApplicable">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" use="required">
+                                    
+                        <xsd:simpleType>
+                          <xsd:restriction base="NULL"/>
+                        </xsd:simpleType>
+                      </xsd:attribute>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:choice>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemotePositiveAckTimerExpirationLimit">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          Number of expirations.
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteNakTimerExpirationLimit">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          Number of expirations.
+          -->
+                            
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteTransactionInactivityLimit">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="CfdpTimer" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteTransmissionWindow">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          Start/End of transmission opportunity A signal produced by the operating environment.
+          -->
+                  <xsd:simpleType>
+                               
+                    <xsd:restriction base="xsd:token">
+                      <xsd:enumeration value="Open"/>
+                                   
+                      <xsd:enumeration value="Closed"/>
+                                   
+                    </xsd:restriction>
+                              
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cfdpRemoteReceptionWindow">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                  <!--
+          Start/End of reception opportunity. A signal produced by the operating environment.
+          -->
+                  <xsd:simpleType>
+                               
+                    <xsd:restriction base="xsd:token">
+                      <xsd:enumeration value="Open"/>
+                                   
+                      <xsd:enumeration value="Closed"/>
+                                   
+                    </xsd:restriction>
+                              
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+This parameter provides the configuration of the local CFDP entity:
+
+- Local Entity
+ ID
+
+- EOF-Sent.indication required				True or false.
+
+
+- EOF-Recv.indication						True
+ or false.
+
+
+- File-Segment-Recv.indication required			True or false.
+
+- Transaction-Finished.indication
+required
+ when acting as receiving entity	True or false.
+
+
+- Suspended.indication required
+ when
+acting as receiving entity	True or false.
+
+- Resumed.indication required when
+ acting
+as receiving entity	True or false.
+
+
+- Default fault handlers: For each
+ type of fault condition, a default handler
+
+
+- Routing information (Extended procedures
+only):
+ For each entity in the system, a list of all
+adjacent entities.
+
+-->
+   
+  <xsd:complexType name="CfdpLocalEntityConfigurationNamed">
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="CfdpLocalEntityConfiguration" type="CfdpLocalEntityConfiguration"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.50200.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="cfdpLocalEntityConfiguration" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CfdpLocalEntityConfiguration">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter provides the configuration of the local CFDP entity:
+
+- Local Entity ID
+
+- EOF-Sent.indication required				True or false.
+
+
+- EOF-Recv.indication						True or false.
+
+
+- File-Segment-Recv.indication required			True or false.
+
+- Transaction-Finished.indication
+required when acting as receiving entity	True or false.
+
+
+- Suspended.indication required when
+acting as receiving entity	True or false.
+
+- Resumed.indication required when acting
+as receiving entity	True or false.
+
+
+- Default fault handlers: For each type of fault condition, a default handler
+
+
+- Routing information (Extended procedures
+only): For each entity in the system, a list of all
+adjacent entities.
+]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="cfdpLocalEofSentIndicationRequired">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+       This element reports if the local CFDP entity is configured to provide an EOF-sent.indication to the FwdFileServer FR when the initial transmission of the transaction's EOF PDU has been performed. It can take on two values:
+- true: EOF-sent indication enabled;
+- false: EOF-sent indication disabled.
+       -->
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:boolean"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalRecvIndicationRequired">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+       This element reports if the local CFDP entity is configured to provide a File-Segment-Recv.indication to the RtnFileServer FR when individual file data segments have been received from the sending end. It can take on two values:
+- true: File-Segment-Recv indication enabled;
+- false: File-Segment-Recv indication disabled.
+       -->
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:boolean"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalFileSegmentRecvdIndicationRequired">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+       This element reports if the local CFDP entity is configured to provide a File-Segment-Recv.indication to the RtnFileServer FR when individual file data segments have been received from the sending end. It can take on two values:
+- true: File-Segment-Recv indication enabled;
+- false: File-Segment-Recv indication disabled.
+       -->
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:boolean"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalTransactionFinishedIndicationRequired">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+       This element reports if the local CFDP entity is configured to provide a Transaction-Finished.indication to the RtnFileServer FR when the transaction is complete. It can take on two values:
+- true: Transaction-Finished indication enabled;
+- false: 	Transaction-Finished indication disabled.
+       -->
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:boolean"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalSuspendedIndicationRequired">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+       This element reports if the local CFDP entity is configured to provide a Suspended.indication. It can take on two values:
+- true: indication enabled;
+- false: indication disabled.
+       -->
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:boolean"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalResumedIndicationRequired">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+       This boolean parameter reports if the local CFDP entity is required to provide resume indications. It can take on two values:
+- true: indication enabled;
+- false: indication disabled.
+
+       -->
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:boolean"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalPositiveAckLimitReachedFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalKeepAliveLimitFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalInvalidTransmissionModeFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalFilestoreRejectionFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalFileChecksumFailureFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalFileSizeErrorFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalNakLimitReachedFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalInactivityDetectedFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalInvalidFileStructureFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cfdpLocalCheckLimitReachedFaultHandler">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The Transaction.indication primitive shall be used to indicate the Transaction identifier
+to
+ the source CFDP user.
+-->
+  
+  <!--
+The transaction ID reported by the event value shall uniquely identify a single instance
+ of FDU
+delivery and shall contain the ID of the source CFDP entity together with
+ a sequence number
+that is specific to that entity.
+
+NOTE
+1: At any moment, any
+ given transaction ID is unique within the CFDP addressing
+domain that encompasses
+ the source CFDP entity.
+
+NOTE 2: The entity ID and transaction sequence number
+ are variable in length to
+accommodate differing mission requirements. A common parsing
+ scheme is defined
+to allow full interoperability despite differing parameter lengths.
+-->
+  <xsd:simpleType name="CfdpTransactionIndicationEvtValue">
+    <xsd:restriction base="CfdpTransactionIdType"/>
+  </xsd:simpleType>
+  
+  <!--
+The EOF-Sent.indication primitive shall be used to notify the source CFDP user of
+ the
+initial transmission of a transaction’s EOF PDU.
+-->
+  
+  <!--
+The transaction ID reported by the event value shall uniquely identify a single instance
+ of FDU
+delivery and shall contain the ID of the source CFDP entity together with
+ a sequence number
+that is specific to that entity.
+
+NOTE
+1: At any moment, any
+ given transaction ID is unique within the CFDP addressing
+domain that encompasses
+ the source CFDP entity.
+
+NOTE 2: The entity ID and transaction sequence number
+ are variable in length to
+accommodate differing mission requirements. A common parsing
+ scheme is defined
+to allow full interoperability despite differing parameter lengths.
+-->
+  <xsd:simpleType name="CfdpEofSentIndicationEvtValue">
+    <xsd:restriction base="CfdpTransactionIdType"/>
+  </xsd:simpleType>
+  
+  <!--
+The Transaction-Finished.indication primitive shall be used to indicate to the source
+or
+ destination CFDP user that the transaction is complete and that the source CFDP
+ user is
+authorized to modify or delete any retransmission buffer (file) that it
+ was sharing with the
+protocol entity to conserve persistent storage space.
+-->
+  
+  <!--
+The event value provides the following information as per CFDP blue book:
+- transaction
+ ID;
+- filestore responses;
+- condition code;
+- file status;
+- delivery code.
+-->
+   
+  <!--
+ The sequence number in the transaction ID is one that was asserted by the source CFDP entity.
+ -->
+  <xsd:complexType name="CfdpTransactionFinishedIndicationEvtValue">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The sequence number in the transaction ID is one that was asserted by the source CFDP entity.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="transactionId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpTransactionIdType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="fileStoreResponses">
+        <xsd:complexType>
+          <xsd:annotation>
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="actionCode">
+              <xsd:complexType>
+                <xsd:attribute name="value" type="CfdpActionCode" use="required"/>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="statusCode" type="CfdpStatusCode"/>
+            <xsd:element name="firstFileName">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                          
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="secondFileName">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                          
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="fileStoreMessage">
+              <xsd:complexType>
+                <xsd:attribute name="value" use="required">
+                          
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string"/>
+                  </xsd:simpleType>
+                </xsd:attribute>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="statusReport">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="conditionCode">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpConditionCodeType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="fileStatus">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="xsd:token">
+                <xsd:enumeration value="DeliveredFileDiscardedDeliberately"/>
+                         
+                <xsd:enumeration value="DeliveredFileDiscardedDueToFilestoreRejection"/>
+                         
+                <xsd:enumeration value="DeliveredFileRetainedInFilestoreSuccessfully"/>
+                         
+                <xsd:enumeration value="DeliveredFileStatusUnreported"/>
+                         
+              </xsd:restriction>
+                    
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deliveryCode">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="xsd:token">
+                <xsd:enumeration value="DataComplete"/>
+                         
+                <xsd:enumeration value="DataIncomplete"/>
+                         
+              </xsd:restriction>
+                    
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The Metadata-Recv.indication primitive shall be used to indicate to the destination
+CFDP
+ user that the metadata associated with a transaction has been received.
+-->
+  
+  <!--
+The following metadata information is provided in the event value:
+- transaction
+ ID;
+- source CFDP entity ID;
+- source file name;
+- destination file name;
+-
+ messages to user.	
+-->
+   
+  <!--
+ The sequence number in the transaction ID is one that was asserted by the source CFDP entity.
+ -->
+  <xsd:complexType name="CfdpMetadataRcvdIndicationEvtValue">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The sequence number in the transaction ID is one that was asserted by the source CFDP entity.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="transactionId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpTransactionIdType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="sourceEntityId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpEntityId" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="fileSize">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:integer">
+                <xsd:minInclusive value="0"/>
+                <xsd:maxInclusive value="18446744073709551615"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="sourceFileName">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="destinationFileName">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="messagesToUser">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The File-Segment-Recv.indication primitive shall be used to indicate, to the destination
+CFDP
+ user, the receipt of individual file data (non metadata) segments.
+-->
+  
+  <!--
+The following information is provided in the event value:
+- transaction ID;
+- offset;
+-
+ length.
+-->
+   
+  <!--
+ The sequence number in the transaction ID is one that was asserted by the source CFDP entity.
+ -->
+  <xsd:complexType name="CfdpFileSegmentRcvdIndicationEvtValue">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The sequence number in the transaction ID is one that was asserted by the source CFDP entity.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="transactionId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpTransactionIdType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="offset">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:integer">
+                <xsd:minInclusive value="0"/>
+                <xsd:maxInclusive value="18446744073709551615"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="segmentLength">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:integer">
+                <xsd:minInclusive value="0"/>
+                <xsd:maxInclusive value="65535"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="continuationState">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="xsd:token">
+                <xsd:enumeration value="FirstOctetOfRecordEndOutOfSegment"/>
+                         
+                <xsd:enumeration value="LastOctetOfRecordFirstNotInSegment"/>
+                         
+                <xsd:enumeration value="FirstAndLastOctetOfRecordInSegment"/>
+                         
+                <xsd:enumeration value="SegmentContinuesRecord"/>
+                         
+                <xsd:enumeration value="FileHasNoRecordStrucure"/>
+                         
+              </xsd:restriction>
+                    
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="lengthOfSegementMetaData">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:integer">
+                <xsd:minInclusive value="0"/>
+                <xsd:maxInclusive value="65535"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="segmentMetaData">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:hexBinary">
+                <xsd:minLength value="0"/>
+                <xsd:maxLength value="65535"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The Report.indication primitive shall be used to report to the CFDP user on the status
+ of
+a transaction.
+-->
+  
+  <!--
+The following information is provided in the event value:
+- transaction ID;
+- status
+ report.
+-->
+   
+  <!--
+ The sequence number in the transaction ID is one that was asserted by the source CFDP entity.
+ -->
+  <xsd:complexType name="CfdpReportIndicationEvtValue">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The sequence number in the transaction ID is one that was asserted by the source CFDP entity.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="transactionId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpTransactionIdType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="statusReport">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+      The format and scope of the status report parameter are specific to the implementation.
+      -->
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The Suspended.indication primitive shall be used to indicate to the CFDP user that
+ the
+transaction has been suspended.
+-->
+  
+  <!--
+The following information is provided in the event value:
+- transaction ID;
+- condition
+ code.
+
+-->
+   
+  <!--
+ The sequence number in the transaction ID is one that was asserted by the source CFDP entity.
+ -->
+  <xsd:complexType name="CfdpSuspendedIndicationEvtValue">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The sequence number in the transaction ID is one that was asserted by the source CFDP entity.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="transactionId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpTransactionIdType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="conditionCode">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpConditionCodeType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The Resumed.indication primitive shall be used to indicate to the CFDP user that
+ the
+transaction has been resumed.
+-->
+  
+  <!--
+The following information is provided in the event value:
+- transaction ID;
+- progress.
+-->
+   
+  <!--
+ The sequence number in the transaction ID is one that was asserted by the source CFDP entity.
+ -->
+  <xsd:complexType name="CfdpResumedIndicationEvtValue">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The sequence number in the transaction ID is one that was asserted by the source CFDP entity.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="transactionId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpTransactionIdType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="progress">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+      Progress indicates how far the issuing CFDP entity had progressed
+      -->
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:integer">
+                <xsd:minInclusive value="0"/>
+                <xsd:maxInclusive value="18446744073709551615"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The Fault.indication primitive shall be used to indicate to the CFDP user the occurrence
+of
+ a fault condition for which the designated fault handler was ‘Ignore’.
+-->
+  
+  <!--
+For a fault indication the following information is provided in the event value:
+-
+ transaction ID;
+- condition code;
+- progress.
+-->
+  <xsd:complexType name="CfdpFaultIndicationEvtValue">
+    <xsd:complexContent>
+      <xsd:extension base="CfdpFaultOrAbandonedIndicationType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+The Abandoned.indication primitive shall be used to indicate to the CFDP user the
+occurrence
+ of a fault condition for which the designated fault handler was ‘Abandon’.
+-->
+  
+  <!--
+For an Abandoned indication the following information is provided in the event value:
+-
+ transaction ID;
+- condition code;
+- progress.
+-->
+  <xsd:complexType name="CfdpAbandonedIndicationEvtValue">
+    <xsd:complexContent>
+      <xsd:extension base="CfdpFaultOrAbandonedIndicationType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+The EOF-Recv.indication primitive shall be used to indicate to the destination CFDP
+ user
+that the EOF PDU associated with a transaction has been received.
+-->
+  
+  <!--
+The event value reports the transaction ID for which EOF is indicated.
+-->
+  <xsd:simpleType name="CfdpEofRcvdIndicationEvtValue">
+    <xsd:restriction base="CfdpTransactionIdType"/>
+  </xsd:simpleType>
+  
+  <!--
+The Put.request primitive shall be used by the application to request delivery of
+ a file from the source filestore to a destination filestore.
+-->
+  
+  <!--
+The Put Request Qualifier provides
+- destination CFDP entity ID;
+- source file
+ name;		
+- destination file name;
+- segmentation control;
+- fault handler overrrides;
+-
+ flow label; 				
+- transmission mode;		
+- messages to user;		
+- filestore requests.
+-->
+   
+  <xsd:complexType name="CfdpPutRequestDirQual">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="destEntityId">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpEntityId" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="sourceFileName">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="destinationFileName">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="segmentationControl">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <!--
+      The segmentation control parameter
+a) shall indicate whether the file being delivered is to be segmented as an array of octets
+or as an array of variable-length records;
+b) shall be omitted when local and remote file names are omitted.
+      -->
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="xsd:token">
+                <xsd:enumeration value="RecordBoundariesRespected"/>
+                         
+                <xsd:enumeration value="RecordBoundariesNotRespected"/>
+                         
+              </xsd:restriction>
+                    
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="faultHandlerOverrides">
+           
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="faultHandlerOverridesElement">
+              <xsd:complexType>
+                <xsd:annotation>
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                  <xsd:element name="faultCondition">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" type="CfdpConditionCodeType" use="required"/>
+                    </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element name="action">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" type="CfdpFaultHandler" use="required"/>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="flowLabel">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:hexBinary"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="transmissionMode">
+        <xsd:complexType>
+          <xsd:attribute name="value" type="CfdpTransmissionModeType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="closureRequested">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="xsd:token">
+                <xsd:enumeration value="TransactionClosureNotRequested"/>
+                         
+                <xsd:enumeration value="TransactionClosureRequested"/>
+                         
+              </xsd:restriction>
+                    
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="messagesToUser">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="filestoreRequests">
+           
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="filestoreRequestsElement">
+              <xsd:complexType>
+                <xsd:annotation>
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                  <xsd:element name="action">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" type="CfdpActionCode" use="required"/>
+                    </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element name="fileNameOne">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                      </xsd:attribute>
+                    </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element minOccurs="0" name="fileNameTwo">
+                    <xsd:complexType>
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                      </xsd:attribute>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--
+The Report.request primitive shall be used to request a report on the status of a
+transaction.
+-->
+  
+  <!--
+The qualifier specifies the ID of the transaction for which a report is requested.
+-->
+  <xsd:simpleType name="CfdpReportRequestDirQual">
+    <xsd:restriction base="CfdpTransactionIdType"/>
+  </xsd:simpleType>
+  
+  <!--
+The Cancel.request primitive shall be used to request that a transaction be canceled.
+-->
+  
+  <!--
+The qualifier specifies the ID of the transaction for which cancellation is requested.
+-->
+  <xsd:simpleType name="CfdpCancelRequestDirQual">
+    <xsd:restriction base="CfdpTransactionIdType"/>
+  </xsd:simpleType>
+  
+  <!--
+The Suspend.request primitive shall be used to request that a transaction be suspended.
+-->
+  
+  <!--
+The qualifier specifies the ID of the transaction for which suspension is requested.
+-->
+  <xsd:simpleType name="CfdpSuspendRequestDirQual">
+    <xsd:restriction base="CfdpTransactionIdType"/>
+  </xsd:simpleType>
+  
+  <!--
+The Resume.request primitive shall be used to request that a suspended transaction
+ be
+resumed.
+-->
+  
+  <!--
+The qualifier specifies the ID of the Transaction resuming is requested.
+-->
+  <xsd:simpleType name="CfdpResumeRequestDirQual">
+    <xsd:restriction base="CfdpTransactionIdType"/>
+  </xsd:simpleType>
+  
+</xsd:schema>

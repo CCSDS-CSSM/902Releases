@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+This FR accepts AOS frames without FECF belonging to one Master Channel.
+It provides
+ all AOS frames for one physical channel which optionally contain FECFs.
+-->
+  <xsd:element name="AosMcMuxElement" substitutionGroup="functionalResourceInstance" type="AosMcMuxType"/>
+  <xsd:complexType name="AosMcMuxType">
+    <xsd:complexContent>
+      <xsd:extension base="FunctionalResourceInstance">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="aosMcMuxContr" type="AosMcMuxContrNamed"/>
+          <xsd:element minOccurs="0" name="aosMcMuxPresenceOfFecf" type="AosMcMuxPresenceOfFecfNamed"/>
+          <xsd:element minOccurs="0" name="aosMcMuxPresenceOfFhec" type="AosMcMuxPresenceOfFhecNamed"/>
+        </xsd:all>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40200" name="frTypeOid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+   
+  <xsd:element name="aosMcMuxContr" substitutionGroup="frmParameter" type="AosMcMuxContrNamed"/>
+  <xsd:element name="aosMcMuxPresenceOfFecf" substitutionGroup="frmParameter" type="AosMcMuxPresenceOfFecfNamed"/>
+  <xsd:element name="aosMcMuxPresenceOfFhec" substitutionGroup="frmParameter" type="AosMcMuxPresenceOfFhecNamed"/>
+  
+  <!--
+This enumerated parameter reports the AosMcMux FR resource status and can take on
+ four values:
+- 'configured':  the associated equipment has been configured
+- 'operational':
+  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+-
+ 'halted':  the associated equipment has been taken out of service.
+-->
+  <xsd:complexType name="AosMcMuxResourceStatNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the AosMcMux FR resource status and can take on four values:
+- 'configured':  the associated equipment has been configured
+- 'operational':  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+- 'halted':  the associated equipment has been taken out of service.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="AosMcMuxResourceStat" use="required"/>
+        <xsd:attribute fixed="aosMcMuxResourceStat" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40200.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="AosMcMuxResourceStat">
+    <xsd:restriction base="ResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports how the AOS Master Channels are multiplexed
+ onto the physical channel. 
+- If aosMcMuxContr = ‘fifo’, no further specification
+ applies. 
+- If aosMcMuxContr = 'absolutePriority', then the associated configuration
+ value is a sequence of the SCIDs used on the transmission link where the first SCID
+ in the sequence has the highest priority, the second has the second-highest priority
+ etc. Consequently the sequence has as many elements as Spacecraft Identifiers are
+ permitted on the given physical channel. 
+- If aosMcMuxContr = 'pollingVector',
+ then the associated sequence consists of up to 768 elements where each element is
+ a SCID. 
+-->
+   
+  <xsd:complexType name="AosMcMuxContrNamed">
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:sequence>
+          <xsd:element name="AosMcMuxContr" type="AosMcMuxContr"/>
+        </xsd:sequence>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40200.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+        <xsd:attribute fixed="aosMcMuxContr" name="classifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AosMcMuxContr">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports how the AOS Master Channels are multiplexed onto the physical channel. 
+- If aosMcMuxContr = ‘fifo’, no further specification applies. 
+- If aosMcMuxContr = 'absolutePriority', then the associated configuration value is a sequence of the SCIDs used on the transmission link where the first SCID in the sequence has the highest priority, the second has the second-highest priority etc. Consequently the sequence has as many elements as Spacecraft Identifiers are permitted on the given physical channel. 
+- If aosMcMuxContr = 'pollingVector', then the associated sequence consists of up to 768 elements where each element is a SCID. ]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="fifo">
+        <xsd:complexType>
+          <xsd:attribute name="value" use="required">
+                   
+            <xsd:simpleType>
+              <xsd:restriction base="NULL"/>
+            </xsd:simpleType>
+          </xsd:attribute>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="absolutePriority">
+            
+        <xsd:complexType>
+          <xsd:sequence maxOccurs="256" minOccurs="1">
+            <xsd:element name="absolutePriorityElement">
+                     
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:minInclusive value="0"/>
+                  <xsd:maxInclusive value="255"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="pollingVector">
+            
+        <xsd:complexType>
+          <xsd:sequence maxOccurs="768" minOccurs="1">
+            <xsd:element name="pollingVectorElement">
+                     
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:minInclusive value="0"/>
+                  <xsd:maxInclusive value="255"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <!--
+This enumerated parameter configures and reports if the FR inserts the Frame Error
+ Control Field into each AOS frame. This parameter can take on two values:
+- 'present';
+-
+ 'absent'.
+-->
+   
+  <xsd:complexType name="AosMcMuxPresenceOfFecfNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports if the FR inserts the Frame Error Control Field into each AOS frame. This parameter can take on two values:
+- 'present';
+- 'absent'.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="AosMcMuxPresenceOfFecf" use="required"/>
+        <xsd:attribute fixed="aosMcMuxPresenceOfFecf" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40200.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="AosMcMuxPresenceOfFecf">
+      
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="Present"/>
+          
+      <xsd:enumeration value="Absent"/>
+          
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter configures and reports if the FR inserts the Frame Header
+ Error Control field into each AOS frame. This parameter can take on two values:
+-
+ 'present';
+- 'absent'.
+-->
+   
+  <xsd:complexType name="AosMcMuxPresenceOfFhecNamed">
+    <xsd:annotation>
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports if the FR inserts the Frame Header Error Control field into each AOS frame. This parameter can take on two values:
+- 'present';
+- 'absent'.]]>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ParameterBaseType">
+        <xsd:attribute name="value" type="AosMcMuxPresenceOfFhec" use="required"/>
+        <xsd:attribute fixed="aosMcMuxPresenceOfFhec" name="classifier" type="xsd:string"/>
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40200.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="AosMcMuxPresenceOfFhec">
+      
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="Present"/>
+          
+      <xsd:enumeration value="Absent"/>
+          
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event notifies any change of the aosMcMuxResourceStat parameter value.
+-->
+  
+  <!--
+The event value reports the aosMcMuxResourceStat parameter value that applies since
+ the notified aosMcMuxResourceStatChange event has occurred. 
+-->
+  <xsd:simpleType name="AosMcMuxResourceStatEvtValue">
+    <xsd:restriction base="AosMcMuxResourceStat"/>
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the aosMcMuxOperatorNotify event are classified in
+ terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering and searching
+ for specific messages, a unique numerical identifier is assigned to each message
+ string. The messages are free text such that equipment specific issues can be reported.
+ 
+-->
+  <xsd:complexType name="AosMcMuxOperatorNotifyMessage">
+    <xsd:complexContent>
+      <xsd:extension base="OperatorNotifyMessage"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the AosMcMux FR
+ type.  
+
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the AosMcMux
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set. 
+-->
+  <xsd:complexType name="AosMcMuxContrParamIdsAndValuesDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="DirectiveQualifier"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!--
+When receiving this directive, the FR discards all currently buffered data units
+ that have been received through the transfer service instance identified in the
+ directive qualifier.
+-->
+  
+  <!--
+The qualifier specifies the service-instance-id of the CSTS for which the data units
+ are to discarded when the aosMcMuxDiscardDataUnits directive is invoked.
+-->
+  <xsd:complexType name="AosMcMuxDiscardDataUnitsDirQual">
+    <xsd:complexContent>
+      <xsd:extension base="CstsSvcInstanceId"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+</xsd:schema>
