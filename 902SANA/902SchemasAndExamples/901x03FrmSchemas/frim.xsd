@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+   
+  <xsd:include schemaLocation="Antenna.xsd"/>
+   
+  <xsd:include schemaLocation="Ccsds401SpaceLinkCarrierXmit.xsd"/>
+   
+  <xsd:include schemaLocation="RngXmit.xsd"/>
+   
+  <xsd:include schemaLocation="Ccsds401SpaceLinkCarrierRcpt.xsd"/>
+   
+  <xsd:include schemaLocation="RngAndDopplerExtraction.xsd"/>
+   
+  <xsd:include schemaLocation="DdorRawDataCollection.xsd"/>
+   
+  <xsd:include schemaLocation="OpenLoopDataCollection.xsd"/>
+   
+  <xsd:include schemaLocation="TcPlopSyncAndChnlEncode.xsd"/>
+   
+  <xsd:include schemaLocation="TmSyncAndChnlEncode.xsd"/>
+   
+  <xsd:include schemaLocation="TmSyncAndChnlDecode.xsd"/>
+   
+  <xsd:include schemaLocation="TcMcMux.xsd"/>
+   
+  <xsd:include schemaLocation="TcVcMux.xsd"/>
+   
+  <xsd:include schemaLocation="AosMcMux.xsd"/>
+   
+  <xsd:include schemaLocation="AosVcMux.xsd"/>
+   
+  <xsd:include schemaLocation="VlfUslpMcMux.xsd"/>
+   
+  <xsd:include schemaLocation="VlfUslpVcMux.xsd"/>
+   
+  <xsd:include schemaLocation="FlfUslpMcMux.xsd"/>
+   
+  <xsd:include schemaLocation="FlfUslpVcMux.xsd"/>
+   
+  <xsd:include schemaLocation="TmAosMcDemux.xsd"/>
+   
+  <xsd:include schemaLocation="TmAosVcDemux.xsd"/>
+   
+  <xsd:include schemaLocation="FlfUslpMcDemux.xsd"/>
+   
+  <xsd:include schemaLocation="FlfUslpVcDemux.xsd"/>
+   
+  <xsd:include schemaLocation="FrameDataSink.xsd"/>
+   
+  <xsd:include schemaLocation="CfdpEntity.xsd"/>
+   
+  <xsd:include schemaLocation="TdmSegmentGen.xsd"/>
+   
+  <xsd:include schemaLocation="NonValRmDataCollection.xsd"/>
+   
+  <xsd:include schemaLocation="OfflineFrameBuffer.xsd"/>
+   
+  <xsd:include schemaLocation="TdmRecordingBuffer.xsd"/>
+   
+  <xsd:include schemaLocation="NonValRmDataStore.xsd"/>
+   
+  <xsd:include schemaLocation="ValRmDataStore.xsd"/>
+   
+  <xsd:include schemaLocation="DdorRawDataStore.xsd"/>
+   
+  <xsd:include schemaLocation="FcltuTsProvider.xsd"/>
+   
+  <xsd:include schemaLocation="FwdFrameCstsProvider.xsd"/>
+   
+  <xsd:include schemaLocation="RafTsProvider.xsd"/>
+   
+  <xsd:include schemaLocation="RcfTsProvider.xsd"/>
+   
+  <xsd:include schemaLocation="RocfTsProvider.xsd"/>
+   
+  <xsd:include schemaLocation="TdCstsProvider.xsd"/>
+   
+  <xsd:include schemaLocation="ReturnCfdpPduCstsProvider.xsd"/>
+   
+  <xsd:include schemaLocation="MdCstsProvider.xsd"/>
+   
+</xsd:schema>

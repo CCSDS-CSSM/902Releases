@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servicePkgEntity xmlns="urn:ccsds:schema:cssm"
+				  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				  xmlns:xmi="http://www.omg.org/XMI"
+   				  xsi:schemaLocation="urn:ccsds:schema:cssm 902x04r01-SPDF.xsd">
+ 			 
+	<servicePkgHeader originatingOrganization="DLR"
+					  generationTime="2025-224T21:33:00.000Z"
+					  version="1"
+ 					  servicePkgUsage="INTERFACE-TEST"
+         			  purpose="This may be used to describe the purpose of the request."
+					  description="This may be used to provide a description of the request."
+					  securityClassification="Unclassified"/>
+
+	<servicePkgBody spaceUserNode="CUL"
+					serviceReqRef="CubeL-Service-Request-0001">
+					<servicePkg servicePackageID="CubeL-Service-Request-0001-Service-Package-0001"
+								beginningOfTrack="2026-010T00:00:00Z"
+								endOfTrack="2026-010T00:10:00Z"
+								servicePackageStatus="Scheduled">
+    	                    	<apertureReference siteRef="Almaria" apertureRef="FOG1"/>
+	                        	<onlineSrvPkgType1>
+        	                	   <onlineSrvPkgType1Details configurationProfileRef="Cubel_DTN_ConfigProfile_for_Almaria">
+                    	    	   </onlineSrvPkgType1Details>
+	                        	</onlineSrvPkgType1>
+					</servicePkg>
+	</servicePkgBody>
+
+
+</servicePkgEntity>

@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The TcSyncAndChannelDecoding FR decodes and extracts varible-length transfer frames
+ from a received physical channel symbol stream.
+-->
+   
+  <xsd:element name="TcSyncAndChnlDecodeElement" substitutionGroup="functionalResourceInstance" type="TcSyncAndChnlDecodeType"/>
+    
+  <xsd:complexType name="TcSyncAndChnlDecodeType">
+       
+    <xsd:complexContent>
+          
+      <xsd:extension base="FunctionalResourceInstance">
+             
+        <xsd:all>
+                
+          <xsd:element minOccurs="0" name="tcSyncDecCodingScheme" type="TcSyncDecCodingSchemeNamed"/>
+                
+          <xsd:element minOccurs="0" name="tcSyncDecSdlp" type="TcSyncDecSdlpNamed"/>
+               
+        </xsd:all>
+             
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30400" name="frTypeOid" type="ObjectIdentifier"/>
+            
+      </xsd:extension>
+         
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:element name="tcSyncDecCodingScheme" substitutionGroup="frmParameter" type="TcSyncDecCodingSchemeNamed"/>
+   
+  <xsd:element name="tcSyncDecSdlp" substitutionGroup="frmParameter" type="TcSyncDecSdlpNamed"/>
+  
+  <!--
+This enumerated parameter reports the TcSyncAndChnlDecode FR resource status and
+ can take on four values:
+- 'configured':  the associated equipment has been configured;
+-
+ 'operational':  the associated equipment is active;
+- 'interrupted':  a failure
+ has been detected;
+- 'halted':  the associated equipment has been taken out of
+ service.
+-->
+   
+  <xsd:complexType name="TcSyncDecResourceStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the TcSyncAndChnlDecode FR resource status and can take on four values:
+- 'configured':  the associated equipment has been configured;
+- 'operational':  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+- 'halted':  the associated equipment has been taken out of service.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TcSyncDecResourceStat" use="required"/>
+            
+        <xsd:attribute fixed="tcSyncDecResourceStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30400.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TcSyncDecResourceStat">
+      
+    <xsd:restriction base="ResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the coding scheme that has been applied to
+ the frames of the received physical channel.
+-->
+   
+ 
+  <xsd:complexType name="TcSyncDecCodingSchemeNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="TcSyncDecCodingScheme" type="TcSyncDecCodingScheme"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30400.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="tcSyncDecCodingScheme" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="TcSyncDecCodingScheme">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the coding scheme that has been applied to the frames of the received physical channel.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="bchEncoding">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" type="Randomization" use="required"/>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="ldpcEncoding">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="randomizationCodingSequence">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+                  <xsd:simpleType>
+                              
+          
+                    <xsd:restriction base="xsd:token">
+                                   
+                      <xsd:enumeration value="randomizationFirst"/>
+                                   
+                      <xsd:enumeration value="codingFirst"/>
+                                  
+          
+                    </xsd:restriction>
+                             
+         
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="ldpcCoding">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[choice]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:choice>
+                          
+                  <xsd:element name="code1">
+                            
+                    <xsd:complexType>
+                                
+                      <xsd:annotation>
+                                   
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[sequence]]>
+                        </xsd:appinfo>
+                                  
+                      </xsd:annotation>
+                               
+                      <xsd:sequence>
+                                  
+                        <xsd:element name="n">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                                           
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                               
+                                  <xsd:pattern value="128"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="k">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                                           
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                               
+                                  <xsd:pattern value="64"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="tailSequence">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                                           
+                              <xsd:simpleType>
+                                              
+              
+                                <xsd:restriction base="xsd:token">
+                                                   
+                                  <xsd:enumeration value="used"/>
+                                                   
+                                  <xsd:enumeration value="notUsed"/>
+                                                  
+              
+                                </xsd:restriction>
+                                             
+             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                 
+                      </xsd:sequence>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="code2">
+                            
+                    <xsd:complexType>
+                                
+                      <xsd:annotation>
+                                   
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[sequence]]>
+                        </xsd:appinfo>
+                                  
+                      </xsd:annotation>
+                               
+                      <xsd:sequence>
+                                  
+                        <xsd:element name="n">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                                           
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                               
+                                  <xsd:pattern value="512"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="k">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                                           
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                               
+                                  <xsd:pattern value="256"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                 
+                      </xsd:sequence>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:choice>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+TcSyncAndChannelDecoding FR to locate the frame length field in the decoded frame
+ for purposes of frame delimiting and fill data removal, and frame validation. The
+ valid values are:
+- tc       (0): the Telecommand Space Data link Protocol; or
+-
+ uslp   (1): the variable-length-frame form of the Unified Space Data link Protocol.
+-->
+   
+ 
+  <xsd:complexType name="TcSyncDecSdlpNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[TcSyncAndChannelDecoding FR to locate the frame length field in the decoded frame for purposes of frame delimiting and fill data removal, and frame validation. The valid values are:
+- tc       (0): the Telecommand Space Data link Protocol; or
+- uslp   (1): the variable-length-frame form of the Unified Space Data link Protocol.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TcSyncDecSdlp" use="required"/>
+            
+        <xsd:attribute fixed="tcSyncDecSdlp" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30400.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TcSyncDecSdlp">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="tc"/>
+           
+      <xsd:enumeration value="uslp"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This event notifies any change of the tcSyncDecResourceStat parameter value.
+-->
+  
+  <!--
+The event value reports the tcSyncDecResourceStat parameter value that applies since
+ the notified tcSyncDecResourceStatChange event has occurred.
+-->
+   
+  <xsd:simpleType name="TcSyncDecResourceStatChangeEvtValue">
+      
+    <xsd:restriction base="TcSyncDecResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the tcSyncDecOperatorNotify event are classified
+ in terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering and
+ searching for specific messages, a unique numerical identifier is assigned to each
+ message string. The messages are free text such that equipment specific issues can
+ be reported. 
+-->
+   
+  <xsd:complexType name="TcSyncDecOperatorNotifyMessage">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="OperatorNotifyMessage">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the TcSyncAndChnlDecode
+ FR type. 
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the TcSyncAndChnlDecode
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+
+-->
+   
+  <xsd:complexType name="TcSyncDecSetContrParamIdsAndValuesDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="DirectiveQualifier">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+</xsd:schema>

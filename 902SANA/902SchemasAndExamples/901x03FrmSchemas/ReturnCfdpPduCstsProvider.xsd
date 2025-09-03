@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+This FR defines the Return CCSDS File Delivery Protocol (CFDP) Protocol Data Unit
+ (PDU) Cross Support Transfer Service (RCFDP-CSTS) provider. The RCFDP-CSTS 922.27
+  is an experimental cross-support transfer service that allows the reception of
+ CFDP PDUs, in either full or reduced mode, from a RCDFP-CSTS Provider to a RCFDP-CSTS
+ User.
+-->
+   
+  <xsd:element name="ReturnCfdpPduCstsProviderElement" substitutionGroup="functionalResourceInstance" type="ReturnCfdpPduCstsProviderType"/>
+    
+  <xsd:complexType name="ReturnCfdpPduCstsProviderType">
+       
+    <xsd:complexContent>
+          
+      <xsd:extension base="FunctionalResourceInstance">
+             
+        <xsd:all>
+                
+          <xsd:element minOccurs="0" name="rcfdpSvcInstanceId" type="RcfdpSvcInstanceIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpInitiatorId" type="RcfdpInitiatorIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpResponderId" type="RcfdpResponderIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpResponderPortId" type="RcfdpResponderPortIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpResponseTimeout" type="RcfdpResponseTimeoutNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpDeliveryMode" type="RcfdpDeliveryModeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpRtnBufferSize" type="RcfdpRtnBufferSizeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpDeliveryLatencyLimit" type="RcfdpDeliveryLatencyLimitNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpOperationMode" type="RcfdpOperationModeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpDestEntities" type="RcfdpDestEntitiesNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpMaxAggregatedSize" type="RcfdpMaxAggregatedSizeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rcfdpMaxAggregatedTimeout" type="RcfdpMaxAggregatedTimeoutNamed"/>
+               
+        </xsd:all>
+             
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900" name="frTypeOid" type="ObjectIdentifier"/>
+            
+      </xsd:extension>
+         
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:element name="rcfdpSvcInstanceId" substitutionGroup="frmParameter" type="RcfdpSvcInstanceIdNamed"/>
+   
+  <xsd:element name="rcfdpInitiatorId" substitutionGroup="frmParameter" type="RcfdpInitiatorIdNamed"/>
+   
+  <xsd:element name="rcfdpResponderId" substitutionGroup="frmParameter" type="RcfdpResponderIdNamed"/>
+   
+  <xsd:element name="rcfdpResponderPortId" substitutionGroup="frmParameter" type="RcfdpResponderPortIdNamed"/>
+   
+  <xsd:element name="rcfdpResponseTimeout" substitutionGroup="frmParameter" type="RcfdpResponseTimeoutNamed"/>
+   
+  <xsd:element name="rcfdpDeliveryMode" substitutionGroup="frmParameter" type="RcfdpDeliveryModeNamed"/>
+   
+  <xsd:element name="rcfdpRtnBufferSize" substitutionGroup="frmParameter" type="RcfdpRtnBufferSizeNamed"/>
+   
+  <xsd:element name="rcfdpDeliveryLatencyLimit" substitutionGroup="frmParameter" type="RcfdpDeliveryLatencyLimitNamed"/>
+   
+  <xsd:element name="rcfdpOperationMode" substitutionGroup="frmParameter" type="RcfdpOperationModeNamed"/>
+   
+  <xsd:element name="rcfdpDestEntities" substitutionGroup="frmParameter" type="RcfdpDestEntitiesNamed"/>
+   
+  <xsd:element name="rcfdpMaxAggregatedSize" substitutionGroup="frmParameter" type="RcfdpMaxAggregatedSizeNamed"/>
+   
+  <xsd:element name="rcfdpMaxAggregatedTimeout" substitutionGroup="frmParameter" type="RcfdpMaxAggregatedTimeoutNamed"/>
+  
+  <!--
+This parameter reports the production status of the RCFDP provider service instance.
+ This parameter can take on one of four values:
+ - 'configured':  all production
+ functions needed to support this service instance have been configured;
+ - ‘operational’:
+  all production functions have been enabled to process data for this service instance;
+
+ - ‘interrupted’:  one or more production functions have been stopped because of
+ an error condition that may be temporary;
+ - ‘halted’:  one or more production
+ functions have been stopped by management action.
+
+-->
+   
+  <xsd:complexType name="RcfdpProdStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the production status of the RCFDP provider service instance. This parameter can take on one of four values:
+ - 'configured':  all production functions needed to support this service instance have been configured;
+ - ‘operational’:  all production functions have been enabled to process data for this service instance;
+ - ‘interrupted’:  one or more production functions have been stopped because of an error condition that may be temporary;
+ - ‘halted’:  one or more production functions have been stopped by management action.
+]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpProdStat" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpProdStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpProdStat">
+      
+    <xsd:restriction base="ProdStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the service instance identifier used in establishing
+ the association between the user and provider of the RCFDP provider service instance.
+ 
+-->
+   
+  <xsd:complexType name="RcfdpSvcInstanceIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the service instance identifier used in establishing the association between the user and provider of the RCFDP provider service instance. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RcfdpSvcInstanceId" type="RcfdpSvcInstanceId"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rcfdpSvcInstanceId" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:complexType name="RcfdpSvcInstanceId">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="CstsSvcInstanceId">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:complexType name="RcfdpSvcInstanceStateNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[null]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpSvcInstanceState" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpSvcInstanceState" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpSvcInstanceState">
+      
+    <xsd:restriction base="StatefulCstsInstanceState"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the identifier of the peer application, i.e., the authority
+ on whose behalf the CSTS application entity is initiating an association with the
+ RCFDP service provider. The provider performs access control based on this parameter.
+ It may also serve as key to further security relevant information such as the authentication
+ level and method and the related password.
+
+Given the security relevance of this
+ parameter, specific mechanisms for setting this parameter when the FR instance is
+ created and for the transfer of associated security relevant data might be specified
+ in a bilateral agreement between service user and service provider. Also the accessibility
+ by an RCFDP-CSTS instance may be restricted.
+-->
+   
+  <xsd:complexType name="RcfdpInitiatorIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the identifier of the peer application, i.e., the authority on whose behalf the CSTS application entity is initiating an association with the RCFDP service provider. The provider performs access control based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. Also the accessibility by an RCFDP-CSTS instance may be restricted.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpInitiatorId" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpInitiatorId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpInitiatorId">
+      
+    <xsd:restriction base="AuthorityIdentifier"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the identifier of the RCFDP service application. The user
+ performs access conrol based on this parameter. It may also serve as key to further
+ security relevant information such as the authentication level and method and the
+ related password.
+
+Given the security relevance of this parameter, specific mechanisms
+ for setting this parameter when the FR instance is created and for the transfer
+ of associated security relevant data might be specified in a bilateral agreement
+ between service user and service provider. Also the accessibility by an RCFDP instance
+ may be restricted.
+-->
+   
+  <xsd:complexType name="RcfdpResponderIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the identifier of the RCFDP service application. The user performs access conrol based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. Also the accessibility by an RCFDP instance may be restricted.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpResponderId" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpResponderId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.5.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpResponderId">
+      
+    <xsd:restriction base="AuthorityIdentifier"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the logical name of the port used by the underlying
+ communication service to respond to invocation on this service instance. The logical
+ name is translated internally by the service provider to a port identifier that
+ is appropriate to the underlying communication service.
+
+This parameter configures
+ and reports the port identifier to be used by the user to connect to the service
+ provider. However, the parameter value is only a logical name that needs to be translated
+ into the technology-specific addressing information required to establish a connection
+ with the specific port of the responding CSTS application entity. As such this parameter
+ is irrelevant for the service provider, but it may be needed for certain kind of
+ gateways between service user and service provider application.
+
+
+-->
+   
+  <xsd:complexType name="RcfdpResponderPortIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the logical name of the port used by the underlying communication service to respond to invocation on this service instance. The logical name is translated internally by the service provider to a port identifier that is appropriate to the underlying communication service.
+
+This parameter configures and reports the port identifier to be used by the user to connect to the service provider. However, the parameter value is only a logical name that needs to be translated into the technology-specific addressing information required to establish a connection with the specific port of the responding CSTS application entity. As such this parameter is irrelevant for the service provider, but it may be needed for certain kind of gateways between service user and service provider application.
+
+]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpResponderPortId" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpResponderPortId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.6.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpResponderPortId">
+      
+    <xsd:restriction base="ResponderPortId"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the setting of the maximum time period in seconds
+ permitted from when a confirmed RCFDP operation is invoked until the return has
+ to be received by the invoker.
+
+If a response is not received within that time
+ period, the invoker may invoke the PEER-ABORT operation.
+-->
+   
+  <xsd:complexType name="RcfdpResponseTimeoutNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the setting of the maximum time period in seconds permitted from when a confirmed RCFDP operation is invoked until the return has to be received by the invoker.
+
+If a response is not received within that time period, the invoker may invoke the PEER-ABORT operation.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpResponseTimeout" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpResponseTimeout" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.7.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpResponseTimeout">
+      
+    <xsd:restriction base="SvcResponseTimeout"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the data delivery mode of the CFDP PDU DELIVERY
+ PROCEDURE  procedure instance.	
+-->
+   
+ 
+  <xsd:complexType name="RcfdpDeliveryModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the data delivery mode of the CFDP PDU DELIVERY PROCEDURE  procedure instance.	]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpDeliveryMode" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpDeliveryMode" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.8.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpDeliveryMode">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="realtime"/>
+           
+      <xsd:enumeration value="complete"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the return buffer size (in TRANSFER-DATA and/or
+ NOTIFY invocations) to be used by the CFDP PDU DELIVERY PROCEDURE procedure instance.	
+-->
+   
+  <xsd:complexType name="RcfdpRtnBufferSizeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the return buffer size (in TRANSFER-DATA and/or NOTIFY invocations) to be used by the CFDP PDU DELIVERY PROCEDURE procedure instance.	]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpRtnBufferSize" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpRtnBufferSize" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.9.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpRtnBufferSize">
+      
+    <xsd:restriction base="LongIntPos"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the delivery latency limit (in seconds) to
+ be used by the CFDP PDU DELIVERY PROCEDURE procedure instance.	
+-->
+   
+  <xsd:complexType name="RcfdpDeliveryLatencyLimitNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the delivery latency limit (in seconds) to be used by the CFDP PDU DELIVERY PROCEDURE procedure instance.	]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpDeliveryLatencyLimit" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpDeliveryLatencyLimit" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.10.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpDeliveryLatencyLimit">
+      
+    <xsd:restriction base="ShortIntPos"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures how the CFDP File Data PDUs are delivered. In full mode
+ they are delivered with the file data, in reduced mode the file data is eliminated
+ from the CFDP File Data PDU.
+-->
+   
+ 
+  <xsd:complexType name="RcfdpOperationModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures how the CFDP File Data PDUs are delivered. In full mode they are delivered with the file data, in reduced mode the file data is eliminated from the CFDP File Data PDU.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpOperationMode" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpOperationMode" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.11.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RcfdpOperationMode">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="fullCfdpData"/>
+           
+      <xsd:enumeration value="reducedCfdpData"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter allows definition of a filter based on CFDP Destination IDs. Only
+ if the CFDP destination ID of a CFDP PDU matches an item in cfdp-destination-ids,
+ it will be sent. For an empty rcfdpDestEntities (allDestEntities), all CFDP PDUs
+ are sent.
+-->
+   
+ 
+  <xsd:complexType name="RcfdpDestEntitiesNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RcfdpDestEntities" type="RcfdpDestEntities"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.12.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rcfdpDestEntities" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RcfdpDestEntities">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter allows definition of a filter based on CFDP Destination IDs. Only if the CFDP destination ID of a CFDP PDU matches an item in cfdp-destination-ids, it will be sent. For an empty rcfdpDestEntities (allDestEntities), all CFDP PDUs are sent.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="allDestEntities">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="NULL"/>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="forwardedDestEntities">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="forwardedDestEntitiesElement">
+                     
+       
+              <xsd:simpleType>
+                       
+                <xsd:restriction base="xsd:integer"/>
+                       
+              </xsd:simpleType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and defines the maximum size of an aggregate (sequence
+ of octets) of CFDP PDUs
+-->
+   
+ 
+  <xsd:complexType name="RcfdpMaxAggregatedSizeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and defines the maximum size of an aggregate (sequence of octets) of CFDP PDUs]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpMaxAggregatedSize" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpMaxAggregatedSize" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.13.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RcfdpMaxAggregatedSize">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter shall be configured to define the maximum time the provider will wait
+ to reach the maximum size, before sending an aggregate of lower size. The unit is
+ seconds.	
+-->
+   
+ 
+  <xsd:complexType name="RcfdpMaxAggregatedTimeoutNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter shall be configured to define the maximum time the provider will wait to reach the maximum size, before sending an aggregate of lower size. The unit is seconds.	]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RcfdpMaxAggregatedTimeout" use="required"/>
+            
+        <xsd:attribute fixed="rcfdpMaxAggregatedTimeout" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80900.1.14.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RcfdpMaxAggregatedTimeout">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event notifies any change of rcfdpProdStat parameter value.
+
+-->
+  
+  <!--
+The event value reports the rcfdpProdStat value that applies since the notified rcfdpProdStatChange
+ event has occurred.
+
+-->
+   
+  <xsd:simpleType name="RcfdpProdStatChangeEvtValue">
+      
+    <xsd:restriction base="RcfdpProdStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event triggers when a one or more parameters controlling the configuration of
+ service production have been changed.
+
+This event carries no additional information.
+-->
+  
+  <!--
+The value of this event is 'empty'.
+-->
+   
+  <xsd:simpleType name="RcfdpProdConfgurationChangeEvtValue">
+      
+    <xsd:restriction base="ProdConfigurationChangeEvtValue"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This directive permits setting of the controllable parameters of this FR. 
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the FwdFrameCstsProvider
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+-->
+   
+  <xsd:complexType name="RcfdpContrParamIdsAndValuesDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="DirectiveQualifier">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+</xsd:schema>

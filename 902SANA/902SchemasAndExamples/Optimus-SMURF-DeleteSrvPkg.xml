@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srvMgtUtilReq xmlns="urn:ccsds:schema:cssm"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+   					 xsi:schemaLocation="urn:ccsds:schema:cssm 902x09r01-SMURF.xsd">
+ 			 
+	<srvMgtUtilReqHeader originatingOrganization="DLR"
+						 generationTime="2025-224T22:14:00.000Z"
+						 version="1"
+						 utilizationReqStatus="TEST"
+						 purpose="This may be used to describe the purpose of the request."
+						 description="This may be used to provide a description of the request."
+						 securityClassification="Unclassified"/>
+
+	<deleteSrvPkg requestID="Request-123460"
+	              serviceReqRef="CubeL-Service-Request-0001"
+                  spaceUserNode="CUL"
+                  servicePackageRef="CUL-Service-Request-0001-Service-Package-0001"
+                  comment="This may be used to provide a comment about the service package request."
+                  serviceAgreementRef="CubeL_ServiceAgreement_Issue1Rev5"/>
+	
+</srvMgtUtilReq>

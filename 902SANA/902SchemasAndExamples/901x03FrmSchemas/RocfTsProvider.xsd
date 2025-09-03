@@ -1,0 +1,2378 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The RocfTsProvider accepts as input the frames provided by the FlfSyncAndDecode and
+ the OfflineFrameBuffer FRs. Furthermore, the RocfTsProvider FR type is specified
+ to accept variable length frames delivered by the TcPlopSyncChnlDecode FR. It delivers
+ the Operational Control Fields (OCF) extracted from the frames of the selected Master
+ or Virtual Channel provided the OCFs meet the other selection criteria set by the
+ ROCF service user.
+-->
+   
+  <xsd:element name="RocfTsProviderElement" substitutionGroup="functionalResourceInstance" type="RocfTsProviderType"/>
+    
+  <xsd:complexType name="RocfTsProviderType">
+       
+    <xsd:complexContent>
+          
+      <xsd:extension base="FunctionalResourceInstance">
+             
+        <xsd:all>
+                
+          <xsd:element minOccurs="0" name="rocfSvcInstanceId" type="RocfSvcInstanceIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfInitiatorId" type="RocfInitiatorIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfResponderId" type="RocfResponderIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfResponderPortId" type="RocfResponderPortIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfRtnTimeoutPeriod" type="RocfRtnTimeoutPeriodNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfDeliveryMode" type="RocfDeliveryModeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfLatencyLimit" type="RocfLatencyLimitNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfTransferBufferSize" type="RocfTransferBufferSizeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfPermittedGvcidSet" type="RocfPermittedGvcidSetNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfPermittedContrWordTypeSet" type="RocfPermittedContrWordTypeSetNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfPermittedTcVcidSet" type="RocfPermittedTcVcidSetNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfPermittedUpdateMode" type="RocfPermittedUpdateModeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rocfMinReportingCycle" type="RocfMinReportingCycleNamed"/>
+               
+        </xsd:all>
+             
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600" name="frTypeOid" type="ObjectIdentifier"/>
+            
+      </xsd:extension>
+         
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:element name="rocfSvcInstanceId" substitutionGroup="frmParameter" type="RocfSvcInstanceIdNamed"/>
+   
+  <xsd:element name="rocfInitiatorId" substitutionGroup="frmParameter" type="RocfInitiatorIdNamed"/>
+   
+  <xsd:element name="rocfResponderId" substitutionGroup="frmParameter" type="RocfResponderIdNamed"/>
+   
+  <xsd:element name="rocfResponderPortId" substitutionGroup="frmParameter" type="RocfResponderPortIdNamed"/>
+   
+  <xsd:element name="rocfRtnTimeoutPeriod" substitutionGroup="frmParameter" type="RocfRtnTimeoutPeriodNamed"/>
+   
+  <xsd:element name="rocfDeliveryMode" substitutionGroup="frmParameter" type="RocfDeliveryModeNamed"/>
+   
+  <xsd:element name="rocfLatencyLimit" substitutionGroup="frmParameter" type="RocfLatencyLimitNamed"/>
+   
+  <xsd:element name="rocfTransferBufferSize" substitutionGroup="frmParameter" type="RocfTransferBufferSizeNamed"/>
+   
+  <xsd:element name="rocfPermittedGvcidSet" substitutionGroup="frmParameter" type="RocfPermittedGvcidSetNamed"/>
+   
+  <xsd:element name="rocfPermittedContrWordTypeSet" substitutionGroup="frmParameter" type="RocfPermittedContrWordTypeSetNamed"/>
+   
+  <xsd:element name="rocfPermittedTcVcidSet" substitutionGroup="frmParameter" type="RocfPermittedTcVcidSetNamed"/>
+   
+  <xsd:element name="rocfPermittedUpdateMode" substitutionGroup="frmParameter" type="RocfPermittedUpdateModeNamed"/>
+   
+  <xsd:element name="rocfMinReportingCycle" substitutionGroup="frmParameter" type="RocfMinReportingCycleNamed"/>
+  
+  <!--
+This enumerated parameter reports the status of the service production process used
+ by the given instance of an ROCF service. It can take on the following values:
+-
+ 'running':  the ROCF production process is capable of processing a return link Master
+ or Virtual Channel, if available;
+- 'interrupted':  the ROCF production process
+ is stopped due to a fault;
+- 'halted':  the ROCF production process is stopped
+ and production equipment is taken out of service due to management action.
+-->
+   
+  <xsd:complexType name="RocfProdStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the status of the service production process used by the given instance of an ROCF service. It can take on the following values:
+- 'running':  the ROCF production process is capable of processing a return link Master or Virtual Channel, if available;
+- 'interrupted':  the ROCF production process is stopped due to a fault;
+- 'halted':  the ROCF production process is stopped and production equipment is taken out of service due to management action.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfProdStat" use="required"/>
+            
+        <xsd:attribute fixed="rocfProdStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfProdStat">
+      
+    <xsd:restriction base="SleRtnProdStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the identifier of the given service instance.
+ 
+-->
+   
+  <xsd:complexType name="RocfSvcInstanceIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the identifier of the given service instance. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfSvcInstanceId" use="required"/>
+            
+        <xsd:attribute fixed="rocfSvcInstanceId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfSvcInstanceId">
+      
+    <xsd:restriction base="SleSvcInstanceId"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter reports the status of the given instance of the ROCF service.
+ It can take on the following values:
+- 'unbound':  all resources required to enable
+ the provision of the ROCF service have been allocated, and all objects required
+ to provide the service have been instantiated; however, no association yet exists
+ between the user and the provider, i.e., the ROCF transfer service provider port
+ is not bound;
+- 'ready':  an association has been established between the user
+ and the provider, and they may interact by means of the service operations. However,
+ sending of Operational Control Fields (OCFs) from the provider to the user (by means
+ of the ROCF-TRANSFER-DATA operation) is not permitted; the user may enable the delivery
+ of OCFs by means of the appropriate service operation (ROCF-START), which, in turn,
+ will cause the provider to transition to the state 'active';
+- 'active':  this
+ state resembles state ‘ready’, except that now the provider will send OCFs provided
+ frames of the selected characteristics are made available by the ROCF production
+ process; the service continues in this state until the user invokes the ROCF-STOP
+ operation to cause the provider to suspend delivery of OCFs and transition back
+ to state 'ready' or the PEER-ABORT invocation to cause the service to transition
+ back to the 'unbound' state.
+-->
+   
+  <xsd:complexType name="RocfSvcInstanceStateNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the status of the given instance of the ROCF service. It can take on the following values:
+- 'unbound':  all resources required to enable the provision of the ROCF service have been allocated, and all objects required to provide the service have been instantiated; however, no association yet exists between the user and the provider, i.e., the ROCF transfer service provider port is not bound;
+- 'ready':  an association has been established between the user and the provider, and they may interact by means of the service operations. However, sending of Operational Control Fields (OCFs) from the provider to the user (by means of the ROCF-TRANSFER-DATA operation) is not permitted; the user may enable the delivery of OCFs by means of the appropriate service operation (ROCF-START), which, in turn, will cause the provider to transition to the state 'active';
+- 'active':  this state resembles state ‘ready’, except that now the provider will send OCFs provided frames of the selected characteristics are made available by the ROCF production process; the service continues in this state until the user invokes the ROCF-STOP operation to cause the provider to suspend delivery of OCFs and transition back to state 'ready' or the PEER-ABORT invocation to cause the service to transition back to the 'unbound' state.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfSvcInstanceState" use="required"/>
+            
+        <xsd:attribute fixed="rocfSvcInstanceState" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfSvcInstanceState">
+      
+    <xsd:restriction base="SleSvcInstanceState"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the identifier of the peer application, i.e.,
+ the authority on whose behalf the SLE application entity is initiating an association
+ with the ROCF service provider. The provider performs access control based on this
+ parameter. It may also serve as key to further security relevant information such
+ as the authentication level and method and the related password.
+
+Given the security
+ relevance of this parameter, specific mechanisms for setting this parameter when
+ the FR instance is created and for the transfer of associated security relevant
+ data might be specified in a bilateral agreement between service user and service
+ provider. Also the accessibility by an MD-CSTS instance may be restricted.
+-->
+   
+  <xsd:complexType name="RocfInitiatorIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the identifier of the peer application, i.e., the authority on whose behalf the SLE application entity is initiating an association with the ROCF service provider. The provider performs access control based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. Also the accessibility by an MD-CSTS instance may be restricted.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfInitiatorId" use="required"/>
+            
+        <xsd:attribute fixed="rocfInitiatorId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfInitiatorId">
+      
+    <xsd:restriction base="AuthorityIdentifier"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the identifier of the ROCF application. The
+ user performs access conrol based on this parameter. It may also serve as key to
+ further security relevant information such as the authentication level and method
+ and the related password.
+
+Given the security relevance of this parameter, specific
+ mechanisms for setting this parameter when the FR instance is created and for the
+ transfer of associated security relevant data might be specified in a bilateral
+ agreement between service user and service provider. Also the accessibility by an
+ MD-CSTS instance may be restricted.
+-->
+   
+  <xsd:complexType name="RocfResponderIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the identifier of the ROCF application. The user performs access conrol based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. Also the accessibility by an MD-CSTS instance may be restricted.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfResponderId" use="required"/>
+            
+        <xsd:attribute fixed="rocfResponderId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.5.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfResponderId">
+      
+    <xsd:restriction base="AuthorityIdentifier"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the port identifier to be used by the user
+ to connect to the service provider. However, the parameter value is only a logical
+ name that needs to be translated into the technology-specific addressing information
+ required to establish a connection with the specific port of the responding SLE
+ application entity. As such this parameter is irrelevant for the service provider,
+ but it may be needed for certain kind of gateways between service user and service
+ provider application.
+-->
+   
+  <xsd:complexType name="RocfResponderPortIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the port identifier to be used by the user to connect to the service provider. However, the parameter value is only a logical name that needs to be translated into the technology-specific addressing information required to establish a connection with the specific port of the responding SLE application entity. As such this parameter is irrelevant for the service provider, but it may be needed for certain kind of gateways between service user and service provider application.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfResponderPortId" use="required"/>
+            
+        <xsd:attribute fixed="rocfResponderPortId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.6.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfResponderPortId">
+      
+    <xsd:restriction base="ResponderPortId"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the setting of the maximum time period in seconds
+ permitted from when a confirmed ROCF operation is invoked until the return is received
+ by the invoker.
+
+If a response is not received within that time period, the invoker
+ may invoke the PEER-ABORT operation.
+-->
+   
+  <xsd:complexType name="RocfRtnTimeoutPeriodNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the setting of the maximum time period in seconds permitted from when a confirmed ROCF operation is invoked until the return is received by the invoker.
+
+If a response is not received within that time period, the invoker may invoke the PEER-ABORT operation.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfRtnTimeoutPeriod" use="required"/>
+            
+        <xsd:attribute fixed="rocfRtnTimeoutPeriod" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.7.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfRtnTimeoutPeriod">
+      
+    <xsd:restriction base="SvcResponseTimeout"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter configures and reports the delivery mode of the given ROCF
+ service instance. It can take on three values:
+- 'onlineTimely':  this delivery
+ mode limits the size of the backlog of not yet delivered data that is allowed to
+ accumulate by discarding data that cannot be delivered within a certain time. Furthermore,
+ when data is discarded, it is discarded ‘in chunks’, i.e., as OCFs extracted from
+ a sufficiently large block of contiguous frames rather than as OCFs from random
+ frames here and there; in general, this approach maximizes the usefulness of the
+ data that is delivered.
+- 'onlineComplete':  this delivery mode attempts to deliver
+ the OCFs having the user selected characteristics from all acquired frames, in order,
+ with minimum delay consistent with the available ground communications bandwidth.
+ To that end, the service provider has a buffer sufficiently large to deal with communications
+ service delays, outages, and bandwidth limitations;
+- 'offline':  in this delivery
+ mode, the provider side buffer (see OfflineFrameBuffer FR) enables data to be delivered
+ hours or days after their acquisition. To that end, this buffer is sufficiently
+ large to hold all data that might be accumulated during several space link sessions.
+-->
+   
+  <xsd:complexType name="RocfDeliveryModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports the delivery mode of the given ROCF service instance. It can take on three values:
+- 'onlineTimely':  this delivery mode limits the size of the backlog of not yet delivered data that is allowed to accumulate by discarding data that cannot be delivered within a certain time. Furthermore, when data is discarded, it is discarded ‘in chunks’, i.e., as OCFs extracted from a sufficiently large block of contiguous frames rather than as OCFs from random frames here and there; in general, this approach maximizes the usefulness of the data that is delivered.
+- 'onlineComplete':  this delivery mode attempts to deliver the OCFs having the user selected characteristics from all acquired frames, in order, with minimum delay consistent with the available ground communications bandwidth. To that end, the service provider has a buffer sufficiently large to deal with communications service delays, outages, and bandwidth limitations;
+- 'offline':  in this delivery mode, the provider side buffer (see OfflineFrameBuffer FR) enables data to be delivered hours or days after their acquisition. To that end, this buffer is sufficiently large to hold all data that might be accumulated during several space link sessions.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfDeliveryMode" use="required"/>
+            
+        <xsd:attribute fixed="rocfDeliveryMode" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.8.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfDeliveryMode">
+      
+    <xsd:restriction base="SleRtnDeliveryMode"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the maximum allowable delivery latency time,
+ in seconds, for the online delivery modes, i.e., the maximum delay from when the
+ provider extracts an OCF from a newly acquired frame until it is delivered to the
+ user. This parameter shall be flagged as undefined if rocfDeliveryMode = 'offline'.
+-->
+   
+  <!--
+ The engineering unit of this parameter is second.
+ -->
+   
+ 
+  <xsd:complexType name="RocfLatencyLimitNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the maximum allowable delivery latency time, in seconds, for the online delivery modes, i.e., the maximum delay from when the provider extracts an OCF from a newly acquired frame until it is delivered to the user. This parameter shall be flagged as undefined if rocfDeliveryMode = 'offline'.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfLatencyLimit" use="required"/>
+            
+        <xsd:attribute fixed="rocfLatencyLimit" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.9.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RocfLatencyLimit">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="1"/>
+         
+      <xsd:maxInclusive value="100"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the number of OCFs the provider shall block
+ in one ROCF-PDU before passing it to the underlying communications layer except
+ if expiry of rocfLatencyLimit requires earlier release of the ROCF-PDU. If rocfDeliveryMode
+ = 'offline', rocfLatencyLlimit has no effect.
+-->
+   
+ 
+  <xsd:complexType name="RocfTransferBufferSizeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the number of OCFs the provider shall block in one ROCF-PDU before passing it to the underlying communications layer except if expiry of rocfLatencyLimit requires earlier release of the ROCF-PDU. If rocfDeliveryMode = 'offline', rocfLatencyLlimit has no effect.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfTransferBufferSize" use="required"/>
+            
+        <xsd:attribute fixed="rocfTransferBufferSize" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.10.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RocfTransferBufferSize">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="1"/>
+         
+      <xsd:maxInclusive value="100"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the set of Master and/or Virtual Channel that
+ the given RCF service instance permits the user to select. The parameter is a set
+ of the concatenation of the CCSDS assigned Spacecraft Identifier (SCID), the Transfer
+ Frame Version Number (TFVN) and, if applicable, the Virtual Channel Identifier (VCID).
+ The range of the Spacecraft Identifier and the Virtual Channel Identifier depend
+ on the TFVN as follows:
+- TFVN = binary '00' (version 1) - SCID = (0 .. 1023),
+ VCID = (0 .. 7);
+- TFVN = binary '01' (version 2) - SCID = (0 .. 255), VCID = (0
+ .. 63);
+- TFVN = binary '1100' (version 4) - SCID = (0 .. 65535), VCID = (0 ..
+ 63).
+-->
+   
+ 
+  <xsd:complexType name="RocfPermittedGvcidSetNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RocfPermittedGvcidSet" type="RocfPermittedGvcidSet"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.11.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rocfPermittedGvcidSet" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RocfPermittedGvcidSet">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the set of Master and/or Virtual Channel that the given RCF service instance permits the user to select. The parameter is a set of the concatenation of the CCSDS assigned Spacecraft Identifier (SCID), the Transfer Frame Version Number (TFVN) and, if applicable, the Virtual Channel Identifier (VCID). The range of the Spacecraft Identifier and the Virtual Channel Identifier depend on the TFVN as follows:
+- TFVN = binary '00' (version 1) - SCID = (0 .. 1023), VCID = (0 .. 7);
+- TFVN = binary '01' (version 2) - SCID = (0 .. 255), VCID = (0 .. 63);
+- TFVN = binary '1100' (version 4) - SCID = (0 .. 65535), VCID = (0 .. 63).]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="tm">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence maxOccurs="9216" minOccurs="1">
+                  
+            <xsd:element name="tmElement">
+                     
+              <xsd:complexType>
+                         
+                <xsd:annotation>
+                            
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                           
+                </xsd:annotation>
+                        
+                <xsd:sequence>
+                           
+                  <xsd:element name="tfvn">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                        <!--
+            The TFVN of TM frames is version 1 (binary '00').
+            -->
+                                    
+            
+            
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="BitString"/>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="scid">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="0"/>
+                                          
+                            <xsd:maxInclusive value="1023"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="vcid">
+                             
+                    <xsd:complexType>
+                                 
+                      <xsd:annotation>
+                                    
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[choice]]>
+                        </xsd:appinfo>
+                                   
+                      </xsd:annotation>
+                                
+                      <xsd:choice>
+                                   
+                        <xsd:element name="masterChannel">
+                                      
+                          <xsd:complexType>
+                                         
+                            <xsd:attribute name="value" use="required">
+                              <!--
+              For the Master Channel the vcid remains unspecified.
+              -->
+                                            
+              
+              
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="NULL"/>
+                                              
+                              </xsd:simpleType>
+                                           
+                            </xsd:attribute>
+                                        
+                          </xsd:complexType>
+                                     
+                        </xsd:element>
+                                   
+                        <xsd:element name="virtualChannel">
+                                      
+                          <xsd:complexType>
+                                         
+                            <xsd:attribute name="value" use="required">
+                                            
+              
+                              <xsd:simpleType>
+                                               
+                                <xsd:restriction base="xsd:integer">
+                                                  
+                                  <xsd:minInclusive value="0"/>
+                                                  
+                                  <xsd:maxInclusive value="7"/>
+                                                 
+                                </xsd:restriction>
+                                              
+                              </xsd:simpleType>
+                                           
+                            </xsd:attribute>
+                                        
+                          </xsd:complexType>
+                                     
+                        </xsd:element>
+                                  
+                      </xsd:choice>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                          
+                </xsd:sequence>
+                        
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="aos">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence maxOccurs="16640" minOccurs="1">
+                  
+            <xsd:element name="aosElement">
+                     
+              <xsd:complexType>
+                         
+                <xsd:annotation>
+                            
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                           
+                </xsd:annotation>
+                        
+                <xsd:sequence>
+                           
+                  <xsd:element name="tfvn">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                        <!--
+            The TFVN of AOS frames is version 2 (binary '01').
+            -->
+                                    
+            
+            
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="BitString"/>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="scid">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="0"/>
+                                          
+                            <xsd:maxInclusive value="255"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="vcid">
+                             
+                    <xsd:complexType>
+                                 
+                      <xsd:annotation>
+                                    
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[choice]]>
+                        </xsd:appinfo>
+                                   
+                      </xsd:annotation>
+                                
+                      <xsd:choice>
+                                   
+                        <xsd:element name="masterChannel">
+                                      
+                          <xsd:complexType>
+                                         
+                            <xsd:attribute name="value" use="required">
+                              <!--
+              For the Master Channel the vcid remains unspecified.
+              -->
+                                            
+              
+              
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="NULL"/>
+                                              
+                              </xsd:simpleType>
+                                           
+                            </xsd:attribute>
+                                        
+                          </xsd:complexType>
+                                     
+                        </xsd:element>
+                                   
+                        <xsd:element name="virtualChannel">
+                                      
+                          <xsd:complexType>
+                                         
+                            <xsd:attribute name="value" use="required">
+                                            
+              
+                              <xsd:simpleType>
+                                               
+                                <xsd:restriction base="xsd:integer">
+                                                  
+                                  <xsd:minInclusive value="0"/>
+                                                  
+                                  <xsd:maxInclusive value="63"/>
+                                                 
+                                </xsd:restriction>
+                                              
+                              </xsd:simpleType>
+                                           
+                            </xsd:attribute>
+                                        
+                          </xsd:complexType>
+                                     
+                        </xsd:element>
+                                  
+                      </xsd:choice>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                          
+                </xsd:sequence>
+                        
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="uslp">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence maxOccurs="4194304" minOccurs="1">
+                  
+            <xsd:element name="uslpElement">
+                     
+              <xsd:complexType>
+                         
+                <xsd:annotation>
+                            
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                           
+                </xsd:annotation>
+                        
+                <xsd:sequence>
+                           
+                  <xsd:element name="tfvn">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                        <!--
+            The TFVN of USLP frames is version 4 (binary '1100').
+            -->
+                                    
+            
+            
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="BitString"/>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="scid">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="0"/>
+                                          
+                            <xsd:maxInclusive value="65535"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="vcid">
+                             
+                    <xsd:complexType>
+                                 
+                      <xsd:annotation>
+                                    
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[choice]]>
+                        </xsd:appinfo>
+                                   
+                      </xsd:annotation>
+                                
+                      <xsd:choice>
+                                   
+                        <xsd:element name="masterChannel">
+                                      
+                          <xsd:complexType>
+                                         
+                            <xsd:attribute name="value" use="required">
+                              <!--
+              For the Master Channel the vcid remains unspecified.
+              -->
+                                            
+              
+              
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="NULL"/>
+                                              
+                              </xsd:simpleType>
+                                           
+                            </xsd:attribute>
+                                        
+                          </xsd:complexType>
+                                     
+                        </xsd:element>
+                                   
+                        <xsd:element name="virtualChannel">
+                                      
+                          <xsd:complexType>
+                                         
+                            <xsd:attribute name="value" use="required">
+                                            
+              
+                              <xsd:simpleType>
+                                               
+                                <xsd:restriction base="xsd:integer">
+                                                  
+                                  <xsd:minInclusive value="0"/>
+                                                  
+                                  <xsd:maxInclusive value="63"/>
+                                                 
+                                </xsd:restriction>
+                                              
+                              </xsd:simpleType>
+                                           
+                            </xsd:attribute>
+                                        
+                          </xsd:complexType>
+                                     
+                        </xsd:element>
+                                  
+                      </xsd:choice>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                          
+                </xsd:sequence>
+                        
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter reports the Master or Virtual Channel of which the given ROCF service
+ instance shall deliver the OCFs to the user. The parameter is the concatenation
+ of the CCSDS assigned Spacecraft Identifier (SCID), the Transfer Frame Version Number
+ (TFVN) and, if applicable, the Virtual Channel Identifier (VCID). The range of the
+ Spacecraft Identifier and the Virtual Channel Identifier depend on the TFVN as follows:
+-
+ TFVN = binary '00' (version 1) - SCID = (0 .. 1023), VCID = (0 .. 7);
+- TFVN =
+ binary '01' (version 2) - SCID = (0 .. 255), VCID = (0 .. 63);
+- TFVN = binary
+ '1100' (version 4) - SCID = (0 .. 65535), VCID = (0 .. 63).
+
+If the global VCID
+ is not constrained to a single value by the given ROCF service instance (see rocfPermittedGvcidSet),
+ then this parameter shall be flagged undefined as long as rocfSvcInstanceState ≠
+ 'active'.
+-->
+   
+ 
+  <xsd:complexType name="RocfRequestedGvcidNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RocfRequestedGvcid" type="RocfRequestedGvcid"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.12.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rocfRequestedGvcid" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RocfRequestedGvcid">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the Master or Virtual Channel of which the given ROCF service instance shall deliver the OCFs to the user. The parameter is the concatenation of the CCSDS assigned Spacecraft Identifier (SCID), the Transfer Frame Version Number (TFVN) and, if applicable, the Virtual Channel Identifier (VCID). The range of the Spacecraft Identifier and the Virtual Channel Identifier depend on the TFVN as follows:
+- TFVN = binary '00' (version 1) - SCID = (0 .. 1023), VCID = (0 .. 7);
+- TFVN = binary '01' (version 2) - SCID = (0 .. 255), VCID = (0 .. 63);
+- TFVN = binary '1100' (version 4) - SCID = (0 .. 65535), VCID = (0 .. 63).
+
+If the global VCID is not constrained to a single value by the given ROCF service instance (see rocfPermittedGvcidSet), then this parameter shall be flagged undefined as long as rocfSvcInstanceState ≠ 'active'.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="tm">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="tfvn">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The TFVN of TM frames is version 1 (binary '00').
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="BitString"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="scid">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="0"/>
+                                 
+                      <xsd:maxInclusive value="1023"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="vcid">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[choice]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:choice>
+                          
+                  <xsd:element name="masterChannel">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           In case the Master Channel is selected, the VCID remains unspecified.
+           -->
+                                   
+           
+           
+                        <xsd:simpleType>
+                                     
+                          <xsd:restriction base="NULL"/>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="vcid">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+           
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="xsd:integer">
+                                         
+                            <xsd:minInclusive value="0"/>
+                                         
+                            <xsd:maxInclusive value="7"/>
+                                        
+                          </xsd:restriction>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:choice>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="aos">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="tfvn">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The TFVN of AOS frames is version 2 (binary '01').
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="BitString"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="scid">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="0"/>
+                                 
+                      <xsd:maxInclusive value="255"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="vcid">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[choice]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:choice>
+                          
+                  <xsd:element name="masterChannel">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           When a Master Channel is selected, the VCID remains unspecified.
+           -->
+                                   
+           
+           
+                        <xsd:simpleType>
+                                     
+                          <xsd:restriction base="NULL"/>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="virtualChannel">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+           
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="xsd:integer">
+                                         
+                            <xsd:minInclusive value="0"/>
+                                         
+                            <xsd:maxInclusive value="63"/>
+                                        
+                          </xsd:restriction>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:choice>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="uslp">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="tfvn">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The TFVN of USLP frames is version 4 (binary '1100').
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="BitString"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="scid">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="0"/>
+                                 
+                      <xsd:maxInclusive value="65535"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="vcid">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[choice]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:choice>
+                          
+                  <xsd:element name="masterChannel">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           For the Master Channel the vcid remains unspecified.
+           -->
+                                   
+           
+           
+                        <xsd:simpleType>
+                                     
+                          <xsd:restriction base="NULL"/>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="virtualChannel">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+           
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="xsd:integer">
+                                         
+                            <xsd:minInclusive value="0"/>
+                                         
+                            <xsd:maxInclusive value="63"/>
+                                        
+                          </xsd:restriction>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:choice>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports the set of OCF types that the given ROCF service
+ instance permits the user to select. Three types are defined:
+- 'allControlWordTypes':
+  all OCFs shall be delivered regardless of their type;
+- 'clcwsOnly':  only OCFs
+ containing the CCSDS defined Communication Link Control Word (CLCW) data structure
+ shall be delivered;
+- 'nonClcwsOnly':  only privately defined OCFs shall be delivered.
+   
+-->
+   
+ 
+  <xsd:complexType name="RocfPermittedContrWordTypeSetNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the set of OCF types that the given ROCF service instance permits the user to select. Three types are defined:
+- 'allControlWordTypes':  all OCFs shall be delivered regardless of their type;
+- 'clcwsOnly':  only OCFs containing the CCSDS defined Communication Link Control Word (CLCW) data structure shall be delivered;
+- 'nonClcwsOnly':  only privately defined OCFs shall be delivered.   ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RocfPermittedContrWordTypeSet" type="RocfPermittedContrWordTypeSet"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.13.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rocfPermittedContrWordTypeSet" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  
+  <xsd:complexType name="RocfPermittedContrWordTypeSet">
+       
+    <xsd:sequence maxOccurs="3" minOccurs="1">
+         
+      <xsd:element name="element">
+             
+        <xsd:simpleType>
+                
+      
+          <xsd:restriction base="xsd:token">
+                     
+            <xsd:enumeration value="allControlWordTypes"/>
+                     
+            <xsd:enumeration value="clcwsOnly"/>
+                     
+            <xsd:enumeration value="nonClcwsOnly"/>
+                    
+      
+          </xsd:restriction>
+               
+     
+        </xsd:simpleType>
+           
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This enumerated parameter reports the type of the OCFs that shall be delivered. It
+ can take on three values:
+- allControlWordTypes':  the service provider delivers
+ all OCFs extracted from the selected telemetry channel, regardless of the control
+ word type they contain;
+- 'clcwsOnly':  the service provider delivers the OCFs
+ extracted from the selected telemetry channel that contain CLCW reports;
+- 'nonClcwsOnly':
+  the service provider delivers the OCFs extracted from the selected telemetry channel
+ that contain reports different from CLCWs.
+-->
+   
+ 
+  <xsd:complexType name="RocfRequestedContrWordTypeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the type of the OCFs that shall be delivered. It can take on three values:
+- allControlWordTypes':  the service provider delivers all OCFs extracted from the selected telemetry channel, regardless of the control word type they contain;
+- 'clcwsOnly':  the service provider delivers the OCFs extracted from the selected telemetry channel that contain CLCW reports;
+- 'nonClcwsOnly':  the service provider delivers the OCFs extracted from the selected telemetry channel that contain reports different from CLCWs.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfRequestedContrWordType" use="required"/>
+            
+        <xsd:attribute fixed="rocfRequestedContrWordType" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.14.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfRequestedContrWordType">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="allControlWordTypes"/>
+           
+      <xsd:enumeration value="clcwsOnly"/>
+           
+      <xsd:enumeration value="nonClcwsOnly"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the TC Master Channel and/or the Virtual Channels
+ that the CLCWs that shall be extracted are associated with. If rocfRequestedContrWordType
+ ≠ 'clcwsOnly', this parameter shall be flagged as undefined. 
+-->
+   
+ 
+  <xsd:complexType name="RocfPermittedTcVcidSetNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RocfPermittedTcVcidSet" type="RocfPermittedTcVcidSet"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.15.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rocfPermittedTcVcidSet" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  
+  <xsd:complexType name="RocfPermittedTcVcidSet">
+       
+    <xsd:sequence maxOccurs="66560" minOccurs="1">
+         
+      <xsd:element name="element">
+             
+        <xsd:complexType>
+                 
+          <xsd:annotation>
+                    
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                    
+            <xsd:appinfo source="SemanticDefinition">
+              <![CDATA[This parameter configures and reports the TC Master Channel and/or the Virtual Channels that the CLCWs that shall be extracted are associated with. If rocfRequestedContrWordType ≠ 'clcwsOnly', this parameter shall be flagged as undefined. ]]>
+            </xsd:appinfo>
+                   
+          </xsd:annotation>
+                
+          <xsd:sequence>
+                   
+            <xsd:element name="tfvn">
+                      
+              <xsd:complexType>
+                         
+                <xsd:attribute name="value" use="required">
+                  <!--
+          The TFVN of TC frames is version 1 (binary '00').
+          -->
+                            
+          
+          
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="BitString"/>
+                              
+                  </xsd:simpleType>
+                           
+                </xsd:attribute>
+                        
+              </xsd:complexType>
+                     
+            </xsd:element>
+                   
+            <xsd:element name="scid">
+                      
+              <xsd:complexType>
+                         
+                <xsd:attribute name="value" use="required">
+                            
+          
+                  <xsd:simpleType>
+                               
+                    <xsd:restriction base="xsd:integer">
+                                  
+                      <xsd:minInclusive value="0"/>
+                                  
+                      <xsd:maxInclusive value="1023"/>
+                                 
+                    </xsd:restriction>
+                              
+                  </xsd:simpleType>
+                           
+                </xsd:attribute>
+                        
+              </xsd:complexType>
+                     
+            </xsd:element>
+                   
+            <xsd:element name="vcid">
+                     
+              <xsd:complexType>
+                         
+                <xsd:annotation>
+                            
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[choice]]>
+                  </xsd:appinfo>
+                           
+                </xsd:annotation>
+                        
+                <xsd:choice>
+                           
+                  <xsd:element name="masterChannel">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                        <!--
+            When the Master Channel is selected, the VCID remains unspecified.
+            -->
+                                    
+            
+            
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="NULL"/>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="vcid">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="0"/>
+                                          
+                            <xsd:maxInclusive value="63"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                          
+                </xsd:choice>
+                        
+              </xsd:complexType>
+                     
+            </xsd:element>
+                  
+          </xsd:sequence>
+                
+        </xsd:complexType>
+           
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter reports which TC Master Channel or Virtual Channel the OCFs to be
+ delivered shall be associated with. The parameter is the concatenation of the CCSDS
+ assigned Spacecraft Identifier (SCID), the Transfer Frame Version Number (TFVN)
+ and, if applicable, the Virtual Channel Identifier (VCID).
+If rocfRequestedContrWordType
+ ≠ 'clcwsOnly', this parameter shall be flagged as undefined.
+-->
+   
+ 
+  <xsd:complexType name="RocfRequestedTcVcidNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RocfRequestedTcVcid" type="RocfRequestedTcVcid"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.16.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rocfRequestedTcVcid" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RocfRequestedTcVcid">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports which TC Master Channel or Virtual Channel the OCFs to be delivered shall be associated with. The parameter is the concatenation of the CCSDS assigned Spacecraft Identifier (SCID), the Transfer Frame Version Number (TFVN) and, if applicable, the Virtual Channel Identifier (VCID).
+If rocfRequestedContrWordType ≠ 'clcwsOnly', this parameter shall be flagged as undefined.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:sequence>
+          
+      <xsd:element name="tfvn">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+            <!--
+       The TFVN of TC frames is version 1 (binary '00').
+       -->
+                   
+       
+       
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="BitString"/>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="scid">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="0"/>
+                         
+                <xsd:maxInclusive value="1023"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="vcid">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[choice]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:choice>
+                  
+            <xsd:element name="masterChannel">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         When the Master Channel is selected, the VCID remains unspecified.
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="NULL"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="vcid">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="0"/>
+                                 
+                      <xsd:maxInclusive value="63"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:choice>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports the update modes that the given ROCF service
+ instance permits. The update modes are:
+- 'continuous':  the given ROCF service
+ permits the 'continuous' mode, i.e. the OCF service provider delivers each OCF that
+ fulfills the delivery criteria specified by the ROCF-START invocation parameters
+ start-time, stop-time, requested-global-VCID, control-word-type, and tc-vcid;
+-
+ 'onChange':  the ROCF service provider delivers those OCFs that fulfill the delivery
+ criteria specified by the ROCF-START invocation parameters start-time, stop-time,
+ requested-global-VCID, control-word-type, and tc-vcid provided the content of the
+ OCF is different from the one of the OCF with the same tc-vcid value previously
+ delivered. 
+-->
+   
+ 
+  <xsd:complexType name="RocfPermittedUpdateModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the update modes that the given ROCF service instance permits. The update modes are:
+- 'continuous':  the given ROCF service permits the 'continuous' mode, i.e. the OCF service provider delivers each OCF that fulfills the delivery criteria specified by the ROCF-START invocation parameters start-time, stop-time, requested-global-VCID, control-word-type, and tc-vcid;
+- 'onChange':  the ROCF service provider delivers those OCFs that fulfill the delivery criteria specified by the ROCF-START invocation parameters start-time, stop-time, requested-global-VCID, control-word-type, and tc-vcid provided the content of the OCF is different from the one of the OCF with the same tc-vcid value previously delivered. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RocfPermittedUpdateMode" type="RocfPermittedUpdateMode"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.17.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rocfPermittedUpdateMode" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  
+  <xsd:complexType name="RocfPermittedUpdateMode">
+       
+    <xsd:sequence maxOccurs="2" minOccurs="1">
+         
+      <xsd:element name="element">
+             
+        <xsd:simpleType>
+                
+      
+          <xsd:restriction base="xsd:token">
+                     
+            <xsd:enumeration value="continuous"/>
+                     
+            <xsd:enumeration value="onChange"/>
+                    
+      
+          </xsd:restriction>
+               
+     
+        </xsd:simpleType>
+           
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This enumerated parameter reports the update mode applied by the ROCF service provider
+ for the delivery of OCFs. It can take on two values:
+- 'continuous':  the ROCF
+ service provider delivers each OCF that fulfills the delivery criteria specified
+ by the ROCF-START invocation parameters start-time, stop-time, requested-global-VCID,
+ control-word-type, and tc-vcid;
+- 'onChange':  the ROCF service provider delivers
+ those OCFs that fulfill the delivery criteria specified by the ROCF-START invocation
+ parameters start-time, stop-time, requested-global-VCID, control-word-type, and
+ tc-vcid provided the content of the OCF is different from the one of the OCF with
+ the same tc-vcid value previously delivered. 
+-->
+   
+ 
+  <xsd:complexType name="RocfRequestedUpdateModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the update mode applied by the ROCF service provider for the delivery of OCFs. It can take on two values:
+- 'continuous':  the ROCF service provider delivers each OCF that fulfills the delivery criteria specified by the ROCF-START invocation parameters start-time, stop-time, requested-global-VCID, control-word-type, and tc-vcid;
+- 'onChange':  the ROCF service provider delivers those OCFs that fulfill the delivery criteria specified by the ROCF-START invocation parameters start-time, stop-time, requested-global-VCID, control-word-type, and tc-vcid provided the content of the OCF is different from the one of the OCF with the same tc-vcid value previously delivered. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfRequestedUpdateMode" use="required"/>
+            
+        <xsd:attribute fixed="rocfRequestedUpdateMode" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.18.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfRequestedUpdateMode">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="continuous"/>
+           
+      <xsd:enumeration value="onChange"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the minimum time in seconds between successive
+ ROCF-STATUS-REPORT invocations sent by the RCF service provider that may be requested
+ in an ROCF-SCHEDULE-STATUS-REPORT invocation. 
+-->
+   
+  <xsd:complexType name="RocfMinReportingCycleNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the minimum time in seconds between successive ROCF-STATUS-REPORT invocations sent by the RCF service provider that may be requested in an ROCF-SCHEDULE-STATUS-REPORT invocation. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfMinReportingCycle" use="required"/>
+            
+        <xsd:attribute fixed="rocfMinReportingCycle" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.19.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RocfMinReportingCycle">
+      
+    <xsd:restriction base="MinAllowedReportingCycle"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports if cyclic reporting is active and if so it reports  the current
+ setting of the time in seconds between successive ROCF-STATUS-REPORT invocations
+ sent by the ROCF service provider. 
+-->
+   
+  <xsd:complexType name="RocfReportingCycleNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports if cyclic reporting is active and if so it reports  the current setting of the time in seconds between successive ROCF-STATUS-REPORT invocations sent by the ROCF service provider. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RocfReportingCycle" type="RocfReportingCycle"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.20.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rocfReportingCycle" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:complexType name="RocfReportingCycle">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="SleReportingCycle">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This parameter reports the  total number of OCFs that have been delivered to the
+ user since the start of the service instance provision period.
+-->
+   
+ 
+  <xsd:complexType name="RocfNumberOfOcfsDeliveredNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the  total number of OCFs that have been delivered to the user since the start of the service instance provision period.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RocfNumberOfOcfsDelivered" use="required"/>
+            
+        <xsd:attribute fixed="rocfNumberOfOcfsDelivered" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80600.1.21.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RocfNumberOfOcfsDelivered">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event notifies any change of the rocfProdStat parameter value. 
+-->
+  
+  <!--
+The event value reports the rocfProdStat parameter value that applies since the notified
+ rocfProdStatChange event has occurred.
+-->
+   
+  <xsd:simpleType name="RocfProdStatChangeEvtValue">
+      
+    <xsd:restriction base="RocfProdStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event triggers when one or more parameters controlling the configuration of
+ service production of the service instance identified by the rocfServiceInstanceId
+ parameter have been changed.
+
+This event carries no additional information.
+
+-->
+  
+  <!--
+The event-value of this event is 'empty'.
+-->
+   
+  <xsd:simpleType name="RocfProdConfigurationChangeEvtValue">
+      
+    <xsd:restriction base="ProdConfigurationChangeEvtValue"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the rocfOperatorNotify event are classified in terms
+ of severity as 'info', 'warning' or 'alarm'. To simplify filtering and searching
+ for specific messages, a unique numerical identifier is assigned to each message
+ string. The messages are free text such that equipment specific issues can be reported.
+ 
+-->
+   
+  <xsd:complexType name="RocfOperatorNotifyMessage">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="OperatorNotifyMessage">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the RocfTsProvider
+ FR type. 
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a set of parameter identifier and parameter value pairs. To be valid, the
+ parameter identifier must reference a controllable parameter of the RocfTsProvider
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+-->
+   
+  <xsd:complexType name="RocfContrParamIdsAndValuesDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="DirectiveQualifier">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+</xsd:schema>

@@ -1,0 +1,1669 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The RngAndDopplerExtraction FR accepts as input the timing information from the RngXmit
+ FR and the range and Doppler data from the Ccsds401SpaceLinkCarrierRcpt FR.
+It
+ provides range and Doppler observables to the TdmSegmentGen FR and to the NonValRmDataCollection
+ FR.
+-->
+   
+  <xsd:element name="RngAndDopplerExtractionElement" substitutionGroup="functionalResourceInstance" type="RngAndDopplerExtractionType"/>
+    
+  <xsd:complexType name="RngAndDopplerExtractionType">
+       
+    <xsd:complexContent>
+          
+      <xsd:extension base="FunctionalResourceInstance">
+             
+        <xsd:all>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionPresteering" type="RngAndDopplerExtractionPresteeringNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionRngLoopBwdth" type="RngAndDopplerExtractionRngLoopBwdthNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionPredictedRngLoopSnr" type="RngAndDopplerExtractionPredictedRngLoopSnrNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionLoopSettlingTime" type="RngAndDopplerExtractionLoopSettlingTimeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionExpectedRngModIndex" type="RngAndDopplerExtractionExpectedRngModIndexNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionIntegrationTime" type="RngAndDopplerExtractionIntegrationTimeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionSpacecraftTransponderMode" type="RngAndDopplerExtractionSpacecraftTransponderModeNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionExpectedSpacecraftPnAcqDuration" type="RngAndDopplerExtractionExpectedSpacecraftPnAcqDurationNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionRngMeasurementSamplingRate" type="RngAndDopplerExtractionRngMeasurementSamplingRateNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionDopplerMeasurementSamplingRate" type="RngAndDopplerExtractionDopplerMeasurementSamplingRateNamed"/>
+                
+          <xsd:element minOccurs="0" name="rngAndDopplerExtractionDataCollection" type="RngAndDopplerExtractionDataCollectionNamed"/>
+               
+        </xsd:all>
+             
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301" name="frTypeOid" type="ObjectIdentifier"/>
+            
+      </xsd:extension>
+         
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:element name="rngAndDopplerExtractionPresteering" substitutionGroup="frmParameter" type="RngAndDopplerExtractionPresteeringNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionRngLoopBwdth" substitutionGroup="frmParameter" type="RngAndDopplerExtractionRngLoopBwdthNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionPredictedRngLoopSnr" substitutionGroup="frmParameter" type="RngAndDopplerExtractionPredictedRngLoopSnrNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionLoopSettlingTime" substitutionGroup="frmParameter" type="RngAndDopplerExtractionLoopSettlingTimeNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionExpectedRngModIndex" substitutionGroup="frmParameter" type="RngAndDopplerExtractionExpectedRngModIndexNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionIntegrationTime" substitutionGroup="frmParameter" type="RngAndDopplerExtractionIntegrationTimeNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionSpacecraftTransponderMode" substitutionGroup="frmParameter" type="RngAndDopplerExtractionSpacecraftTransponderModeNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionExpectedSpacecraftPnAcqDuration" substitutionGroup="frmParameter" type="RngAndDopplerExtractionExpectedSpacecraftPnAcqDurationNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionRngMeasurementSamplingRate" substitutionGroup="frmParameter" type="RngAndDopplerExtractionRngMeasurementSamplingRateNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionDopplerMeasurementSamplingRate" substitutionGroup="frmParameter" type="RngAndDopplerExtractionDopplerMeasurementSamplingRateNamed"/>
+   
+  <xsd:element name="rngAndDopplerExtractionDataCollection" substitutionGroup="frmParameter" type="RngAndDopplerExtractionDataCollectionNamed"/>
+  
+  <!--
+This enumerated parameter reports the rngAndDopplerExtractionResourceStat and can
+ take on four values:
+- 'configured':  the associated equipment has been configured;
+-
+ 'operational':  the associated equipment is active;
+- 'interrupted':  a failure
+ has been detected;
+- 'halted':  the associated equipment has been taken out of
+ service.
+-->
+   
+  <xsd:complexType name="RngAndDopplerExtractionResourceStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the rngAndDopplerExtractionResourceStat and can take on four values:
+- 'configured':  the associated equipment has been configured;
+- 'operational':  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+- 'halted':  the associated equipment has been taken out of service.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionResourceStat" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionResourceStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RngAndDopplerExtractionResourceStat">
+      
+    <xsd:restriction base="ResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports if the ranging signal acquisition shall be
+ presteered in accordance with the predicted Doppler shift. In general, this parameter
+ will always be set to 'dopplerPresteeringOn' except when the ranging calibration
+ is performed.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionPresteeringNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports if the ranging signal acquisition shall be presteered in accordance with the predicted Doppler shift. In general, this parameter will always be set to 'dopplerPresteeringOn' except when the ranging calibration is performed.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionPresteering" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionPresteering" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RngAndDopplerExtractionPresteering">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="dopplerPresteeringOff"/>
+           
+      <xsd:enumeration value="dopplerPresteeringOn"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the actual ranging signal power (tone or pn chips) to noise
+ density ratio expressed in 1/100 dBHz.
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/100 dBHz.
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionRngPowerOverNoNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the actual ranging signal power (tone or pn chips) to noise density ratio expressed in 1/100 dBHz.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionRngPowerOverNo" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionRngPowerOverNo" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionRngPowerOverNo">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="1"/>
+         
+      <xsd:maxInclusive value="10000"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the difference between actual and the predicted ranging signal
+ power to noise density ratio expressed in 1/100 dB (actual value minus predicted
+ value).
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/100 dB.
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionRngPowerOverNoResidualNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the difference between actual and the predicted ranging signal power to noise density ratio expressed in 1/100 dB (actual value minus predicted value).]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionRngPowerOverNoResidual" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionRngPowerOverNoResidual" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionRngPowerOverNoResidual">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="-5000"/>
+         
+      <xsd:maxInclusive value="5000"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports, in 1/1000 Hz, the single-sided bandwidth of the ranging tracking
+ loop. This parameter applies only when the loop is operated in closed-loop mode.
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/1000 Hz
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionRngLoopBwdthNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports, in 1/1000 Hz, the single-sided bandwidth of the ranging tracking loop. This parameter applies only when the loop is operated in closed-loop mode.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionRngLoopBwdth" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionRngLoopBwdth" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.5.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionRngLoopBwdth">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="1"/>
+         
+      <xsd:maxInclusive value="30000"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the predicted ranging signal power to noise
+ spectral density ratio within the ranging tracking loop bandwidth in 1/10 dB. This
+ parameter applies only while the tone or PN chip rate tracking loop is operated
+ in closed-loop mode.
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/10 dB.
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionPredictedRngLoopSnrNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the predicted ranging signal power to noise spectral density ratio within the ranging tracking loop bandwidth in 1/10 dB. This parameter applies only while the tone or PN chip rate tracking loop is operated in closed-loop mode.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionPredictedRngLoopSnr" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionPredictedRngLoopSnr" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.6.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionPredictedRngLoopSnr">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="400"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the probability in percent of successful ranging signal acquisition
+ derived from the predicted Pr/No and the configured ranging loop bandwidth, i.e.
+ from the predicted ranging loop SNR (see parameter rngAndDopplerExtractionPredictedRngLoopSnr).
+-->
+   
+  <!--
+ The engineering unit of this parameter is percent.
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionRngSignalAcqProbabilityNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the probability in percent of successful ranging signal acquisition derived from the predicted Pr/No and the configured ranging loop bandwidth, i.e. from the predicted ranging loop SNR (see parameter rngAndDopplerExtractionPredictedRngLoopSnr).]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionRngSignalAcqProbability" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionRngSignalAcqProbability" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.7.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionRngSignalAcqProbability">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="100"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the duration of the period in milliseconds
+ from the moment when the tone or PN chip rate tracking loop transitions from open-loop
+ to closed-loop mode until loop lock may be reported and range measurements can start.
+ This allows any residual loop transient to die away. 
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/1000 second.
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionLoopSettlingTimeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the duration of the period in milliseconds from the moment when the tone or PN chip rate tracking loop transitions from open-loop to closed-loop mode until loop lock may be reported and range measurements can start. This allows any residual loop transient to die away. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionLoopSettlingTime" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionLoopSettlingTime" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.8.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionLoopSettlingTime">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="1"/>
+         
+      <xsd:maxInclusive value="10000"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated value reports the tone respectively PN chip loop lock status. The
+ parameter is valid only while the tracking loop is operated in closed-loop mode.
+ It can take on two values:
+- 'not locked';
+- 'locked'.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionLoopLockStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated value reports the tone respectively PN chip loop lock status. The parameter is valid only while the tracking loop is operated in closed-loop mode. It can take on two values:
+- 'not locked';
+- 'locked'.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionLoopLockStat" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionLoopLockStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.9.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RngAndDopplerExtractionLoopLockStat">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="notLocked"/>
+           
+      <xsd:enumeration value="locked"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports in 1/100 radians the expected ranging modulation
+ index on the received carrier.
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/100 radian.
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionExpectedRngModIndexNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports in 1/100 radians the expected ranging modulation index on the received carrier.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionExpectedRngModIndex" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionExpectedRngModIndex" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.10.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionExpectedRngModIndex">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="157"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+If the ranging type is 'toneCode' (see the element rngType of the parameter rngXmitRngType
+ of the the RngXmit FR), then this parameter configures and reports the tone integration
+ time in 1/100 seconds.
+
+If the ranging type is 'pseudoNoise' (see the element
+ rngType of the parameter rngXmitRngType of the the RngXmit FR), then this parameter
+ configures and reports the integration time in 1/100 seconds used by the PN code
+ correlator.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionIntegrationTimeNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RngAndDopplerExtractionIntegrationTime" type="RngAndDopplerExtractionIntegrationTime"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.11.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionIntegrationTime" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RngAndDopplerExtractionIntegrationTime">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[If the ranging type is 'toneCode' (see the element rngType of the parameter rngXmitRngType of the the RngXmit FR), then this parameter configures and reports the tone integration time in 1/100 seconds.
+
+If the ranging type is 'pseudoNoise' (see the element rngType of the parameter rngXmitRngType of the the RngXmit FR), then this parameter configures and reports the integration time in 1/100 seconds used by the PN code correlator.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="toneCode">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+            <!--
+       The engineering unit of the tone integration time is 1/100 second.
+       -->
+                   
+       
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="10"/>
+                         
+                <xsd:maxInclusive value="360000"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="pseudoNoise">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+            <!--
+       The engineering unit of the integration time used by the PN code correlator is 1/100 second.
+       -->
+                   
+       
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="10"/>
+                         
+                <xsd:maxInclusive value="360000"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter reports for 'toneCode' ranging (see the element rngType of the parameter
+ rngXmitRngType of the RngXmit FR) up to which code number the replica has been correlated
+ with the received signal.  If the ranging type is 'pseudoNoise' (see the element
+ rngType of the parameter rngXmitRngType of the RngXmit FR), this parameter reports
+ the offset in number of chips with respect to the PN ranging sequence.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionCodeOrPnCorrelationStatNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RngAndDopplerExtractionCodeOrPnCorrelationStat" type="RngAndDopplerExtractionCodeOrPnCorrelationStat"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.12.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionCodeOrPnCorrelationStat" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RngAndDopplerExtractionCodeOrPnCorrelationStat">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports for 'toneCode' ranging (see the element rngType of the parameter rngXmitRngType of the RngXmit FR) up to which code number the replica has been correlated with the received signal.  If the ranging type is 'pseudoNoise' (see the element rngType of the parameter rngXmitRngType of the RngXmit FR), this parameter reports the offset in number of chips with respect to the PN ranging sequence.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="numberOfCorrelatedCode">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="0"/>
+                         
+                <xsd:maxInclusive value="25"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="pnCodeOffset">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="0"/>
+                         
+                <xsd:maxInclusive value="1009469"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This enumerated parameter configures and reports for Doppler and PN ranging the mode
+ in which the spacecraft transponder is supposed to operate. 
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionSpacecraftTransponderModeNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RngAndDopplerExtractionSpacecraftTransponderMode" type="RngAndDopplerExtractionSpacecraftTransponderMode"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.13.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionSpacecraftTransponderMode" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RngAndDopplerExtractionSpacecraftTransponderMode">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports for Doppler and PN ranging the mode in which the spacecraft transponder is supposed to operate. ]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:sequence>
+          
+      <xsd:element name="doppler">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+            <xsd:simpleType>
+                      
+        
+              <xsd:restriction base="xsd:token">
+                           
+                <xsd:enumeration value="nonCoherent"/>
+                           
+                <xsd:enumeration value="coherent"/>
+                          
+        
+              </xsd:restriction>
+                     
+       
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="ranging">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+            <xsd:simpleType>
+                      
+        
+              <xsd:restriction base="xsd:token">
+                           
+                <xsd:enumeration value="passthrough"/>
+                           
+                <xsd:enumeration value="regenerative"/>
+                          
+        
+              </xsd:restriction>
+                     
+       
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports the expected duration in seconds of the PN
+ code acquisition by the spacecraft. It shall be set to 'notApplicabe' if the ranging
+ type is 'toneCode' (see the element rngType of the parameter rngXmitRngType of the
+ the RngXmit FR and if the 'ranging' element of the rngAndDopplerExtractionSpacecraftTransponderMode
+ is not set to 'regenerative'.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionExpectedSpacecraftPnAcqDurationNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RngAndDopplerExtractionExpectedSpacecraftPnAcqDuration" type="RngAndDopplerExtractionExpectedSpacecraftPnAcqDuration"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.14.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionExpectedSpacecraftPnAcqDuration" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RngAndDopplerExtractionExpectedSpacecraftPnAcqDuration">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the expected duration in seconds of the PN code acquisition by the spacecraft. It shall be set to 'notApplicabe' if the ranging type is 'toneCode' (see the element rngType of the parameter rngXmitRngType of the the RngXmit FR and if the 'ranging' element of the rngAndDopplerExtractionSpacecraftTransponderMode is not set to 'regenerative'.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="notApplicable">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+            <!--
+       The currently used ranging method is not regenerative.
+       -->
+                   
+       
+       
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="NULL"/>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="applicable">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+            <!--
+       The engineering unit of this parameter is second.
+       -->
+                   
+       
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="1"/>
+                         
+                <xsd:maxInclusive value="1000"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports the ranging measurement delivery rate in time
+ between consecutive delivered measurements in 1/1000 second.
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/1000 second
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionRngMeasurementSamplingRateNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the ranging measurement delivery rate in time between consecutive delivered measurements in 1/1000 second.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionRngMeasurementSamplingRate" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionRngMeasurementSamplingRate" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.15.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionRngMeasurementSamplingRate">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="1"/>
+         
+      <xsd:maxInclusive value="3600000"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the Doppler measurement delivery rate in time
+ between two consecutive delivered measurements in 1/1000 seconds.
+-->
+   
+  <!--
+ The engineering unit of this parameter is 1/1000 second
+ -->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionDopplerMeasurementSamplingRateNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the Doppler measurement delivery rate in time between two consecutive delivered measurements in 1/1000 seconds.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionDopplerMeasurementSamplingRate" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionDopplerMeasurementSamplingRate" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.16.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="RngAndDopplerExtractionDopplerMeasurementSamplingRate">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="1"/>
+         
+      <xsd:maxInclusive value="3600000"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the status of the collection and delivery of
+ radiometric observables. It can take on three values:
+- 'notActive';
+- 'auto';
+-
+ 'active'.
+
+Setting this parameter to 'notActive' disables or terminates the collection
+ of radiometric data.
+When this parameter is 'auto', the time during which the data
+ collection is performed in accordance with the period during which the parameter
+ rngXmitMod of the RngXmit FR is set to 'enabled' shifted by the two-way light time.
+ When the rngXmitMod parameter indicates that ranging calibration is performed, the
+ two-way-light time is disregarded and the delivered range measurements are annotated
+ as calibration data.
+When the parameter rngAndDopplerExtractionDataCollection is
+ set to 'active', the collection of radiometric observables is attempted regardless
+ of the state of the RngXmit FR. 
+
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionDataCollectionNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the status of the collection and delivery of radiometric observables. It can take on three values:
+- 'notActive';
+- 'auto';
+- 'active'.
+
+Setting this parameter to 'notActive' disables or terminates the collection of radiometric data.
+When this parameter is 'auto', the time during which the data collection is performed in accordance with the period during which the parameter rngXmitMod of the RngXmit FR is set to 'enabled' shifted by the two-way light time. When the rngXmitMod parameter indicates that ranging calibration is performed, the two-way-light time is disregarded and the delivered range measurements are annotated as calibration data.
+When the parameter rngAndDopplerExtractionDataCollection is set to 'active', the collection of radiometric observables is attempted regardless of the state of the RngXmit FR. 
+]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="RngAndDopplerExtractionDataCollection" use="required"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionDataCollection" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.17.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="RngAndDopplerExtractionDataCollection">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="notActive"/>
+           
+      <xsd:enumeration value="auto"/>
+           
+      <xsd:enumeration value="active"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the latest Doppler and range measurement and the associated
+ residual, i.e., the measured value minus the predicted value and for range measurements
+ also the differenced range versus integrated Doppler (DRVID) measurement (latest
+ range value minus previously measured range value minus the integrated Doppler for
+ the period between the times when the latest range measurement and the previous
+ range measurement has been taken). 
+
+It should be noted that the reported range
+ measurement value is neither corrected for station and spacecraft delays nor for
+ tropospheric effects. The residual therefore is not correct in absolute terms, but
+ it should be small and stable and therefore is a good indication of the quality
+ of the range measurements. 
+
+DRIVD can only be provided if range and Doppler measuremnts
+ are taken at the same times.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionObservableAndResidualNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RngAndDopplerExtractionObservableAndResidual" type="RngAndDopplerExtractionObservableAndResidual"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.18.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionObservableAndResidual" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RngAndDopplerExtractionObservableAndResidual">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the latest Doppler and range measurement and the associated residual, i.e., the measured value minus the predicted value and for range measurements also the differenced range versus integrated Doppler (DRVID) measurement (latest range value minus previously measured range value minus the integrated Doppler for the period between the times when the latest range measurement and the previous range measurement has been taken). 
+
+It should be noted that the reported range measurement value is neither corrected for station and spacecraft delays nor for tropospheric effects. The residual therefore is not correct in absolute terms, but it should be small and stable and therefore is a good indication of the quality of the range measurements. 
+
+DRIVD can only be provided if range and Doppler measuremnts are taken at the same times.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:sequence>
+          
+      <xsd:element name="doppler">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="dopplerShift">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The engineering unit of this element is Hz.
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="-1000000"/>
+                                 
+                      <xsd:maxInclusive value="1000000"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="dopplerShiftResidual">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The engineering unit of this element is Hz.
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="-100000"/>
+                                 
+                      <xsd:maxInclusive value="100000"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="range">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="rangeValue">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The engineering unit of this parameter is km
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="0"/>
+                                 
+                      <xsd:maxInclusive value="5000000000"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="rangeValueResidual">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The engineering unit of this element is 1/100 m.
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="-100000000"/>
+                                 
+                      <xsd:maxInclusive value="100000000"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="drvid">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         Differenced Range versus Integrated Doppler (DRVID) measurement in 1/100 m.
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="-100000000"/>
+                                 
+                      <xsd:maxInclusive value="100000000"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter reports the number of Doppler and range observables generated since
+ the most recently automatically started data collection (rngAndDopplerExtractionDataCollection
+ = 'auto' or the most recent start of the collection of observables by setting the
+ parameter rngAndDopplerExtractionDataCollection to 'active'.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionObservablesCountNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="RngAndDopplerExtractionObservablesCount" type="RngAndDopplerExtractionObservablesCount"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.20301.1.19.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="rngAndDopplerExtractionObservablesCount" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="RngAndDopplerExtractionObservablesCount">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the number of Doppler and range observables generated since the most recently automatically started data collection (rngAndDopplerExtractionDataCollection = 'auto' or the most recent start of the collection of observables by setting the parameter rngAndDopplerExtractionDataCollection to 'active'.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:sequence>
+          
+      <xsd:element name="dopplerObservablesCount">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="0"/>
+                         
+                <xsd:maxInclusive value="4294967295"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="rangeObservablesCount">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="0"/>
+                         
+                <xsd:maxInclusive value="4294967295"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This event notifies any change of the rngAndDopplerExtractionResourceStat parameter
+ value.
+-->
+  
+  <!--
+The event value reports the rngAndDopplerExtractionResourceStat parameter value that
+ applies since the notified rngAndDopplerExtractionResourceStatChange event has occurred.
+-->
+   
+  <xsd:simpleType name="RngAndDopplerExtractionResourceStatChangeEvtValue">
+      
+    <xsd:restriction base="RngAndDopplerExtractionResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+By means of this event any change in the capability to deliver radiometric observables
+ is notified. This is reported both for Doppler and for range measurements. The reporting
+ for range measurements refers to the ranging mode selected by the rngXmitRngType
+ parameter of the RngXmit FR.
+-->
+  
+  <!--
+This parameter reports if radiometric observables can be delivered. Data collection
+ may not be possible because e.g. the receiver is not locked on the carrier or for
+ range measurements the ambiguity resolution has failed.
+-->
+   
+ 
+  <xsd:complexType name="RngAndDopplerExtractionStatChangeEvtValue">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+      
+    <xsd:sequence>
+         
+      <xsd:element name="dopplerDataCollection">
+            
+        <xsd:complexType>
+               
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+                     
+       
+              <xsd:restriction base="xsd:token">
+                          
+                <xsd:enumeration value="notOkay"/>
+                          
+                <xsd:enumeration value="okay"/>
+                         
+       
+              </xsd:restriction>
+                    
+      
+            </xsd:simpleType>
+                 
+          </xsd:attribute>
+              
+        </xsd:complexType>
+           
+      </xsd:element>
+         
+      <xsd:element name="rngDataCollection">
+            
+        <xsd:complexType>
+               
+          <xsd:attribute name="value" use="required">
+                  
+            <xsd:simpleType>
+                     
+       
+              <xsd:restriction base="xsd:token">
+                          
+                <xsd:enumeration value="notOkay"/>
+                          
+                <xsd:enumeration value="okay"/>
+                         
+       
+              </xsd:restriction>
+                    
+      
+            </xsd:simpleType>
+                 
+          </xsd:attribute>
+              
+        </xsd:complexType>
+           
+      </xsd:element>
+        
+    </xsd:sequence>
+      
+  </xsd:complexType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the rngAndDopplerExtractionOperatorNotify event are
+ classified in terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering
+ and searching for specific messages, a unique numerical identifier is assigned to
+ each message string. The messages are free text such that equipment specific issues
+ can be reported. 
+-->
+   
+  <xsd:complexType name="RngAndDopplerExtractionOperatorNotifyMessage">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="OperatorNotifyMessage">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the RngAndDopplerExtraction
+ FR type. 
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the RngAndDopplerExtraction
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+-->
+   
+  <xsd:complexType name="RngAndDopplerExtractionContrParamIdsAndValuesDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="DirectiveQualifier">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+</xsd:schema>

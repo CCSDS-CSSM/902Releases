@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+This FR accepts variable-length USLP frames not containing FECFs for a specific USLP
+ VC as input.
+It provides the USLP frames not containing FECFs for a specific USLP
+ Master Channel.
+-->
+   
+  <xsd:element name="VlfUslpVcMuxElement" substitutionGroup="functionalResourceInstance" type="VlfUslpVcMuxType"/>
+    
+  <xsd:complexType name="VlfUslpVcMuxType">
+       
+    <xsd:complexContent>
+          
+      <xsd:extension base="FunctionalResourceInstance">
+             
+        <xsd:all>
+                
+          <xsd:element minOccurs="0" name="vlfUslpVcMuxAdFrameRepetitions" type="VlfUslpVcMuxAdFrameRepetitionsNamed"/>
+                
+          <xsd:element minOccurs="0" name="vlfUslpVcMuxBcFrameRepetitions" type="VlfUslpVcMuxBcFrameRepetitionsNamed"/>
+                
+          <xsd:element minOccurs="0" name="vlfUslpVcMuxMc" type="VlfUslpVcMuxMcNamed"/>
+                
+          <xsd:element minOccurs="0" name="vlfUslpVcMuxContr" type="VlfUslpVcMuxContrNamed"/>
+               
+        </xsd:all>
+             
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40301" name="frTypeOid" type="ObjectIdentifier"/>
+            
+      </xsd:extension>
+         
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:element name="vlfUslpVcMuxAdFrameRepetitions" substitutionGroup="frmParameter" type="VlfUslpVcMuxAdFrameRepetitionsNamed"/>
+   
+  <xsd:element name="vlfUslpVcMuxBcFrameRepetitions" substitutionGroup="frmParameter" type="VlfUslpVcMuxBcFrameRepetitionsNamed"/>
+   
+  <xsd:element name="vlfUslpVcMuxMc" substitutionGroup="frmParameter" type="VlfUslpVcMuxMcNamed"/>
+   
+  <xsd:element name="vlfUslpVcMuxContr" substitutionGroup="frmParameter" type="VlfUslpVcMuxContrNamed"/>
+  
+  <!--
+This enumerated parameter reports the vlfUslpVcMux resource status and can take on
+ four values:
+- 'configured':  the associated equipment has been configured;
+-
+ 'operational':  the associated equipment is active;
+- 'interrupted':  a failure
+ has been detected;
+- 'halted':  the associated equipment has been taken out of
+ service.
+-->
+   
+  <xsd:complexType name="VlfUslpVcMuxResourceStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the vlfUslpVcMux resource status and can take on four values:
+- 'configured':  the associated equipment has been configured;
+- 'operational':  the associated equipment is active;
+- 'interrupted':  a failure has been detected;
+- 'halted':  the associated equipment has been taken out of service.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="VlfUslpVcMuxResourceStat" use="required"/>
+            
+        <xsd:attribute fixed="vlfUslpVcMuxResourceStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40301.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="VlfUslpVcMuxResourceStat">
+      
+    <xsd:restriction base="ResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports how many times an AD frame shall be transmitted
+ to the spacecraft for each Virtual Channel multiplexed by the VlfUslpVcMux instance.
+ 
+
+- 'noAdVc':  indicates that there are no VCs on the Master Channel that will
+ carry AD frames
+- 'adVcSet': specifies the set of VCs that may carry AD frames,
+ and the number of times (repetitions) that AD frames for each such VC are to be
+ transmitted. 
+
+All values of vlfUslpVcMuxAdFrameRepetitions: repetitions parameter
+ must be less than or equal to the value of the tcPlopSyncInputDataFormat: frame:
+ maxNumberOfCltuRepetitions parameter of the underlying TcPlopSyncAndChnlEncode FR
+ instance.
+-->
+   
+  <!--
+ VCID 63 is reserved and therefore excluded from this data type.
+ -->
+   
+ 
+  <xsd:complexType name="VlfUslpVcMuxAdFrameRepetitionsNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="VlfUslpVcMuxAdFrameRepetitions" type="VlfUslpVcMuxAdFrameRepetitions"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40301.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="vlfUslpVcMuxAdFrameRepetitions" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="VlfUslpVcMuxAdFrameRepetitions">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[VCID 63 is reserved and therefore excluded from this data type.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="noAdVc">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="NULL"/>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="adVcSet">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence maxOccurs="63" minOccurs="1">
+                  
+            <xsd:element name="adVcSetElement">
+                     
+              <xsd:complexType>
+                         
+                <xsd:annotation>
+                            
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                           
+                </xsd:annotation>
+                        
+                <xsd:sequence>
+                           
+                  <xsd:element name="vcid">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="0"/>
+                                          
+                            <xsd:maxInclusive value="62"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="repetitions">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="1"/>
+                                          
+                            <xsd:maxInclusive value="5"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                          
+                </xsd:sequence>
+                        
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports how many times a BC frame (a frame carrying
+ a COP Control Command) shall be transmitted to the spacecraft for each Virtual Channel
+ multiplexed by the TcVcMux instance. 
+
+- 'noBcVc':  indicates that there are no
+ VCs on the Master Channel that will carry BC frames
+- 'bcVcSet': specifies the
+ set of VCs that may carry BC frames, and the number of times (repetitions) that
+ BC frames for each such VC are to be transmitted. 
+
+All values of vlfUslpVcMuxBcFrameRepetitions:
+ repetitions parameter must be less than or equal to the value of the tcPlopSyncInputDataFormat:
+ frame: maxNumberOfCltuRepetitions parameter of the underlying TcPlopSyncAndChnlEncode
+ FR instance.
+-->
+   
+  <!--
+ The VCID 63 is reserved.
+ -->
+   
+ 
+  <xsd:complexType name="VlfUslpVcMuxBcFrameRepetitionsNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="VlfUslpVcMuxBcFrameRepetitions" type="VlfUslpVcMuxBcFrameRepetitions"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40301.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="vlfUslpVcMuxBcFrameRepetitions" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="VlfUslpVcMuxBcFrameRepetitions">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The VCID 63 is reserved.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="noBcVc">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="NULL"/>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="bcVcSet">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence maxOccurs="63" minOccurs="1">
+                  
+            <xsd:element name="bcVcSetElement">
+                     
+              <xsd:complexType>
+                         
+                <xsd:annotation>
+                            
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                           
+                </xsd:annotation>
+                        
+                <xsd:sequence>
+                           
+                  <xsd:element name="vcid">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="0"/>
+                                          
+                            <xsd:maxInclusive value="62"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                           
+                  <xsd:element name="repetitions">
+                              
+                    <xsd:complexType>
+                                 
+                      <xsd:attribute name="value" use="required">
+                                    
+            
+                        <xsd:simpleType>
+                                       
+                          <xsd:restriction base="xsd:integer">
+                                          
+                            <xsd:minInclusive value="1"/>
+                                          
+                            <xsd:maxInclusive value="5"/>
+                                         
+                          </xsd:restriction>
+                                      
+                        </xsd:simpleType>
+                                   
+                      </xsd:attribute>
+                                
+                    </xsd:complexType>
+                             
+                  </xsd:element>
+                          
+                </xsd:sequence>
+                        
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports the Master Channel that is provided by the
+ given FR instance. The Master Channel ID is the concatenation of TFVN and SCID.
+ Given that this FR type handles only USLP frames, the TFVN is fixed (version 4,
+ binary '1100') and only the SCID is variable. 
+-->
+   
+  <xsd:complexType name="VlfUslpVcMuxMcNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the Master Channel that is provided by the given FR instance. The Master Channel ID is the concatenation of TFVN and SCID. Given that this FR type handles only USLP frames, the TFVN is fixed (version 4, binary '1100') and only the SCID is variable. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="VlfUslpVcMuxMc" type="VlfUslpVcMuxMc"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40301.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="vlfUslpVcMuxMc" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:complexType name="VlfUslpVcMuxMc">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="UslpVcMuxMc">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports how the Virtual Channels are multiplexed into
+ the Master Channel formed by this FR instance. 
+In case vlfUslpVcMuxContr = ‘fifo’,
+ no further specification applies.
+If vlfUslpVcMuxContr = 'absolutePriority', then
+ the associated configuration value is a sequence of VCIDs used on the given MC where
+ the first VCID in the sequence has the highest priority, the second has the second-highest
+ priority etc. Consequently the sequence has as many elements as VCs are permitted
+ on the given MC. 
+If vlfUslpVcMuxContr = 'pollingVector', then the associated sequence
+ consists of up to 189 elements where each element is a VCID.
+-->
+   
+  <!--
+ The VCID 63 is reserved.
+ -->
+   
+ 
+  <xsd:complexType name="VlfUslpVcMuxContrNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="VlfUslpVcMuxContr" type="VlfUslpVcMuxContr"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.40301.1.5.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="vlfUslpVcMuxContr" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="VlfUslpVcMuxContr">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[choice]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The VCID 63 is reserved.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:choice>
+          
+      <xsd:element name="fifo">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+                   
+       
+            <xsd:simpleType>
+                     
+              <xsd:restriction base="NULL"/>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="absolutePriority">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence maxOccurs="63" minOccurs="1">
+                  
+            <xsd:element name="absolutePriorityElement">
+                     
+       
+              <xsd:simpleType>
+                        
+                <xsd:restriction base="xsd:integer">
+                           
+                  <xsd:minInclusive value="0"/>
+                           
+                  <xsd:maxInclusive value="62"/>
+                          
+                </xsd:restriction>
+                       
+              </xsd:simpleType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="pollingVector">
+            
+    
+        <xsd:complexType>
+               
+          <xsd:sequence maxOccurs="189" minOccurs="1">
+                  
+            <xsd:element name="pollingVectorElement">
+                     
+       
+              <xsd:simpleType>
+                        
+                <xsd:restriction base="xsd:integer">
+                           
+                  <xsd:minInclusive value="0"/>
+                           
+                  <xsd:maxInclusive value="62"/>
+                          
+                </xsd:restriction>
+                       
+              </xsd:simpleType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:choice>
+       
+  </xsd:complexType>
+  
+  <!--
+This event notifies any change of the vlfUslpVcMuxResourceStat parameter value.
+-->
+  
+  <!--
+The event value reports the vlfUslpVcMuxResourceStat parameter value that applies
+ since the notified vlfUslpVcMuxResourceStatChange event has occurred.
+-->
+   
+  <xsd:simpleType name="VlfUslpVcMuxResourceStatChangeEvtValue">
+      
+    <xsd:restriction base="VlfUslpVcMuxResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the vlfUslpVcMuxOperatorNotify event are classified
+ in terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering and
+ searching for specific messages, a unique numerical identifier is assigned to each
+ message string. The messages are free text such that equipment specific issues can
+ be reported. 
+-->
+   
+  <xsd:complexType name="VlfUslpVcMuxOperatorNotifyMessage">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="OperatorNotifyMessage">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the VlfUslpVcMux
+ FR type.  
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a set of parameter identifier and parameter value pairs. To be valid, the
+ parameter identifier must reference a controllable parameter of the VlfUslpVcMux
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+-->
+   
+  <xsd:complexType name="VlfUslpVcMuxContrParamIdsAndValuesDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="DirectiveQualifier">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+When receiving this directive, the FR discards all data units buffered at that time
+ for the virtual channel multiplexing that have been received through the transfer
+ service instance identified in the directive qualifier.
+-->
+  
+  <!--
+The qualifier of this directive specifies the service-instance-id of the CSTS instance
+ for which the data units are to discarded when the vlfUslpVcMuxDiscardDataUnits
+ directive is invoked. 
+-->
+   
+  <xsd:complexType name="VlfUslpVcMuxDiscardDataUnitsDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="CstsSvcInstanceId">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+</xsd:schema>

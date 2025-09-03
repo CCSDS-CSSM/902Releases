@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The FcltuTsProvider FR provides the to be radiated CLTUs to the TcPlopSyncAndChnlEncode
+ FR.
+-->
+   
+  <xsd:element name="FcltuTsProviderElement" substitutionGroup="functionalResourceInstance" type="FcltuTsProviderType"/>
+    
+  <xsd:complexType name="FcltuTsProviderType">
+       
+    <xsd:complexContent>
+          
+      <xsd:extension base="FunctionalResourceInstance">
+             
+        <xsd:all>
+                
+          <xsd:element minOccurs="0" name="fcltuSvcInstanceId" type="FcltuSvcInstanceIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="fcltuInitiatorId" type="FcltuInitiatorIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="fcltuResponderId" type="FcltuResponderIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="fcltuResponderPortId" type="FcltuResponderPortIdNamed"/>
+                
+          <xsd:element minOccurs="0" name="fcltuRtnTimeoutPeriod" type="FcltuRtnTimeoutPeriodNamed"/>
+                
+          <xsd:element minOccurs="0" name="fcltuNotificationMode" type="FcltuNotificationModeNamed"/>
+                
+          <xsd:element minOccurs="0" name="fcltuProtocolAbortMode" type="FcltuProtocolAbortModeNamed"/>
+                
+          <xsd:element minOccurs="0" name="fcltuMinReportingCycle" type="FcltuMinReportingCycleNamed"/>
+               
+        </xsd:all>
+             
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200" name="frTypeOid" type="ObjectIdentifier"/>
+            
+      </xsd:extension>
+         
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:element name="fcltuSvcInstanceId" substitutionGroup="frmParameter" type="FcltuSvcInstanceIdNamed"/>
+   
+  <xsd:element name="fcltuInitiatorId" substitutionGroup="frmParameter" type="FcltuInitiatorIdNamed"/>
+   
+  <xsd:element name="fcltuResponderId" substitutionGroup="frmParameter" type="FcltuResponderIdNamed"/>
+   
+  <xsd:element name="fcltuResponderPortId" substitutionGroup="frmParameter" type="FcltuResponderPortIdNamed"/>
+   
+  <xsd:element name="fcltuRtnTimeoutPeriod" substitutionGroup="frmParameter" type="FcltuRtnTimeoutPeriodNamed"/>
+   
+  <xsd:element name="fcltuNotificationMode" substitutionGroup="frmParameter" type="FcltuNotificationModeNamed"/>
+   
+  <xsd:element name="fcltuProtocolAbortMode" substitutionGroup="frmParameter" type="FcltuProtocolAbortModeNamed"/>
+   
+  <xsd:element name="fcltuMinReportingCycle" substitutionGroup="frmParameter" type="FcltuMinReportingCycleNamed"/>
+  
+  <!--
+This enumerated parameter reports the status of the service production process used
+ by the given instance of the F-CLTU service. It can take on the following values:
+-
+ 'configured':  equipment has been assigned to support the service instance, but
+ the production process is not yet capable of radiating CLTUs;
+- 'operational':
+  the production process has been configured for support, has completed the acquisition
+ sequence, and is capable of radiating CLTUs;
+- 'interrupted':  the production process
+ is stopped due to a fault;
+- 'halted':  the production process is stopped and production
+ equipment is out of service due to management action.
+-->
+   
+  <xsd:complexType name="FcltuProdStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the status of the service production process used by the given instance of the F-CLTU service. It can take on the following values:
+- 'configured':  equipment has been assigned to support the service instance, but the production process is not yet capable of radiating CLTUs;
+- 'operational':  the production process has been configured for support, has completed the acquisition sequence, and is capable of radiating CLTUs;
+- 'interrupted':  the production process is stopped due to a fault;
+- 'halted':  the production process is stopped and production equipment is out of service due to management action.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuProdStat" use="required"/>
+            
+        <xsd:attribute fixed="fcltuProdStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuProdStat">
+      
+    <xsd:restriction base="ProdStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the identifier of the given service instance.
+ 
+-->
+   
+  <xsd:complexType name="FcltuSvcInstanceIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the identifier of the given service instance. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuSvcInstanceId" use="required"/>
+            
+        <xsd:attribute fixed="fcltuSvcInstanceId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuSvcInstanceId">
+      
+    <xsd:restriction base="SleSvcInstanceId"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter reports the status of the given instance of the F-CLTU
+ service. It can take on the following values:
+- 'unbound':  all resources required
+ to enable the provision of the Forward CLTU service have been allocated, and all
+ objects required to provide the service have been instantiated; however, no association
+ yet exists between the user and the provider, i.e., the F-CLTU transfer service
+ provider port is not bound;
+- 'ready':  an association has been established between
+ the user and the provider, and they may interact by means of the service operations.
+ However, sending of CLTUs from the user to the provider (by means of the CLTU-TRANSFER-DATA
+ operation) is not permitted; the user may enable the delivery of CLTUs by means
+ of the appropriate service operation (CLTU-START), which, in turn, will cause the
+ provider to transition to the state 'active';
+- 'active':  this state resembles
+ state ‘ready’, except that now the user can send CLTUs and the provider is enabled
+ to radiate CLTUs to the spacecraft; the service continues in this state until the
+ user invokes either the CLTU-STOP operation to cause the provider to suspend transmission
+ of CLTUs and transition back to state 'ready' or the user invokes the PEER-ABORT
+ operation to cause the service to transition back to the 'unbound' state.
+-->
+   
+  <xsd:complexType name="FcltuSvcInstanceStateNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the status of the given instance of the F-CLTU service. It can take on the following values:
+- 'unbound':  all resources required to enable the provision of the Forward CLTU service have been allocated, and all objects required to provide the service have been instantiated; however, no association yet exists between the user and the provider, i.e., the F-CLTU transfer service provider port is not bound;
+- 'ready':  an association has been established between the user and the provider, and they may interact by means of the service operations. However, sending of CLTUs from the user to the provider (by means of the CLTU-TRANSFER-DATA operation) is not permitted; the user may enable the delivery of CLTUs by means of the appropriate service operation (CLTU-START), which, in turn, will cause the provider to transition to the state 'active';
+- 'active':  this state resembles state ‘ready’, except that now the user can send CLTUs and the provider is enabled to radiate CLTUs to the spacecraft; the service continues in this state until the user invokes either the CLTU-STOP operation to cause the provider to suspend transmission of CLTUs and transition back to state 'ready' or the user invokes the PEER-ABORT operation to cause the service to transition back to the 'unbound' state.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuSvcInstanceState" use="required"/>
+            
+        <xsd:attribute fixed="fcltuSvcInstanceState" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuSvcInstanceState">
+      
+    <xsd:restriction base="SleSvcInstanceState"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the identifier of the peer application, i.e.,
+ the authority on whose behalf the SLE application entity is initiating an association
+ with the FCLTU service provider. The provider performs access control based on this
+ parameter. It may also serve as key to further security relevant information such
+ as the authentication level and method and the related password.
+
+Given the security
+ relevance of this parameter, specific mechanisms for setting this parameter when
+ the FR instance is created and for the transfer of associated security relevant
+ data might be specified in a bilateral agreement between service user and service
+ provider. Also the accessibility by an MD-CSTS instance may be restricted.
+-->
+   
+  <xsd:complexType name="FcltuInitiatorIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the identifier of the peer application, i.e., the authority on whose behalf the SLE application entity is initiating an association with the FCLTU service provider. The provider performs access control based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. Also the accessibility by an MD-CSTS instance may be restricted.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuInitiatorId" use="required"/>
+            
+        <xsd:attribute fixed="fcltuInitiatorId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuInitiatorId">
+      
+    <xsd:restriction base="AuthorityIdentifier"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the identifier of the FCLTU application. The
+ user performs access conrol based on this parameter. It may also serve as key to
+ further security relevant information such as the authentication level and method
+ and the related password.
+
+Given the security relevance of this parameter, specific
+ mechanisms for setting this parameter when the FR instance is created and for the
+ transfer of associated security relevant data might be specified in a bilateral
+ agreement between service user and service provider. Also the accessibility by an
+ MD-CSTS instance may be restricted.
+-->
+   
+  <xsd:complexType name="FcltuResponderIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the identifier of the FCLTU application. The user performs access conrol based on this parameter. It may also serve as key to further security relevant information such as the authentication level and method and the related password.
+
+Given the security relevance of this parameter, specific mechanisms for setting this parameter when the FR instance is created and for the transfer of associated security relevant data might be specified in a bilateral agreement between service user and service provider. Also the accessibility by an MD-CSTS instance may be restricted.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuResponderId" use="required"/>
+            
+        <xsd:attribute fixed="fcltuResponderId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.5.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuResponderId">
+      
+    <xsd:restriction base="AuthorityIdentifier"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the port identifier to be used by the user
+ to connect to the service provider. However, the parameter value is only a logical
+ name that needs to be translated into the technology-specific addressing information
+ required to establish a connection with the specific port of the
+responding SLE
+ application entity. As such this parameter is irrelevant for the service provider,
+ but it may be needed for certain kind of gateways between service user and service
+ provider application.
+-->
+   
+  <xsd:complexType name="FcltuResponderPortIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the port identifier to be used by the user to connect to the service provider. However, the parameter value is only a logical name that needs to be translated into the technology-specific addressing information required to establish a connection with the specific port of the
+responding SLE application entity. As such this parameter is irrelevant for the service provider, but it may be needed for certain kind of gateways between service user and service provider application.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuResponderPortId" use="required"/>
+            
+        <xsd:attribute fixed="fcltuResponderPortId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.6.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuResponderPortId">
+      
+    <xsd:restriction base="ResponderPortId"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the setting of the maximum time period in seconds
+ permitted from when a confirmed F-CLTU operation is invoked until the return has
+ to be received by the invoker.
+
+If a response is not received within that time
+ period, the invoker may invoke the PEER-ABORT operation.
+-->
+   
+  <xsd:complexType name="FcltuRtnTimeoutPeriodNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the setting of the maximum time period in seconds permitted from when a confirmed F-CLTU operation is invoked until the return has to be received by the invoker.
+
+If a response is not received within that time period, the invoker may invoke the PEER-ABORT operation.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuRtnTimeoutPeriod" use="required"/>
+            
+        <xsd:attribute fixed="fcltuRtnTimeoutPeriod" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.7.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuRtnTimeoutPeriod">
+      
+    <xsd:restriction base="SvcResponseTimeout"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter reports the delivery mode of the given instance of the
+ F-CLTU service. For the present version of this service only the ‘fwdOnline’ delivery
+ mode is defined.
+-->
+   
+ 
+  <xsd:complexType name="FcltuDeliveryModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the delivery mode of the given instance of the F-CLTU service. For the present version of this service only the ‘fwdOnline’ delivery mode is defined.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuDeliveryMode" use="required"/>
+            
+        <xsd:attribute fixed="fcltuDeliveryMode" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.8.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuDeliveryMode">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="fwdOnline"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter configures and reports how the F-CLTU provider notifies
+ certain changes of fcltuProdStat to the service user. It can take on two values:
+-
+ 'immediate':  the user is notified of a fcltuProdStat change to 'interrupted' as
+ soon as this transition is detected;
+- 'deferred':  the user is notified about
+ the fcltuProdStat change only if and when the radiation of a CLTU is affected.
+-->
+   
+ 
+  <xsd:complexType name="FcltuNotificationModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports how the F-CLTU provider notifies certain changes of fcltuProdStat to the service user. It can take on two values:
+- 'immediate':  the user is notified of a fcltuProdStat change to 'interrupted' as soon as this transition is detected;
+- 'deferred':  the user is notified about the fcltuProdStat change only if and when the radiation of a CLTU is affected.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuNotificationMode" use="required"/>
+            
+        <xsd:attribute fixed="fcltuNotificationMode" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.9.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuNotificationMode">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="immediate"/>
+           
+      <xsd:enumeration value="deferred"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter configures and reports the way the F-CLTU service provider
+ will act in the event of a protocol abort. This parameter can take on two values:
+-
+ 'abort':  service production will cease in the event of a protocol abort;
+- 'continue':
+  service production will disregard the protocol abort event and continue radiating
+ the CLTUs already buffered at the time of the event.
+-->
+   
+ 
+  <xsd:complexType name="FcltuProtocolAbortModeNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports the way the F-CLTU service provider will act in the event of a protocol abort. This parameter can take on two values:
+- 'abort':  service production will cease in the event of a protocol abort;
+- 'continue':  service production will disregard the protocol abort event and continue radiating the CLTUs already buffered at the time of the event.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuProtocolAbortMode" use="required"/>
+            
+        <xsd:attribute fixed="fcltuProtocolAbortMode" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.10.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuProtocolAbortMode">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="abort"/>
+           
+      <xsd:enumeration value="continue"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the minimum time in seconds between successive
+ CLTU-STATUS-REPORT invocations sent by the FCLTU service provider that may be requested
+ in a CLTU-SCHEDULE-STATUS-REPORT invocation. 
+-->
+   
+  <xsd:complexType name="FcltuMinReportingCycleNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the minimum time in seconds between successive CLTU-STATUS-REPORT invocations sent by the FCLTU service provider that may be requested in a CLTU-SCHEDULE-STATUS-REPORT invocation. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuMinReportingCycle" use="required"/>
+            
+        <xsd:attribute fixed="fcltuMinReportingCycle" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.11.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="FcltuMinReportingCycle">
+      
+    <xsd:restriction base="MinAllowedReportingCycle"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the current setting of the time in seconds between successive
+ CLTU-STATUS-REPORT invocations sent by the F-CLTU service provider provided fCltuReportingCycle
+ is 'on'. While fcltuReportingCycle is 'off', no cycle time is reported. 
+-->
+   
+  <xsd:complexType name="FcltuReportingCycleNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the current setting of the time in seconds between successive CLTU-STATUS-REPORT invocations sent by the F-CLTU service provider provided fCltuReportingCycle is 'on'. While fcltuReportingCycle is 'off', no cycle time is reported. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="FcltuReportingCycle" type="FcltuReportingCycle"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.12.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="fcltuReportingCycle" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:complexType name="FcltuReportingCycle">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="SleReportingCycle">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This parameter reports the value of the cltu-identification the F-CLTU service provider
+ expects to receive in the next CLTU-TRANSFER-DATA invocation for this invocation
+ to be valid. As long as fcltuSvcInstanceState ≠ 'active', the value reported will
+ be zero ('0').
+-->
+   
+ 
+  <xsd:complexType name="FcltuExpectedCltuIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the value of the cltu-identification the F-CLTU service provider expects to receive in the next CLTU-TRANSFER-DATA invocation for this invocation to be valid. As long as fcltuSvcInstanceState ≠ 'active', the value reported will be zero ('0').]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuExpectedCltuId" use="required"/>
+            
+        <xsd:attribute fixed="fcltuExpectedCltuId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.13.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="FcltuExpectedCltuId">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the value of the event-invocation-identification the F-CLTU
+ service provider expects to receive in the next CLTU-THROW-EVENT invocation for
+ this invocation to be valid. The initial value of this parameter is zero ('0').
+-->
+   
+ 
+  <xsd:complexType name="FcltuExpectedEventInvocIdNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the value of the event-invocation-identification the F-CLTU service provider expects to receive in the next CLTU-THROW-EVENT invocation for this invocation to be valid. The initial value of this parameter is zero ('0').]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuExpectedEventInvocId" use="required"/>
+            
+        <xsd:attribute fixed="fcltuExpectedEventInvocId" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.14.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="FcltuExpectedEventInvocId">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the total number of CLTUs received while the given service
+ instance has been accessible to the user. Only CLTUs that the service provider accepted
+ and consequently buffered are counted in the total.
+-->
+   
+ 
+  <xsd:complexType name="FcltuNumberOfCltusReceivedNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the total number of CLTUs received while the given service instance has been accessible to the user. Only CLTUs that the service provider accepted and consequently buffered are counted in the total.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuNumberOfCltusReceived" use="required"/>
+            
+        <xsd:attribute fixed="fcltuNumberOfCltusReceived" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.15.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="FcltuNumberOfCltusReceived">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the number of CLTUs that the provider attempted to radiate
+ while the given service instance has been active including:
+- CLTUs that radiated
+ successfully;
+- CLTUs that expired;
+- CLTUs that aborted;
+- a CLTU in the process
+ of being radiated.
+-->
+   
+ 
+  <xsd:complexType name="FcltuNumberOfCltusProcessedNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the number of CLTUs that the provider attempted to radiate while the given service instance has been active including:
+- CLTUs that radiated successfully;
+- CLTUs that expired;
+- CLTUs that aborted;
+- a CLTU in the process of being radiated.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuNumberOfCltusProcessed" use="required"/>
+            
+        <xsd:attribute fixed="fcltuNumberOfCltusProcessed" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.16.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="FcltuNumberOfCltusProcessed">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the number of CLTUs that the provider successfully radiated
+ completely during the service provision period. A CLTU in the process of being radiated
+ is not included in this count.
+-->
+   
+ 
+  <xsd:complexType name="FcltuNumberOfCltusRadiatedNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the number of CLTUs that the provider successfully radiated completely during the service provision period. A CLTU in the process of being radiated is not included in this count.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="FcltuNumberOfCltusRadiated" use="required"/>
+            
+        <xsd:attribute fixed="fcltuNumberOfCltusRadiated" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.80200.1.17.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="FcltuNumberOfCltusRadiated">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="4294967295"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event notifies any change of the fcltuProdStat parameter.  
+-->
+  
+  <!--
+The event value reports the fcltuProdStat value that applies since the notified fcltuProdStatChange
+ event has occurred.
+-->
+   
+  <xsd:simpleType name="FcltuProdStatChangeEvtValue">
+      
+    <xsd:restriction base="FcltuProdStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event triggers when one or more parameters controlling the configuration of
+ service production of the service instance identified by the fcltuSvcInstanceId
+ parameter have been changed.
+
+This event carries no additional information.
+
+-->
+  
+  <!--
+The event-value of this event is 'empty'.
+-->
+   
+  <xsd:simpleType name="FcltuProdConfigurationChangeEvtValue">
+      
+    <xsd:restriction base="ProdConfigurationChangeEvtValue"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the fcltuOperatorNotify event are classified in terms
+ of severity as 'info', 'warning' or 'alarm'. To simplify filtering and searching
+ for specific messages, a unique numerical identifier is assigned to each message
+ string. The messages are free text such that equipment specific issues can be reported.
+ 
+-->
+   
+  <xsd:complexType name="FcltuOperatorNotifyMessage">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="OperatorNotifyMessage">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the FcltuTsProvider
+ FR type. 
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a set of parameter identifier and parameter value pairs. To be valid, the
+ parameter identifier must reference a controllable parameter of the FcltuTsProvider
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+-->
+   
+  <xsd:complexType name="FcltuContrParamIdsAndValuesDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="DirectiveQualifier">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+</xsd:schema>

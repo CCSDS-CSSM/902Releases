@@ -1,0 +1,2578 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="urn:ccsds:schema:frm" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" ecore:documentRoot="Functional Resources" elementFormDefault="qualified" targetNamespace="urn:ccsds:schema:frm" version="1.0.0">
+  
+  <xsd:include schemaLocation="frm_type_definitions.xsd"/>
+  
+  <xsd:include schemaLocation="AbstractFrTypes.xsd"/>
+  
+  <!--
+The TmSyncAndChnlDecode FR accepts as input the symbol stream from the Ccsds401SpaceLinkCarrierRcpt
+ FR. It provides the decoded and annotated telemetry frames to the RafTsProvider,
+ the RcfTsProvider, the RocfTsProvider, to the McDemuxReception and to the TmFrameDataSink
+ FRs.
+-->
+   
+  <xsd:element name="TmSyncAndChnlDecodeElement" substitutionGroup="functionalResourceInstance" type="TmSyncAndChnlDecodeType"/>
+    
+  <xsd:complexType name="TmSyncAndChnlDecodeType">
+       
+    <xsd:complexContent>
+          
+      <xsd:extension base="FunctionalResourceInstance">
+             
+        <xsd:all>
+                
+          <xsd:element minOccurs="0" name="tmSyncDecAsmConfig" type="TmSyncDecAsmConfigNamed"/>
+                
+          <xsd:element minOccurs="0" name="tmSyncDecCaduLength" type="TmSyncDecCaduLengthNamed"/>
+                
+          <xsd:element minOccurs="0" name="tmfSyncDecDerandomization" type="TmfSyncDecDerandomizationNamed"/>
+                
+          <xsd:element minOccurs="0" name="tmSyncDecDecode" type="TmSyncDecDecodeNamed"/>
+                
+          <xsd:element minOccurs="0" name="tmSyncDecFecfPresent" type="TmSyncDecFecfPresentNamed"/>
+               
+        </xsd:all>
+             
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300" name="frTypeOid" type="ObjectIdentifier"/>
+            
+      </xsd:extension>
+         
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:element name="tmSyncDecAsmConfig" substitutionGroup="frmParameter" type="TmSyncDecAsmConfigNamed"/>
+   
+  <xsd:element name="tmSyncDecCaduLength" substitutionGroup="frmParameter" type="TmSyncDecCaduLengthNamed"/>
+   
+  <xsd:element name="tmfSyncDecDerandomization" substitutionGroup="frmParameter" type="TmfSyncDecDerandomizationNamed"/>
+   
+  <xsd:element name="tmSyncDecDecode" substitutionGroup="frmParameter" type="TmSyncDecDecodeNamed"/>
+   
+  <xsd:element name="tmSyncDecFecfPresent" substitutionGroup="frmParameter" type="TmSyncDecFecfPresentNamed"/>
+  
+  <!--
+This enumerated parameter reports the TM synchronization and decoding resource status
+ and can take on four values:
+- 'configured':  the synchronization and decoding
+ equipment has been configured, but no incoming symbol stream is present;
+- 'operational':
+  the telemetry reception is active, i.e., all syncronization and decoding is in
+ nominal condition;
+- 'interrupted':  a failure has been detected, e.g. the incoming
+ data cannot be decoded;
+- 'halted':  the telemetry reception has been taken out
+ of service. 
+-->
+   
+  <xsd:complexType name="TmSyncDecResourceStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the TM synchronization and decoding resource status and can take on four values:
+- 'configured':  the synchronization and decoding equipment has been configured, but no incoming symbol stream is present;
+- 'operational':  the telemetry reception is active, i.e., all syncronization and decoding is in nominal condition;
+- 'interrupted':  a failure has been detected, e.g. the incoming data cannot be decoded;
+- 'halted':  the telemetry reception has been taken out of service. ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecResourceStat" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecResourceStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.1.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TmSyncDecResourceStat">
+      
+    <xsd:restriction base="ResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the ASM pattern, the frame synchronizer behavior
+ in terms of the correlation error threshold for declaring 'ASM lock' and for declaring
+ 'ASM out of lock', the number of consecutive frames with 'ASM lock' required to
+ transition from 'notLocked' to 'verify', the number of consecutive frames with 'ASM
+ lock' required to transition from 'verify' to 'locked' and the number of consecutive
+ frames with 'ASM out of lock' required to transition from 'locked' to 'notLocked'
+ and the to be tolerated ASM position error in number of symbols (i.e. unexpected
+ frame length) for not triggering the transition to 'notLocked'. 
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecAsmConfigNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="TmSyncDecAsmConfig" type="TmSyncDecAsmConfig"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.2.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="tmSyncDecAsmConfig" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="TmSyncDecAsmConfig">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the ASM pattern, the frame synchronizer behavior in terms of the correlation error threshold for declaring 'ASM lock' and for declaring 'ASM out of lock', the number of consecutive frames with 'ASM lock' required to transition from 'notLocked' to 'verify', the number of consecutive frames with 'ASM lock' required to transition from 'verify' to 'locked' and the number of consecutive frames with 'ASM out of lock' required to transition from 'locked' to 'notLocked' and the to be tolerated ASM position error in number of symbols (i.e. unexpected frame length) for not triggering the transition to 'notLocked'. ]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:sequence>
+          
+      <xsd:element name="asmPattern">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[choice]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:choice>
+                  
+            <xsd:element name="ccsdsPattern">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="NULL"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="nonCcsdsPattern">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The length of the ASM pattern is indirectly specified by the length of the octet string.
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="xsd:hexBinary"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:choice>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="asmThresholds">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="asmCorrelationLockThreshold">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="0"/>
+                                 
+                      <xsd:maxInclusive value="191"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="asmCorrelationOutOfLockThreshold">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="1"/>
+                                 
+                      <xsd:maxInclusive value="192"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="verifyThreshold">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="1"/>
+                                 
+                      <xsd:maxInclusive value="15"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="lockedThreshold">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="1"/>
+                                 
+                      <xsd:maxInclusive value="15"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="notLockedThreshold">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="1"/>
+                                 
+                      <xsd:maxInclusive value="15"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="frameLengthErrorThreshold">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         in number of symbols
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                              
+                    <xsd:restriction base="xsd:integer">
+                                 
+                      <xsd:minInclusive value="-10"/>
+                                 
+                      <xsd:maxInclusive value="10"/>
+                                
+                    </xsd:restriction>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter reports the number of symbols in the most recently received ASM that
+ differ from the nominal ASM pattern. When comparing these numbers, one needs to
+ take into consideration whether the synchronization is done on the (pre Viterbi
+ decoder) symbol stream or on the (post Viterbi decoder) bit stream which may be
+ the case if tmSyncDecDecode is either 'convolutional' or 'concatenated'.
+The frame
+ synchronization is also used to remove the phase ambiguity of some modulation schemes.
+ To that end, the correlation process is performed both for the standard ASM pattern
+ and its inversion.
+A given implementation will specify if the synchronization is
+ performed in the symbol or bit domain. This shall be recorded in the Service Agreement.
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecAsmCorrelationErrorNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the number of symbols in the most recently received ASM that differ from the nominal ASM pattern. When comparing these numbers, one needs to take into consideration whether the synchronization is done on the (pre Viterbi decoder) symbol stream or on the (post Viterbi decoder) bit stream which may be the case if tmSyncDecDecode is either 'convolutional' or 'concatenated'.
+The frame synchronization is also used to remove the phase ambiguity of some modulation schemes. To that end, the correlation process is performed both for the standard ASM pattern and its inversion.
+A given implementation will specify if the synchronization is performed in the symbol or bit domain. This shall be recorded in the Service Agreement.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecAsmCorrelationError" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecAsmCorrelationError" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.3.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="TmSyncDecAsmCorrelationError">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="192"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter reports the frame synchronizer lock status. It can take
+ on the following values:
+- 'notLocked':  the frame synchronizer has just started
+ looking for ASMs or has been in the 'locked' or 'verify' status and the specified
+ number of frames has been processed without finding an ASM with correlation and
+ position error limit below the acceptable limit specified in tmSyncDecAsmConfig;
+ 
+- 'locked':  The synchronizer has been in the 'verify' status and then has found
+ the specified number of Attached Sync Markers required for the transition to 'locked'
+ with the expected number of symbols or bits between them and with each ASM having
+ a correlation error that is lower than the configured error limit (see tmSyncDecAsmConfig);
+-
+ 'verify':  the frame synchronizer is 'notLocked' and has found one ASM in the symbol
+ or bit stream with the correlation error lower than the configured threshold; it
+ is looking for further ASMs at the expected number of symbols or bits after the
+ previous ASM; if the number specified in tmSyncDecAsmConfig of such ASMs is found,
+ the lock status changes to 'verify'; if such ASMs are not found where expected,
+ the lock status remains 'not locked'; if an ASM is found, but at a larger distance
+ in terms of symbols or bits than expected, that newly found ASM will be the reference
+ for searching the next verification ASM.
+
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecFrameSyncLockStatNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports the frame synchronizer lock status. It can take on the following values:
+- 'notLocked':  the frame synchronizer has just started looking for ASMs or has been in the 'locked' or 'verify' status and the specified number of frames has been processed without finding an ASM with correlation and position error limit below the acceptable limit specified in tmSyncDecAsmConfig; 
+- 'locked':  The synchronizer has been in the 'verify' status and then has found the specified number of Attached Sync Markers required for the transition to 'locked' with the expected number of symbols or bits between them and with each ASM having a correlation error that is lower than the configured error limit (see tmSyncDecAsmConfig);
+- 'verify':  the frame synchronizer is 'notLocked' and has found one ASM in the symbol or bit stream with the correlation error lower than the configured threshold; it is looking for further ASMs at the expected number of symbols or bits after the previous ASM; if the number specified in tmSyncDecAsmConfig of such ASMs is found, the lock status changes to 'verify'; if such ASMs are not found where expected, the lock status remains 'not locked'; if an ASM is found, but at a larger distance in terms of symbols or bits than expected, that newly found ASM will be the reference for searching the next verification ASM.
+]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecFrameSyncLockStat" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecFrameSyncLockStat" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.4.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TmSyncDecFrameSyncLockStat">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="notLocked"/>
+           
+      <xsd:enumeration value="locked"/>
+           
+      <xsd:enumeration value="verify"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter reports if, based on the observed polarity of the ASM,
+ the symbol stream had to be inverted or not. It can take two values:
+- 'yes': 
+ the frame synchronizer locked on the inverted ASM pattern and therefore inverts
+ the polarity of the symbol stream;
+- 'no':  the frame synchronizer locked on the
+ ASM with the pattern in positive logic and therefore does not invert the symbol
+ stream.
+As long as tmSyncDecFrameSyncLockStat ≠ 'locked', this parameter shall
+ be flagged as unavailable.
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecSymbolInversionNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports if, based on the observed polarity of the ASM, the symbol stream had to be inverted or not. It can take two values:
+- 'yes':  the frame synchronizer locked on the inverted ASM pattern and therefore inverts the polarity of the symbol stream;
+- 'no':  the frame synchronizer locked on the ASM with the pattern in positive logic and therefore does not invert the symbol stream.
+As long as tmSyncDecFrameSyncLockStat ≠ 'locked', this parameter shall be flagged as unavailable.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecSymbolInversion" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecSymbolInversion" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.5.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TmSyncDecSymbolInversion">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="yes"/>
+           
+      <xsd:enumeration value="no"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+The parameter reports the ratio of erred frames to the total number of frames processed
+ for the most recent n frames. The value of n shall be documented in the Service
+ Agreement. If the frames are RS or LDPC encoded, then frames for which the RS or
+ LDPC correction is not possible are considered erred. Frames are also considered
+ erred if the FECF is present and the check of the FECF is negative. In all other
+ cases, i.e., if the frames are neither RS nor LDPC encoded nor do they contain a
+ CCSDS compliant FECF, this parameter shall be flagged as 'undefined'.
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecFrameErrorRateNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[The parameter reports the ratio of erred frames to the total number of frames processed for the most recent n frames. The value of n shall be documented in the Service Agreement. If the frames are RS or LDPC encoded, then frames for which the RS or LDPC correction is not possible are considered erred. Frames are also considered erred if the FECF is present and the check of the FECF is negative. In all other cases, i.e., if the frames are neither RS nor LDPC encoded nor do they contain a CCSDS compliant FECF, this parameter shall be flagged as 'undefined'.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecFrameErrorRate" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecFrameErrorRate" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.6.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+   
+  <xsd:simpleType name="TmSyncDecFrameErrorRate">
+        
+    <xsd:restriction base="xsd:double">
+           
+      <xsd:minInclusive value="0"/>
+           
+      <xsd:maxInclusive value="1"/>
+          
+    </xsd:restriction>
+       
+  </xsd:simpleType>
+  
+  <!--
+This parameter reports the number of bits in the frame corrected by means of the
+ RS trailer. The number of bits that can be corrected depends on the coding and the
+ interleaving depth. If tmSyncDecDecode is neither 'reedSolomon' nor 'concatenated',
+ this parameter shall be flagged as 'undefined'.
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecNumberOfRsErrorsCorrectedNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter reports the number of bits in the frame corrected by means of the RS trailer. The number of bits that can be corrected depends on the coding and the interleaving depth. If tmSyncDecDecode is neither 'reedSolomon' nor 'concatenated', this parameter shall be flagged as 'undefined'.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecNumberOfRsErrorsCorrected" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecNumberOfRsErrorsCorrected" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.7.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="TmSyncDecNumberOfRsErrorsCorrected">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="0"/>
+         
+      <xsd:maxInclusive value="128"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter reports if the time tags used to annotate the telemetry
+ frames with the Earth Receive Time (ERT) are generated by a time code generator
+ slaved to a high precision reference or if this generator is free running. It can
+ take on two values:
+- 'no':  the system generating the time tags is free-running;
+-
+ 'yes':  the time tags are generated by a system that is locked to the station's
+ frequency and timing system.
+ 
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecErtAnnotationLockedToReferenceNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter reports if the time tags used to annotate the telemetry frames with the Earth Receive Time (ERT) are generated by a time code generator slaved to a high precision reference or if this generator is free running. It can take on two values:
+- 'no':  the system generating the time tags is free-running;
+- 'yes':  the time tags are generated by a system that is locked to the station's frequency and timing system.
+ ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecErtAnnotationLockedToReference" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecErtAnnotationLockedToReference" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.8.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TmSyncDecErtAnnotationLockedToReference">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="no"/>
+           
+      <xsd:enumeration value="yes"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the length in octets of the CADU the frame
+ synchronizer shall attempt to lock on. Depending on the implementation, the frame
+ synchronizer may operate on the convolutionally encoded symbol stream or the already
+ convolutionally decoded symbol stream, if convolutional encoding is applied at all.
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecCaduLengthNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the length in octets of the CADU the frame synchronizer shall attempt to lock on. Depending on the implementation, the frame synchronizer may operate on the convolutionally encoded symbol stream or the already convolutionally decoded symbol stream, if convolutional encoding is applied at all.]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecCaduLength" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecCaduLength" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.9.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+ 
+  <xsd:simpleType name="TmSyncDecCaduLength">
+      
+    <xsd:restriction base="xsd:integer">
+         
+      <xsd:minInclusive value="48"/>
+         
+      <xsd:maxInclusive value="32768"/>
+        
+    </xsd:restriction>
+     
+  </xsd:simpleType>
+  
+  <!--
+This enumerated parameter configures and reports if the FR is configured to derandomize
+ the incoming frames. This parameter can take on two values:
+- 'noDerandomization';
+-
+ 'derandomization'.
+
+The details regarding the randomization are specified in CCSDS
+ 131.0-B-3. Randomization is strongly advised, but mandatory only for punctured convolutional
+ codes and for LDPC encoded slices.  
+-->
+   
+ 
+  <xsd:complexType name="TmfSyncDecDerandomizationNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This enumerated parameter configures and reports if the FR is configured to derandomize the incoming frames. This parameter can take on two values:
+- 'noDerandomization';
+- 'derandomization'.
+
+The details regarding the randomization are specified in CCSDS 131.0-B-3. Randomization is strongly advised, but mandatory only for punctured convolutional codes and for LDPC encoded slices.  ]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmfSyncDecDerandomization" use="required"/>
+            
+        <xsd:attribute fixed="tmfSyncDecDerandomization" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.10.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TmfSyncDecDerandomization">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="noDerandomization"/>
+           
+      <xsd:enumeration value="derandomization"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter configures and reports the decoding theTM SyncAndDecode FR is configured
+ to apply to the incoming frames. This parameter can take on the following values:
+-
+ 'no decoding';
+- 'convolutional';
+- 'reedSolomon';
+- 'concatenated';
+- 'turbo';
+-
+ 'ldpc';
+- 'slicedLdpc'.
+For the configured decoding option the parameter also
+ specifies the associated configuration details.
+
+Note: The length and pattern
+ of the ASM is implicitly specified by the decoding that is to be applied except
+ if for parameter tmSyncDecAsmConfig the nonCcsds asmPattern choice is selected.
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecDecodeNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="TmSyncDecDecode" type="TmSyncDecDecode"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.11.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="tmSyncDecDecode" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="TmSyncDecDecode">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports the decoding theTM SyncAndDecode FR is configured to apply to the incoming frames. This parameter can take on the following values:
+- 'no decoding';
+- 'convolutional';
+- 'reedSolomon';
+- 'concatenated';
+- 'turbo';
+- 'ldpc';
+- 'slicedLdpc'.
+For the configured decoding option the parameter also specifies the associated configuration details.
+
+Note: The length and pattern of the ASM is implicitly specified by the decoding that is to be applied except if for parameter tmSyncDecAsmConfig the nonCcsds asmPattern choice is selected.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:sequence>
+          
+      <xsd:element name="differentialDecode">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+            <!--
+       If applicable, the CCSDS recommendation is NRZ-M.
+       -->
+                   
+       
+            <xsd:simpleType>
+                      
+        
+              <xsd:restriction base="xsd:token">
+                           
+                <xsd:enumeration value="notApplicable"/>
+                           
+                <xsd:enumeration value="inputIsNrzM"/>
+                           
+                <xsd:enumeration value="inputIsNrzS"/>
+                          
+        
+              </xsd:restriction>
+                     
+       
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="symbolDecode">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[choice]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:choice>
+                  
+            <xsd:element name="noDecoding">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                           
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="NULL"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="convolutional" type="ConvolutionalCodeConfiguration">
+      </xsd:element>
+                  
+            <xsd:element name="reedSolomon">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:sequence>
+                          
+                  <xsd:element name="rsCorrectionCapabilty">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                                      
+            
+                          <xsd:restriction base="xsd:token">
+                                           
+                            <xsd:enumeration value="corrects8"/>
+                                           
+                            <xsd:enumeration value="corrects16"/>
+                                          
+            
+                          </xsd:restriction>
+                                     
+           
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="rsInterleavingDepth">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" type="RsInterleavingDepth" use="required"/>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:sequence>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="concatenated">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:sequence>
+                          
+                  <xsd:element name="convolutional" type="ConvolutionalCodeConfiguration">
+        </xsd:element>
+                          
+                  <xsd:element name="rsCorrectionCapabilty">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                                      
+            
+                          <xsd:restriction base="xsd:token">
+                                           
+                            <xsd:enumeration value="corrects8"/>
+                                           
+                            <xsd:enumeration value="corrects16"/>
+                                          
+            
+                          </xsd:restriction>
+                                     
+           
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="rsInterleavingDepth">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" type="RsInterleavingDepth" use="required"/>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:sequence>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="turbo">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:sequence>
+                          
+                  <xsd:element name="maxNumberOfIterations">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+           
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="xsd:integer">
+                                         
+                            <xsd:minInclusive value="1"/>
+                                         
+                            <xsd:maxInclusive value="20"/>
+                                        
+                          </xsd:restriction>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="codeRate">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                                      
+            
+                          <xsd:restriction base="xsd:token">
+                                           
+                            <xsd:enumeration value="rate1Over2"/>
+                                           
+                            <xsd:enumeration value="rate1Over3"/>
+                                           
+                            <xsd:enumeration value="rate1Over4"/>
+                                           
+                            <xsd:enumeration value="rate1Over6"/>
+                                          
+            
+                          </xsd:restriction>
+                                     
+           
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:sequence>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="ldpc">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The information block length shall be derived from the CADU length (see flfSyncCaduLength)
+         -->
+                           
+         
+                  <xsd:simpleType>
+                              
+          
+                    <xsd:restriction base="xsd:token">
+                                   
+                      <xsd:enumeration value="rate1Over2"/>
+                                   
+                      <xsd:enumeration value="rate2Over3"/>
+                                   
+                      <xsd:enumeration value="rate4Over5"/>
+                                   
+                      <xsd:enumeration value="rate223Over255"/>
+                                  
+          
+                    </xsd:restriction>
+                             
+         
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="slicedLdpc">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:sequence>
+                          
+                  <xsd:element name="codeBlockSize">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           Number of LDPC codewords 
+           -->
+                                   
+           
+           
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="xsd:integer">
+                                       
+                            <xsd:pattern value="1|2|3|4|5|6|7|8"/>
+                                        
+                          </xsd:restriction>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="codeRateAndSliceLength">
+                            
+                    <xsd:complexType>
+                                
+                      <xsd:annotation>
+                                   
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[choice]]>
+                        </xsd:appinfo>
+                                  
+                      </xsd:annotation>
+                               
+                      <xsd:choice>
+                                  
+                        <xsd:element name="codeRate1Over2">
+                                    
+                          <xsd:complexType>
+                                        
+                            <xsd:annotation>
+                                           
+                              <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                <![CDATA[sequence]]>
+                              </xsd:appinfo>
+                                          
+                            </xsd:annotation>
+                                       
+                            <xsd:sequence>
+                                          
+                              <xsd:element name="codeRate">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" type="LdpcCodeRate" use="required"/>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="sliceLength">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" use="required">
+                                                   
+               
+                                    <xsd:simpleType>
+                                                      
+                                      <xsd:restriction base="xsd:integer">
+                                                       
+                                        <xsd:pattern value="1024|4096|16384"/>
+                                                        
+                                      </xsd:restriction>
+                                                     
+                                    </xsd:simpleType>
+                                                  
+                                  </xsd:attribute>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="csmPattern">
+                                            
+                                <xsd:complexType>
+                                                
+                                  <xsd:annotation>
+                                                   
+                                    <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                      <![CDATA[choice]]>
+                                    </xsd:appinfo>
+                                                  
+                                  </xsd:annotation>
+                                               
+                                  <xsd:choice>
+                                                  
+                                    <xsd:element name="ccsds">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                             
+                                            <xsd:restriction base="xsd:hexBinary"/>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                  
+                                    <xsd:element name="nonCCSDS">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                              
+                                            <xsd:restriction base="xsd:hexBinary">
+                                                                 
+                                              <xsd:minLength value="4"/>
+                                                                 
+                                              <xsd:maxLength value="16"/>
+                                                                
+                                            </xsd:restriction>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                 
+                                  </xsd:choice>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                         
+                            </xsd:sequence>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="codeRate2Over3">
+                                    
+                          <xsd:complexType>
+                                        
+                            <xsd:annotation>
+                                           
+                              <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                <![CDATA[sequence]]>
+                              </xsd:appinfo>
+                                          
+                            </xsd:annotation>
+                                       
+                            <xsd:sequence>
+                                          
+                              <xsd:element name="codeRate">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" type="LdpcCodeRate" use="required"/>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="sliceLength">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" use="required">
+                                                   
+               
+                                    <xsd:simpleType>
+                                                      
+                                      <xsd:restriction base="xsd:integer">
+                                                       
+                                        <xsd:pattern value="1024|4096|16384"/>
+                                                        
+                                      </xsd:restriction>
+                                                     
+                                    </xsd:simpleType>
+                                                  
+                                  </xsd:attribute>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="csmPattern">
+                                            
+                                <xsd:complexType>
+                                                
+                                  <xsd:annotation>
+                                                   
+                                    <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                      <![CDATA[choice]]>
+                                    </xsd:appinfo>
+                                                  
+                                  </xsd:annotation>
+                                               
+                                  <xsd:choice>
+                                                  
+                                    <xsd:element name="ccsds">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                             
+                                            <xsd:restriction base="xsd:hexBinary"/>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                  
+                                    <xsd:element name="nonCCSDS">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                              
+                                            <xsd:restriction base="xsd:hexBinary">
+                                                                 
+                                              <xsd:minLength value="4"/>
+                                                                 
+                                              <xsd:maxLength value="16"/>
+                                                                
+                                            </xsd:restriction>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                 
+                                  </xsd:choice>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                         
+                            </xsd:sequence>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="codeRate4Over5">
+                                    
+                          <xsd:complexType>
+                                        
+                            <xsd:annotation>
+                                           
+                              <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                <![CDATA[sequence]]>
+                              </xsd:appinfo>
+                                          
+                            </xsd:annotation>
+                                       
+                            <xsd:sequence>
+                                          
+                              <xsd:element name="codeRate">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" type="LdpcCodeRate" use="required"/>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="sliceLength">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" use="required">
+                                                   
+               
+                                    <xsd:simpleType>
+                                                      
+                                      <xsd:restriction base="xsd:integer">
+                                                       
+                                        <xsd:pattern value="1024|4096|16384"/>
+                                                        
+                                      </xsd:restriction>
+                                                     
+                                    </xsd:simpleType>
+                                                  
+                                  </xsd:attribute>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="csmPattern">
+                                            
+                                <xsd:complexType>
+                                                
+                                  <xsd:annotation>
+                                                   
+                                    <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                      <![CDATA[choice]]>
+                                    </xsd:appinfo>
+                                                  
+                                  </xsd:annotation>
+                                               
+                                  <xsd:choice>
+                                                  
+                                    <xsd:element name="ccsds">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                             
+                                            <xsd:restriction base="xsd:hexBinary"/>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                  
+                                    <xsd:element name="nonCCSDS">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                              
+                                            <xsd:restriction base="xsd:hexBinary">
+                                                                 
+                                              <xsd:minLength value="4"/>
+                                                                 
+                                              <xsd:maxLength value="16"/>
+                                                                
+                                            </xsd:restriction>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                 
+                                  </xsd:choice>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                         
+                            </xsd:sequence>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="codeRate223Over255">
+                                    
+                          <xsd:complexType>
+                                        
+                            <xsd:annotation>
+                                           
+                              <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                <![CDATA[sequence]]>
+                              </xsd:appinfo>
+                                          
+                            </xsd:annotation>
+                                       
+                            <xsd:sequence>
+                                          
+                              <xsd:element name="codeRate">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" type="LdpcCodeRate" use="required"/>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="sliceLength">
+                                             
+                                <xsd:complexType>
+                                                
+                                  <xsd:attribute name="value" use="required">
+                                                   
+               
+                                    <xsd:simpleType>
+                                                      
+                                      <xsd:restriction base="xsd:integer">
+                                                       
+                                        <xsd:pattern value="7136"/>
+                                                        
+                                      </xsd:restriction>
+                                                     
+                                    </xsd:simpleType>
+                                                  
+                                  </xsd:attribute>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                          
+                              <xsd:element name="csmPattern">
+                                            
+                                <xsd:complexType>
+                                                
+                                  <xsd:annotation>
+                                                   
+                                    <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                                      <![CDATA[choice]]>
+                                    </xsd:appinfo>
+                                                  
+                                  </xsd:annotation>
+                                               
+                                  <xsd:choice>
+                                                  
+                                    <xsd:element name="ccsds">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                             
+                                            <xsd:restriction base="xsd:hexBinary"/>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                  
+                                    <xsd:element name="nonCCSDS">
+                                                     
+                                      <xsd:complexType>
+                                                        
+                                        <xsd:attribute name="value" use="required">
+                                                           
+                 
+                                          <xsd:simpleType>
+                                                              
+                                            <xsd:restriction base="xsd:hexBinary">
+                                                                 
+                                              <xsd:minLength value="4"/>
+                                                                 
+                                              <xsd:maxLength value="16"/>
+                                                                
+                                            </xsd:restriction>
+                                                             
+                                          </xsd:simpleType>
+                                                          
+                                        </xsd:attribute>
+                                                       
+                                      </xsd:complexType>
+                                                    
+                                    </xsd:element>
+                                                 
+                                  </xsd:choice>
+                                               
+                                </xsd:complexType>
+                                            
+                              </xsd:element>
+                                         
+                            </xsd:sequence>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                 
+                      </xsd:choice>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:sequence>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:choice>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This parameter configures and reports if in the frame to be processed the FECF is
+ present. It can take on two values:
+- 'no';
+- 'yes'.
+
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecFecfPresentNamed">
+      
+    <xsd:annotation>
+         
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter configures and reports if in the frame to be processed the FECF is present. It can take on two values:
+- 'no';
+- 'yes'.
+]]>
+      </xsd:appinfo>
+        
+    </xsd:annotation>
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:attribute name="value" type="TmSyncDecFecfPresent" use="required"/>
+            
+        <xsd:attribute fixed="tmSyncDecFecfPresent" name="classifier" type="xsd:string"/>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.12.1.1" name="oid" type="ObjectIdentifier"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+  <xsd:simpleType name="TmSyncDecFecfPresent">
+      
+  
+    <xsd:restriction base="xsd:token">
+           
+      <xsd:enumeration value="no"/>
+           
+      <xsd:enumeration value="yes"/>
+          
+  
+    </xsd:restriction>
+     
+ 
+  </xsd:simpleType>
+  
+  <!--
+This parameter provides decoding type specific quality indications regarding the
+ decoding process and an estimate of the bit error rate (BER).
+
+The provided BER
+ estimates are not precise. The ASM pattern derived estimate does not reflect the
+ coding gain (except that related to convolutional coding). The RS decoding derived
+ BER estimate also disregards the RS coding gain, but also disregards the errors
+ associated with not decodable RS code words. However, the number of not decodable
+ RS codewords are reported indirectly by the element ratioBadCodeWordsToTotalCountOfCodeWordsInTheSample.
+ The BER estimates are determined for n consecutive frames where the value of n shall
+ be documented by the provider.
+-->
+   
+ 
+  <xsd:complexType name="TmSyncDecDecodeQualityIndicationsNamed">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="ParameterBaseType">
+            
+        <xsd:sequence>
+              
+          <xsd:element name="TmSyncDecDecodeQualityIndications" type="TmSyncDecDecodeQualityIndications"/>
+              
+        </xsd:sequence>
+            
+        <xsd:attribute fixed="1.3.112.4.4.2.1.30300.1.13.1.1" name="oid" type="ObjectIdentifier"/>
+            
+        <xsd:attribute fixed="tmSyncDecDecodeQualityIndications" name="classifier" type="xsd:string"/>
+           
+      </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+    
+  <xsd:complexType name="TmSyncDecDecodeQualityIndications">
+       
+    <xsd:annotation>
+          
+      <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <![CDATA[sequence]]>
+      </xsd:appinfo>
+          
+      <xsd:appinfo source="SemanticDefinition">
+        <![CDATA[This parameter provides decoding type specific quality indications regarding the decoding process and an estimate of the bit error rate (BER).
+
+The provided BER estimates are not precise. The ASM pattern derived estimate does not reflect the coding gain (except that related to convolutional coding). The RS decoding derived BER estimate also disregards the RS coding gain, but also disregards the errors associated with not decodable RS code words. However, the number of not decodable RS codewords are reported indirectly by the element ratioBadCodeWordsToTotalCountOfCodeWordsInTheSample. The BER estimates are determined for n consecutive frames where the value of n shall be documented by the provider.]]>
+      </xsd:appinfo>
+         
+    </xsd:annotation>
+       
+    <xsd:sequence>
+          
+      <xsd:element name="countOfFramesProcessed">
+             
+        <xsd:complexType>
+                
+          <xsd:attribute name="value" use="required">
+            <!--
+       This count rolls over to zero.
+       -->
+                   
+       
+       
+            <xsd:simpleType>
+                      
+              <xsd:restriction base="xsd:integer">
+                         
+                <xsd:minInclusive value="0"/>
+                         
+                <xsd:maxInclusive value="4294967295"/>
+                        
+              </xsd:restriction>
+                     
+            </xsd:simpleType>
+                  
+          </xsd:attribute>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="berEstimates">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[sequence]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:sequence>
+                  
+            <xsd:element name="asmDerivedBerEstimate">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         Ratio of erred ASM bits to total count of ASM bits evaluated in n consecutive frames where the value of n shall be documented by the provider.
+         -->
+                           
+         
+           
+                  <xsd:simpleType>
+                                
+                    <xsd:restriction base="xsd:double">
+                                   
+                      <xsd:minInclusive value="0"/>
+                                   
+                      <xsd:maxInclusive value="1"/>
+                                  
+                    </xsd:restriction>
+                               
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="rsDerivedBerEstimate">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         Ratio of sum of corrected bits in the RS code words to total count of bits in the code words in n consecutive frames where the value of n shall be documented by the provider. Not decodable code words shall be disregarded.
+         -->
+                           
+         
+           
+                  <xsd:simpleType>
+                                
+                    <xsd:restriction base="xsd:double">
+                                   
+                      <xsd:minInclusive value="0"/>
+                                   
+                      <xsd:maxInclusive value="7E-2"/>
+                                  
+                    </xsd:restriction>
+                               
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:sequence>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+          
+      <xsd:element name="qualityIndications">
+            
+        <xsd:complexType>
+                
+          <xsd:annotation>
+                   
+            <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+              <![CDATA[choice]]>
+            </xsd:appinfo>
+                  
+          </xsd:annotation>
+               
+          <xsd:choice>
+                  
+            <xsd:element name="noDecoding">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[choice]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:choice>
+                          
+                  <xsd:element name="fecfAbsent">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           No quality indication possible.
+           -->
+                                   
+           
+           
+                        <xsd:simpleType>
+                                     
+                          <xsd:restriction base="NULL"/>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="fecfPresent">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           Ratio of frames with bad FECF to the total count of frames over the most recent n frames. The value of n shall be documented by the provider.
+           -->
+                                   
+           
+             
+                        <xsd:simpleType>
+                                        
+                          <xsd:restriction base="xsd:double">
+                                           
+                            <xsd:minInclusive value="0"/>
+                                           
+                            <xsd:maxInclusive value="1"/>
+                                          
+                          </xsd:restriction>
+                                       
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:choice>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="convolutional">
+                     
+              <xsd:complexType>
+                        
+                <xsd:attribute name="value" use="required">
+                  <!--
+         The Viterbi decoder does not provide specific quality indications.
+         -->
+                           
+         
+         
+                  <xsd:simpleType>
+                             
+                    <xsd:restriction base="NULL"/>
+                             
+                  </xsd:simpleType>
+                          
+                </xsd:attribute>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="reedSolomonOrConcatenated">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:sequence>
+                          
+                  <xsd:element name="rsDecoderLockStatus">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                                      
+            
+                          <xsd:restriction base="xsd:token">
+                                           
+                            <xsd:enumeration value="notLocked"/>
+                                           
+                            <xsd:enumeration value="locked"/>
+                                          
+            
+                          </xsd:restriction>
+                                     
+           
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="countOfRsCodeWordsProcessed">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           This count rolls over to zero.
+           -->
+                                   
+           
+           
+                        <xsd:simpleType>
+                                      
+                          <xsd:restriction base="xsd:integer">
+                                         
+                            <xsd:minInclusive value="0"/>
+                                         
+                            <xsd:maxInclusive value="4294967295"/>
+                                        
+                          </xsd:restriction>
+                                     
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="ratioBadCodeWordsToTotalCountOfCodeWordsInTheSample">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           This ratio is valid for the most recent n code words processed. The value of n shall be documented by the provider.
+           -->
+                                   
+           
+             
+                        <xsd:simpleType>
+                                        
+                          <xsd:restriction base="xsd:double">
+                                           
+                            <xsd:minInclusive value="0"/>
+                                           
+                            <xsd:maxInclusive value="1"/>
+                                          
+                          </xsd:restriction>
+                                       
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:sequence>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="turbo">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:sequence>
+                          
+                  <xsd:element name="turboDecoderLockStatus">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                                      
+            
+                          <xsd:restriction base="xsd:token">
+                                           
+                            <xsd:enumeration value="notLocked"/>
+                                           
+                            <xsd:enumeration value="locked"/>
+                                          
+            
+                          </xsd:restriction>
+                                     
+           
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="iterationsCount">
+                            
+                    <xsd:complexType>
+                                
+                      <xsd:annotation>
+                                   
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[sequence]]>
+                        </xsd:appinfo>
+                                  
+                      </xsd:annotation>
+                               
+                      <xsd:sequence>
+                                  
+                        <xsd:element name="maxNumberOfIterationsPerFrame">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                              <!--
+             Value for the most recent n frames. The value of n shall be documented by the provider.
+             -->
+                                           
+             
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                                 
+                                  <xsd:minInclusive value="1"/>
+                                                 
+                                  <xsd:maxInclusive value="20"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="averageNumberOfIterationsPerFrame">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                              <!--
+             The average number multiplied with 1000. The average shall be calculated for the most recent n frames processed. The value of n shall be documented by the provider.
+             -->
+                                           
+             
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                                 
+                                  <xsd:minInclusive value="1000"/>
+                                                 
+                                  <xsd:maxInclusive value="20000"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                 
+                      </xsd:sequence>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="ratioBadFramesToTotalCountOfFramesInTheSample">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           Ratio valid for the most recent n frames processed. The value of n shall be documented by the provider.
+           -->
+                                   
+           
+             
+                        <xsd:simpleType>
+                                        
+                          <xsd:restriction base="xsd:double">
+                                           
+                            <xsd:minInclusive value="0"/>
+                                           
+                            <xsd:maxInclusive value="1"/>
+                                          
+                          </xsd:restriction>
+                                       
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:sequence>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                  
+            <xsd:element name="ldpc">
+                    
+              <xsd:complexType>
+                        
+                <xsd:annotation>
+                           
+                  <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                    <![CDATA[sequence]]>
+                  </xsd:appinfo>
+                          
+                </xsd:annotation>
+                       
+                <xsd:sequence>
+                          
+                  <xsd:element name="ldpcDecoderLockStatus">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                                   
+                        <xsd:simpleType>
+                                      
+            
+                          <xsd:restriction base="xsd:token">
+                                           
+                            <xsd:enumeration value="notLocked"/>
+                                           
+                            <xsd:enumeration value="locked"/>
+                                          
+            
+                          </xsd:restriction>
+                                     
+           
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="iterationsCount">
+                            
+                    <xsd:complexType>
+                                
+                      <xsd:annotation>
+                                   
+                        <xsd:appinfo ecore:key="frTypeInfo" source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+                          <![CDATA[sequence]]>
+                        </xsd:appinfo>
+                                  
+                      </xsd:annotation>
+                               
+                      <xsd:sequence>
+                                  
+                        <xsd:element name="maxNumberOfIterationsPerFrame">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                              <!--
+             Value for the most recent n frames. The value of n shall be documented in the Service Agreement.
+             -->
+                                           
+             
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                                 
+                                  <xsd:minInclusive value="1"/>
+                                                 
+                                  <xsd:maxInclusive value="2047"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                  
+                        <xsd:element name="averageNumberOfIterationsPerFrame">
+                                     
+                          <xsd:complexType>
+                                        
+                            <xsd:attribute name="value" use="required">
+                              <!--
+             The average number multiplied with 1000. The average shall be calculated for the most recent n frames processed. The value of n shall be documented in the ServiceAgreement.
+             -->
+                                           
+             
+             
+                              <xsd:simpleType>
+                                              
+                                <xsd:restriction base="xsd:integer">
+                                                 
+                                  <xsd:minInclusive value="1000"/>
+                                                 
+                                  <xsd:maxInclusive value="2047000"/>
+                                                
+                                </xsd:restriction>
+                                             
+                              </xsd:simpleType>
+                                          
+                            </xsd:attribute>
+                                       
+                          </xsd:complexType>
+                                    
+                        </xsd:element>
+                                 
+                      </xsd:sequence>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                          
+                  <xsd:element name="ratioBadFramesToTotalCountOfFramesInTheSample">
+                             
+                    <xsd:complexType>
+                                
+                      <xsd:attribute name="value" use="required">
+                        <!--
+           Ratio valid for the most recent n frames processed. The value of n shall be documented by the provider.
+           -->
+                                   
+           
+             
+                        <xsd:simpleType>
+                                        
+                          <xsd:restriction base="xsd:double">
+                                           
+                            <xsd:minInclusive value="0"/>
+                                           
+                            <xsd:maxInclusive value="1"/>
+                                          
+                          </xsd:restriction>
+                                       
+                        </xsd:simpleType>
+                                  
+                      </xsd:attribute>
+                               
+                    </xsd:complexType>
+                            
+                  </xsd:element>
+                         
+                </xsd:sequence>
+                       
+              </xsd:complexType>
+                    
+            </xsd:element>
+                 
+          </xsd:choice>
+               
+        </xsd:complexType>
+            
+      </xsd:element>
+         
+    </xsd:sequence>
+       
+  </xsd:complexType>
+  
+  <!--
+This event notifies any change of the tmSyncDecResourceStat parameter value.  
+-->
+  
+  <!--
+The event value reports the tmSyncDecResourceStat parameter value that applies since
+ the notified tmSyncDecResourceStatChange event has occurred.
+-->
+   
+  <xsd:simpleType name="TmSyncDecResourceStatChangeEvtValue">
+      
+    <xsd:restriction base="TmSyncDecResourceStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event notifies any change oftmSyncDecFrameSyncLockStat and the value of tmfSyncDecFrameSyncLockStat
+ that applies since the event has occurred. 
+-->
+  
+  <!--
+The event value reports the tmSyncFrameSyncLockStat value that applies since the
+ notified tmSyncDecFrameSyncLockStatChange event has occurred.
+-->
+   
+  <xsd:simpleType name="TmSyncDecFrameSyncLockStatChangeEvtValue">
+      
+    <xsd:restriction base="TmSyncDecFrameSyncLockStat"/>
+     
+  </xsd:simpleType>
+  
+  <!--
+This event passes text messages intended for logs or operators involved in the ongoing
+ service provision.
+-->
+  
+  <!--
+The messages passed by means of the tmSyncDecOperatorNotify event are classified
+ in terms of severity as 'info', 'warning' or 'alarm'. To simplify filtering and
+ searching for specific messages, a unique numerical identifier is assigned to each
+ message string. The messages are free text such that equipment specific issues can
+ be reported. 
+-->
+   
+  <xsd:complexType name="TmSyncDecOperatorNotifyMessage">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="OperatorNotifyMessage">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+  
+  <!--
+This directive permits setting of the controllable parameters of the TmSyncAndChnlDecode
+ FR type.  
+-->
+  
+  <!--
+The directive qualifier specifies the FR instance the directive shall act on and
+ contains a sequence of parameter identifier and parameter value pairs. To be valid,
+ the parameter identifier must reference a controllable parameter of the TmSyncAndChnlDecode
+ FR and the parameter value must be of the same type as the parameter value that
+ shall be set.
+-->
+   
+  <xsd:complexType name="TmSyncDecContrParamIdsAndValuesDirQual">
+      
+    <xsd:complexContent>
+         
+      <xsd:extension base="DirectiveQualifier">
+   </xsd:extension>
+        
+    </xsd:complexContent>
+     
+  </xsd:complexType>
+   
+</xsd:schema>

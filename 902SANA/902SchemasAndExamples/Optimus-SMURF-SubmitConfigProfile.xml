@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srvMgtUtilReq xmlns="urn:ccsds:schema:cssm"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+   					 xsi:schemaLocation="urn:ccsds:schema:cssm 902x05w01-SACP.xsd">
+   <srvMgtUtilReqHeader originatingOrganization="DLR"
+						 generationTime="2025-224T21:13:00.000Z"
+						 version="1"
+						 utilizationReqStatus="TEST"
+						 purpose="This may be used to describe the purpose of the request."
+						 description="This may be used to provide a description of the request."
+						 securityClassification="Unclassified"/>
+						 
+   <submissionReq requestID="012345"
+                  spaceUserNode="CUL">
+      <ccsdsConfigProfileWrapper configurationProfileID="Cubel_DTN_ConfigProfile_for_Almaria">
+          <configProfile xmlns="urn:ccsds:schema:cssm"
+		                 xmlns:frm="urn:ccsds:schema:frm"
+			             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			             xmlns:xmi="http://www.omg.org/XMI"
+			             xsi:schemaLocation="urn:ccsds:schema:cssm 902x05w01-SACP.xsd urn:ccsds:schema:frm ./901x03FrmSchemas/AllFunctionaResources.xsd">
+		     <configProfileHeader originatingOrganization="DLR"
+			             		  generationTime="2025-224T23:27:00.000Z"
+						          version="1"
+						          purpose="Illustrative example of a configuration profile for CubeL."
+						          description="Description of config profile..."
+						          status="INTERFACE-TEST"/>
+						          
+             <configProfileData configProfileNickname="Cubel_ConfigProfile_00">
+	            <serviceProfile serviceProfileID="ForwardCarrier_00" >
+        	       <serviceInfo serviceType="TELECOMMAND"
+	         		            frequencyBand="o1" >
+           	       </serviceInfo>
+	            </serviceProfile>
+	            <serviceProfile serviceProfileID="ReturnCarrier_00" >
+        	       <serviceInfo serviceType="TELEMETRY"
+	         		            frequencyBand="o1" >
+                   </serviceInfo>
+                   <booleanParameter name="dtmSpacecraft" value="false"/>
+                   <stringParameter name="wavelengthRange" value="1550"/>
+                   <stringParameter name="modulationType" value="PPM"/>
+                   <unsignedIntParameter name="dataRate" value="10"/>
+                   <stringParameter name="dataRateUnits" value="megaBitsPerSecond"/>
+                   <stringParameter name="encryption" value="unencrypted"/>
+                   <stringParameter name="downlinkDataFormat" value="CCSDS"/>
+                </serviceProfile>
+             </configProfileData>	
+          </configProfile>	               
+      </ccsdsConfigProfileWrapper>
+   </submissionReq>	
+</srvMgtUtilReq>

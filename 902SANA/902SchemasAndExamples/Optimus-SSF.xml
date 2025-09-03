@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simpleSchedule xmlns="urn:ccsds:schema:cssm:1.0.0"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+					 xmlns:ems="http://esa.egos.ems"
+					 xsi:schemaLocation="urn:ccsds:schema:cssm:1.0.0 902x01b1TC1-SmplSchd.xsd http://esa.egos.ems EmsExternal.xsd">
+	<simpleScheduleHeader originatingOrganization="DLR"
+						  generationTime="2025-224T21:33:00.000Z"
+						  status="TEST"
+						  inclusionType="OVERLAP_INCLUSION"
+						  version="1"
+						  startTime="2026-009T23:50:00Z"
+						  endTime="2026-010T00:20:00Z"
+         			      purpose="This may be used to describe the purpose of the request."
+					      description="This may be used to provide a description of the request.">
+	</simpleScheduleHeader>
+	<scheduledPackage scheduledPackageId="SSF-CubeL-Pgk-12543"
+					  user="CUB"
+                      comment="This may be used to provide a comment about the service package request."
+                      originatingRequestId="CubeL-Service-Request-0001">
+		<servicePackageXRef serviceAgreementRef="CubeL_ServiceAgreement_Issue1Rev5"
+							servicePackageRef="CubeL-Service-Request-0001-Service-Package-0001"/>
+		<scheduledActivity scheduledActivityId="SSF-CubeL-Act-94532"
+						   activityStatus="COMMITTED"
+						   siteRef="Almaria"
+						   apertureRef="FOG1"
+						   beginningOfActivity="2026-009T23:50:00Z"
+						   beginningOfTrack="2026-010T00:00:00Z"
+						   endOfTrack="2026-010T00:10:00Z"
+						   endOfActivity="2026-010T00:20:00Z"
+						   orbitNumber="9630">
+        	<serviceInfo serviceType="TELEMETRY"
+	         			 frequencyBand="O1" />
+        	<serviceInfo serviceType="TELECOMMAND"
+	         			 frequencyBand="O1" >
+	        </serviceInfo>
+		</scheduledActivity>
+   </scheduledPackage>
+
+</simpleSchedule>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srvMgtUtilReq xmlns="urn:ccsds:schema:cssm"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xmlns:xmi="http://www.omg.org/XMI"
+   					 xsi:schemaLocation="urn:ccsds:schema:cssm 902x09r01-SMURF.xsd">
+ 			 
+	<srvMgtUtilReqHeader originatingOrganization="DLR"
+						 generationTime="2025-224T21:13:00.000Z"
+						 version="1"
+						 utilizationReqStatus="TEST"
+						 purpose="This may be used to describe the purpose of the request."
+						 description="This may be used to provide a description of the request."
+						 securityClassification="Unclassified"/>
+
+	<newOnlineSrvPkgReq requestID="Request-123456"
+	                    serviceReqID="CubeL-Service-Request-0001"
+                        spaceUserNode="CUL"
+                        comment="This may be used to provide a comment about the service package request."
+                        serviceAgreementRef="CubeL_ServiceAgreement_Issue1Rev5">
+                        <onlineSrvPkgType1>
+                           <onlineSrvPkgType1Details configurationProfileRef="Cubel_DTN_ConfigProfile_for_Almaria">
+                           </onlineSrvPkgType1Details>
+                        </onlineSrvPkgType1>
+                        <apertureSelection  priority="1">
+                        	<apertureReference siteRef="Almaria" apertureRef="FOG1"/>
+                        </apertureSelection>
+						<basicPass preferredStartTime="2026-010T00:00:00Z" preferredDuration="600"
+						           earliestStartTime="2026-009T23:59:00Z" latestStartTime="2025-010T00:01:00Z"
+						           minimumDuration="480" maximumDuration="720"/>
+ 	</newOnlineSrvPkgReq>
+	
+</srvMgtUtilReq>
